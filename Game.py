@@ -11,7 +11,7 @@ size = [900, 700]
 screen = pygame.display.set_mode(size)
 
 counter = 0
-tiles = loadMap("Maps/Spawn.lvl")
+tiles = loadMap()
 walls = tiles[0]
 player = Player(2, tiles[1])
 players = [player]

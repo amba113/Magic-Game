@@ -3,8 +3,8 @@ import pygame, sys, math, random
 class Player():
     def __init__(self, maxSpeed = 2, startPos = [0,0]):
         
-        scale = [50, 50]
-        self.images = [pygame.transform.scale(pygame.image.load("Images/Test Player.png"), scale)]
+        scale = [75, 75]
+        self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale)]
 
         self.frame = 0
         self.frameMax = len(self.images)-1
@@ -32,7 +32,6 @@ class Player():
     def wallCollide(self, size):
         width = size[0]
         height = size[1]
-        #Change this so it changes the map on contacting the wall
         if not self.didHitY:
             if self.rect.bottom > height:
                 self.speedy = -self.speedy
