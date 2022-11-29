@@ -18,6 +18,8 @@ doors = tiles[1]
 player = Player(2, tiles[2])
 players = [player]
 
+loc = ""
+
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -60,9 +62,10 @@ while True:
     
     for door in doors:
         if player.doorCollide(door):
-            print ("new coord!", player.coord)
-            tiles = loadMap("Rooms/" + str(player.coord[1]) + str(player.coord[0]) + ".lvl")
-        
+            loc = door.kind
+            tiles = loadMap(player.coord)
+    
+    print(player.coord, loc)
     screen.fill((250, 175, 225))
     for wall in walls:
             screen.blit(wall.image, wall.rect)

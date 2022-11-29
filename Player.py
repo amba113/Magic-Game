@@ -130,8 +130,6 @@ class Player():
                         
                         self.move()
                         
-                        print("---------------------------------------------------------------------------------------")
-                        
                         if other.kind == "wall" or other.kind == "tree":
                             pass
                         else:
@@ -144,6 +142,5 @@ class Player():
                                 self.coord[0] -= 1
                             elif other.kind == "right":
                                 self.coord[0] += 1
-                            print("Coord = " + str(self.coord))
                         return True
         return False
