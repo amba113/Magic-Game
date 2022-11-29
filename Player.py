@@ -1,6 +1,9 @@
 import pygame, sys, math, random
 
 class Player():
+   
+    
+    
     def __init__(self, maxSpeed = 2, startPos = [0,0]):
         
         scale = [75, 75]
@@ -18,6 +21,8 @@ class Player():
         self.speedy = self.speed[1]
         self.speed = [self.speedx, self.speedy]
         self.maxSpeed = maxSpeed
+        
+        self.coord = [1, 1]
         
         self.didHitX = False
         self.didHitY = False
@@ -108,5 +113,37 @@ class Player():
                         
                         self.move()
 
+                        return True
+        return False
+
+    def doorCollide(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        self.speedx = -self.speedx
+                        self.speedy = -self.speedy
+                        self.move()
+                        
+                        self.speedx = 0
+                        self.speedy = 0
+                        
+                        self.move()
+                        
+                        print("---------------------------------------------------------------------------------------")
+                        
+                        if other.kind == "wall" or other.kind == "tree":
+                            pass
+                        else:
+                            if other.kind == "top":
+                                
+                                self.coord[1] -= 1
+                            elif other.kind == "bottom":
+                                self.coord[1] += 1
+                            elif other.kind == "left":
+                                self.coord[0] -= 1
+                            elif other.kind == "right":
+                                self.coord[0] += 1
+                            print("Coord = " + str(self.coord))
                         return True
         return False

@@ -11,9 +11,11 @@ size = [900, 700]
 screen = pygame.display.set_mode(size)
 
 counter = 0
+
 tiles = loadMap()
 walls = tiles[0]
-player = Player(2, tiles[1])
+doors = tiles[1]
+player = Player(2, tiles[2])
 players = [player]
 
 while True:
@@ -50,13 +52,22 @@ while True:
                 player.sprint(False)
             
     for wall in walls:
-            player.wallTileCollide(wall)
+        player.wallTileCollide(wall)
+    
+
     
     player.update(size)
     
+    for door in doors:
+        if player.doorCollide(door):
+            print ("new coord!", player.coord)
+            tiles = loadMap("Rooms/" + str(player.coord[1]) + str(player.coord[0]) + ".lvl")
+        
     screen.fill((250, 175, 225))
     for wall in walls:
             screen.blit(wall.image, wall.rect)
+    for door in doors:
+            screen.blit(door.image, door.rect)
     screen.blit(player.image, player.rect)
 
     pygame.display.flip()

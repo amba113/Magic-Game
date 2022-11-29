@@ -12,6 +12,7 @@ def loadMap(coord = [1, 1], enter = "def"):
     offset = size/2
     tiles = []
     walls = []
+    doors = []
     playerLoc = []
     
     newLines = []
@@ -30,13 +31,13 @@ def loadMap(coord = [1, 1], enter = "def"):
             if c == "@":
                 walls += [Obstacle([x*size + offset, y*size + offset], "tree")]
             if c == "-":
-                walls += [Obstacle([x*size + 2*offset, y*size], "TB")]
+                doors += [Obstacle([x*size + 2*offset, y*size + offset], "top")]
             if c == "_":
-                walls += [Obstacle([x*size + 2*offset, y*size + 2*offset], "TB")]
+                doors += [Obstacle([x*size + 2*offset, y*size + offset], "bottom")]
             if c == "|":
-                walls += [Obstacle([x*size, y*size + 2*offset], "LR")]
+                doors += [Obstacle([x*size + offset, y*size + 2*offset], "left")]
             if c == "/":
-                walls += [Obstacle([x*size - 2*offset, y*size + 2*offset], "LR")]
+                doors += [Obstacle([x*size + offset, y*size + 2*offset], "right")]
             if enter == "def" and c == "$":
                 playerLoc = [x*size + offset, y*size + offset]
             elif enter == "top" and c == "%":
@@ -48,6 +49,7 @@ def loadMap(coord = [1, 1], enter = "def"):
             elif enter == "right" and c == ")":
                 playerLoc = [x*size + -offset, y*size + 2*offset]
                 
-    tiles = [walls, 
+    tiles = [walls,
+             doors,
              playerLoc]
     return tiles
