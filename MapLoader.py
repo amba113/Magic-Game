@@ -46,14 +46,14 @@ def loadMap(coord = [1, 1], enter = "def"):
             if enter == "def" and c == "$":
                 playerLoc = [x*size + offset, y*size + offset]
             elif enter == "bottom" and c == "%":
-                playerLoc = [x*size + 2*offset, y*size + 2*offset]
+                playerLoc = [x*size + 2*offset, y*size + offset]
             elif enter == "top" and c == "&":
-                playerLoc = [x*size + 2*offset, y*size + -offset]
-            elif (enter == "right" or enter == "portal2") and c == "(":
-                playerLoc = [x*size + 2*offset, y*size + 2*offset]
-            elif (enter == "left" or enter == "portal1") and c == ")":
-                playerLoc = [x*size + -offset, y*size + 2*offset]
-                
+                playerLoc = [x*size + 2*offset, y*size + offset]
+            elif (enter == "right" or enter == "portal1") and c == "(":
+                playerLoc = [x*size + offset, y*size + 2*offset]
+            elif (enter == "left" or enter == "portal2") and c == ")":
+                playerLoc = [x*size + offset, y*size + 2*offset]
+
     tiles = [walls,
              doors,
              playerLoc]

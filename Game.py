@@ -36,7 +36,6 @@ while True:
                 player.goKey("up")
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 player.goKey("down")
-            
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.goKey("sleft")
@@ -46,6 +45,7 @@ while True:
                 player.goKey("sup")
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 player.goKey("sdown")
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                 player.sprint(True)
@@ -63,12 +63,12 @@ while True:
     for door in doors:
         if player.doorCollide(door):
             loc = door.kind
-            tiles = loadMap(player.coord)
+            tiles = loadMap(player.coord, loc)
             
             walls = tiles[0]
             doors = tiles[1]
-            players = []
-            players = [player]
+            
+            player.goto(tiles[2]) #relocate player
 
     screen.fill((250, 175, 225))
     for wall in walls:

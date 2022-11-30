@@ -55,6 +55,9 @@ class Player():
     def move(self):
         self.speed = [self.speedx, self.speedy]
         self.rect = self.rect.move(self.speed)
+    
+    def goto(self, pos):
+        self.rect.center = pos
 
     def shoot(self):
         pass
@@ -138,12 +141,12 @@ class Player():
                             self.coord = [3, 0]
                         else:
                             if other.kind == "top":
-                                self.coord[1] -= 1
+                                self.coord[1] = self.coord[1] - 1
                             elif other.kind == "bottom":
-                                self.coord[1] += 1
+                                self.coord[1] = self.coord[1] + 1
                             elif other.kind == "left":
-                                self.coord[0] -= 1
+                                self.coord[0] = self.coord[0] - 1
                             elif other.kind == "right":
-                                self.coord[0] += 1
+                                self.coord[0] = self.coord[0] + 1
                         return True
         return False
