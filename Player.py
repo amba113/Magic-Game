@@ -4,9 +4,9 @@ class Player():
    
     
     
-    def __init__(self, maxSpeed = 2, startPos = [0,0]):
+    def __init__(self, speed = 2, startPos = [0,0]):
         
-        scale = [75, 75]
+        scale = [60, 60]
         self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale)]
 
         self.frame = 0
@@ -20,12 +20,17 @@ class Player():
         self.speedx = self.speed[0]
         self.speedy = self.speed[1]
         self.speed = [self.speedx, self.speedy]
-        self.maxSpeed = maxSpeed
+        self.walkSpeed = speed
+        self.sprintSpeed = speed*5
+        self.maxSpeed = self.walkSpeed
+        self.sprinting = False
         
         self.coord = [1, 1]
         
         self.didHitX = False
         self.didHitY = False
+        
+        
         
     def update(self, size):
         self.move()
@@ -84,23 +89,21 @@ class Player():
             if self.speedy > 0:
                 self.speedy = 0
    
-    def sprint(self, value):
-        if value == True:
-            self.speedx = self.speedx * 5
-            self.speedy = self.speedy * 5
-        elif value == False:
-            if self.speedx < 0:
-                self.speedx = -self.maxSpeed
-            elif self.speedx > 0:
-                self.speedx = self.maxSpeed
-            else:
-                self.speedx = 0
-            if self.speedy < 0:
-                self.speedy = -self.maxSpeed
-            elif self.speedy > 0:
-                self.speedy = self.maxSpeed
-            else:
-                self.speedy = 0
+    def sprint(self, sprinting):
+        self.sprinting = sprinting
+        if self.sprinting:
+            self.maxSpeed = self.sprintSpeed
+        else:
+            self.maxSpeed = self.walkSpeed
+            
+        if self.speedx < 0:
+            self.speedx = -self.maxSpeed
+        elif self.speedx > 0:
+            self.speedx = self.maxSpeed
+        if self.speedy < 0:
+            self.speedy = -self.maxSpeed
+        elif self.speedy > 0:
+            self.speedy = self.maxSpeed
                 
     def wallTileCollide(self, other):
         if self.rect.right > other.rect.left:
@@ -139,6 +142,10 @@ class Player():
                             self.coord = [0, 2]
                         elif other.kind == "portal2":
                             self.coord = [3, 0]
+                        elif other.kind == "tutent":
+                            self.coord = [.5, -1]
+                        elif other.kind == "tutext":
+                            self.coord = [0, 0]
                         else:
                             if other.kind == "top":
                                 self.coord[1] = self.coord[1] - 1

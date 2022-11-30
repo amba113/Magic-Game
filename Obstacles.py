@@ -11,7 +11,8 @@ class Obstacle():
                        pygame.transform.scale(pygame.image.load("Images/Tree.png"), scale2),
                        pygame.image.load("Images/TestTB.png"),
                        pygame.image.load("Images/TestLR.png"),
-                       pygame.image.load("Images/Portal.png")]
+                       pygame.image.load("Images/Portal.png"),
+                       pygame.image.load("Images/TutDoor.png")]
         
         if appearance == "wall":
             self.num = 0
@@ -23,6 +24,8 @@ class Obstacle():
             self.num = 3
         elif "portal" in appearance:
             self.num = 4
+        elif appearance == "tutent" or appearance == "tutext":
+            self.num = 5
         
         self.kind = appearance
         self.image = self.images[self.num]
