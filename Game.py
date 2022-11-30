@@ -64,8 +64,12 @@ while True:
         if player.doorCollide(door):
             loc = door.kind
             tiles = loadMap(player.coord)
-    
-    print(player.coord, loc)
+            
+            walls = tiles[0]
+            doors = tiles[1]
+            players = []
+            players = [player]
+
     screen.fill((250, 175, 225))
     for wall in walls:
             screen.blit(wall.image, wall.rect)

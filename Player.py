@@ -132,9 +132,12 @@ class Player():
                         
                         if other.kind == "wall" or other.kind == "tree":
                             pass
+                        elif other.kind == "portal1":
+                            self.coord = [0, 2]
+                        elif other.kind == "portal2":
+                            self.coord = [3, 0]
                         else:
                             if other.kind == "top":
-                                
                                 self.coord[1] -= 1
                             elif other.kind == "bottom":
                                 self.coord[1] += 1

@@ -10,7 +10,8 @@ class Obstacle():
         self.images = [pygame.transform.scale(pygame.image.load("Images/Wall.png"), scale1),
                        pygame.transform.scale(pygame.image.load("Images/Tree.png"), scale2),
                        pygame.image.load("Images/TestTB.png"),
-                       pygame.image.load("Images/TestLR.png")]
+                       pygame.image.load("Images/TestLR.png"),
+                       pygame.image.load("Images/Portal.png")]
         
         if appearance == "wall":
             self.num = 0
@@ -20,6 +21,8 @@ class Obstacle():
             self.num = 2
         elif appearance == "left" or appearance == "right":
             self.num = 3
+        elif "portal" in appearance:
+            self.num = 4
         
         self.kind = appearance
         self.image = self.images[self.num]

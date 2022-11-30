@@ -39,15 +39,19 @@ def loadMap(coord = [1, 1], enter = "def"):
                 doors += [Obstacle([x*size + offset, y*size + 2*offset], "left")]
             if c == "/":
                 doors += [Obstacle([x*size + offset, y*size + 2*offset], "right")]
+            if c == "0":
+                doors += [Obstacle([x*size + offset, y*size + 2*offset], "portal1")]
+            if c == "O":
+                doors += [Obstacle([x*size + offset, y*size + 2*offset], "portal2")]
             if enter == "def" and c == "$":
                 playerLoc = [x*size + offset, y*size + offset]
             elif enter == "bottom" and c == "%":
                 playerLoc = [x*size + 2*offset, y*size + 2*offset]
             elif enter == "top" and c == "&":
                 playerLoc = [x*size + 2*offset, y*size + -offset]
-            elif enter == "right" and c == "(":
+            elif (enter == "right" or enter == "portal2") and c == "(":
                 playerLoc = [x*size + 2*offset, y*size + 2*offset]
-            elif enter == "left" and c == ")":
+            elif (enter == "left" or enter == "portal1") and c == ")":
                 playerLoc = [x*size + -offset, y*size + 2*offset]
                 
     tiles = [walls,
