@@ -1,6 +1,7 @@
 import pygame, sys, math
 from Obstacles import *
 from Player import *
+from Items import *
 
 def loadMap(coord = [1, 1], enter = "def"):
     direct = "Rooms/" + str(coord[1]) + str(coord[0]) + ".lvl"
@@ -14,6 +15,7 @@ def loadMap(coord = [1, 1], enter = "def"):
     walls = []
     doors = []
     playerLoc = []
+    items = []
     
     newLines = []
     
@@ -57,8 +59,18 @@ def loadMap(coord = [1, 1], enter = "def"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
-
+            if c == "!":
+                items += [Item([x*size + offset, y*size + offset], "wand")]
+            if c == ";":
+                items += [Item([x*size + offset, y*size + offset], "halfPotion")]
+            if c == ":":
+                items += [Item([x*size + offset, y*size + offset], "fullPotion")]
+            if c == "~":
+                items += [Item([x*size + offset, y*size + offset], "speedPotion")]
+            
     tiles = [walls,
              doors,
-             playerLoc]
+             playerLoc,
+             items]
+
     return tiles

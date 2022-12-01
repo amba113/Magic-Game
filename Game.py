@@ -17,6 +17,7 @@ walls = tiles[0]
 doors = tiles[1]
 player = Player(2, tiles[2])
 players = [player]
+items = tiles[3]
 
 loc = ""
 
@@ -56,7 +57,10 @@ while True:
     for wall in walls:
         player.wallTileCollide(wall)
     
-
+    for item in items:
+        if player.itemCollide(item):
+            items.remove(item)
+            print("Inventory Updated:", player.inventory)
     
     player.update(size)
     
@@ -67,12 +71,15 @@ while True:
             
             walls = tiles[0]
             doors = tiles[1]
+            items = tiles[3]
             
             player.goto(tiles[2]) #relocate player
 
     screen.fill((250, 175, 225))
     for wall in walls:
             screen.blit(wall.image, wall.rect)
+    for item in items:
+            screen.blit(item.image, item.rect)
     for door in doors:
             screen.blit(door.image, door.rect)
     screen.blit(player.image, player.rect)

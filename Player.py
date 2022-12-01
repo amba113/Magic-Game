@@ -7,7 +7,8 @@ class Player():
     def __init__(self, speed = 2, startPos = [0,0]):
         
         scale = [60, 60]
-        self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale)]
+        self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
+                       pygame.transform.scale(pygame.image.load("Images/PersonWand.png"), scale)]
 
         self.frame = 0
         self.frameMax = len(self.images)-1
@@ -30,7 +31,13 @@ class Player():
         self.didHitX = False
         self.didHitY = False
         
+        self.hp = 100
         
+        self.inventory = {"wand": None,
+                          "halfHealPotion": 0,
+                          "fullHealPotion": 0,
+                          "speedPotion": 0
+        }
         
     def update(self, size):
         self.move()
@@ -38,6 +45,8 @@ class Player():
         
         self.didHitX = False
         self.didHitY = False
+        
+        self.image = self.images[self.frame]
     
     def wallCollide(self, size):
         width = size[0]
@@ -157,3 +166,26 @@ class Player():
                                 self.coord[0] = self.coord[0] + 1
                         return True
         return False
+        
+    def itemCollide(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        if other.kind == "wand":
+                            self.inventory["wand"] = other
+                            self.frame = 1
+                        elif other.kind == "halfPotion":
+                            self.inventory["halfHealPotion"] += 1
+                            self.hp = 50
+                        elif other.kind == "fullPotion":
+                            self.inventory["fullHealPotion"] += 1
+                            self.hp = 50
+                        elif other.kind == "speedPotion":
+                            self.inventory["speedPotion"] += 1
+                        else:
+                            pass
+                        return True
+        return False
+
+                        
