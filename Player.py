@@ -25,6 +25,7 @@ class Player():
         self.sprintSpeed = speed*5
         self.maxSpeed = self.walkSpeed
         self.sprinting = False
+        self.zoom = False
         
         self.coord = [1, 1]
         
@@ -41,6 +42,9 @@ class Player():
         
         print("Health:", self.hp)
         
+        self.counter = 0
+        self.stop = 30
+        
     def update(self, size):
         self.move()
         self.wallCollide(size)
@@ -49,6 +53,12 @@ class Player():
         self.didHitY = False
         
         self.image = self.images[self.frame]
+        
+        if self.counter < 20:
+            self.counter += 1
+        else:
+            self.counter = 0
+            self.zoom = False
     
     def wallCollide(self, size):
         width = size[0]
@@ -99,6 +109,9 @@ class Player():
         elif direction == "sdown":
             if self.speedy > 0:
                 self.speedy = 0
+                
+        if self.zoom:
+            self.maxSpeed = self.maxSpeed * 5
    
     def sprint(self, sprinting):
         self.sprinting = sprinting
@@ -106,6 +119,9 @@ class Player():
             self.maxSpeed = self.sprintSpeed
         else:
             self.maxSpeed = self.walkSpeed
+        
+        if self.zoom:
+            self.maxSpeed = self.maxSpeed * 5
             
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
@@ -206,7 +222,8 @@ class Player():
                 print("No half heals left")
         if key == "g":
             if self.inventory["speedPotion"] > 0:
-                print("Speed Activated")
+                self.counter = 0
+                self.zoom = True
                 self.inventory["speedPotion"] -= 1
             else:
                 print("No speeds left")
