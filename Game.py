@@ -63,15 +63,23 @@ while True:
                 print("Health:", player.hp)
             elif event.key == pygame.K_g:
                 player.useItem("g")
-            
+                
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_r:
+                player.goto(tiles[2])
+                
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                item.wandChoice(1)
+            elif event.key == pygame.K_2:
+                item.wandChoice(2)
+                
     for wall in walls:
         player.wallTileCollide(wall)
     
     for item in items:
         if player.itemCollide(item):
             items.remove(item)
-            print("Inventory Updated:", player.inventory)
-            print("Health:", player.hp)
     
     player.update(size)
     

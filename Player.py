@@ -8,7 +8,8 @@ class Player():
         
         scale = [60, 60]
         self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/PersonWand.png"), scale)]
+                       pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
+                       pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale)]
 
         self.frame = 0
         self.frameMax = len(self.images)-1
@@ -39,8 +40,6 @@ class Player():
                           "fullHealPotion": 0,
                           "speedPotion": 0
         }
-        
-        print("Health:", self.hp)
         
         self.counter = 0
         self.stop = 30
@@ -192,7 +191,7 @@ class Player():
                     if self.rect.top < other.rect.bottom:
                         if other.kind == "wand":
                             self.inventory["wand"] = other
-                            self.frame = 1
+                            self.frame = other.num + 1
                         elif other.kind == "halfPotion":
                             self.inventory["halfHealPotion"] += 1
                             self.hp = 50
