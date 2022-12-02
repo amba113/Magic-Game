@@ -88,6 +88,9 @@ class Player():
         pass
         
     def goKey(self, direction):
+        if self.zoom:
+            self.maxSpeed = self.maxSpeed * 5
+        
         if direction == "left":
             self.speedx = -self.maxSpeed
         elif direction == "right":
@@ -108,9 +111,6 @@ class Player():
         elif direction == "sdown":
             if self.speedy > 0:
                 self.speedy = 0
-                
-        if self.zoom:
-            self.maxSpeed = self.maxSpeed * 5
    
     def sprint(self, sprinting):
         self.sprinting = sprinting
@@ -181,6 +181,11 @@ class Player():
                                 self.coord[0] = self.coord[0] - 1
                             elif other.kind == "right":
                                 self.coord[0] = self.coord[0] + 1
+                                
+                        self.speedx = 0
+                        self.speedy = 0
+                        
+                        self.move()
                         return True
         return False
         
@@ -194,10 +199,8 @@ class Player():
                             self.frame = other.num + 1
                         elif other.kind == "halfPotion":
                             self.inventory["halfHealPotion"] += 1
-                            self.hp = 50
                         elif other.kind == "fullPotion":
                             self.inventory["fullHealPotion"] += 1
-                            self.hp = 50
                         elif other.kind == "speedPotion":
                             self.inventory["speedPotion"] += 1
                         else:
