@@ -39,6 +39,8 @@ class Player():
                           "speedPotion": 0
         }
         
+        print("Health:", self.hp)
+        
     def update(self, size):
         self.move()
         self.wallCollide(size)
@@ -188,4 +190,23 @@ class Player():
                         return True
         return False
 
-                        
+    def useItem(self, key):
+        if key == "f":
+            if self.inventory["fullHealPotion"] > 0:
+                self.hp = 100
+                self.inventory["fullHealPotion"] -= 1
+            else:
+                print("No full heals left")
+        if key == "h":
+            if self.inventory["halfHealPotion"] > 0:
+                self.half = (100-self.hp)/2
+                self.hp += self.half
+                self.inventory["halfHealPotion"] -= 1
+            else:
+                print("No half heals left")
+        if key == "g":
+            if self.inventory["speedPotion"] > 0:
+                print("Speed Activated")
+                self.inventory["speedPotion"] -= 1
+            else:
+                print("No speeds left")

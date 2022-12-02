@@ -53,6 +53,16 @@ while True:
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                 player.sprint(False)
+                
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_f:
+                player.useItem("f")
+                print("Health:", player.hp)
+            elif event.key == pygame.K_h:
+                player.useItem("h")
+                print("Health:", player.hp)
+            elif event.key == pygame.K_g:
+                player.useItem("g")
             
     for wall in walls:
         player.wallTileCollide(wall)
@@ -61,6 +71,7 @@ while True:
         if player.itemCollide(item):
             items.remove(item)
             print("Inventory Updated:", player.inventory)
+            print("Health:", player.hp)
     
     player.update(size)
     
