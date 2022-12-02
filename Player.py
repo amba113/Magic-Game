@@ -26,8 +26,10 @@ class Player():
         self.speed = [self.speedx, self.speedy]
         self.walkSpeed = speed
         self.sprintSpeed = speed*5
+        self.zoomSpeed = speed * 10
+        self.zoomSprintSpeed = speed * 20
         self.maxSpeed = self.walkSpeed
-        self.sprinting = False
+        self.moveType = "walk"
         self.zoom = False
         
         self.coord = [1, 1]
@@ -58,7 +60,7 @@ class Player():
         
         self.image = self.images[self.frame]
         
-        if self.counter < 15:
+        if self.counter < 150:
             self.counter += 1
         else:
             self.counter = 0
@@ -131,14 +133,25 @@ class Player():
                 self.speedy = 0
    
     def sprint(self, sprinting):
-        self.sprinting = sprinting
-        if self.sprinting:
+        if sprinting and self.moveType != "zoom":
+            self.moveType = "sprint"
+        elif sprinting and self.moveType == "zoom":
+            self.moveType = "zoomSprint"
+        elif not sprinting and self.moveType == "zoom":
+            self.moveType = "zoom"
+        else:
+            self.moveType = "walk"
+            
+        
+        if self.moveType == "sprint":
             self.maxSpeed = self.sprintSpeed
+        elif self.moveType == "zoom":
+            self.maxSpeed = self.zoomSpeed
+        elif self.moveType == "zoomSprint":
+            self.maxSpeed = self.zoomSprintSpeed
         else:
             self.maxSpeed = self.walkSpeed
-        
-        if self.zoom:
-            self.maxSpeed = self.maxSpeed * 5
+    
             
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
