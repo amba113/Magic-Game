@@ -33,6 +33,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                 walls += [Obstacle([x*size + offset, y*size + offset], "wall")]
             if c == "@":
                 walls += [Obstacle([x*size + offset, y*size + offset], "tree")]
+            if c == "*":
+                walls += [Obstacle([x*size + offset, y*size + offset], "cactus")]
             if c == "-":
                 doors += [Obstacle([x*size + 2*offset, y*size + offset], "top")]
             if c == "_":
@@ -67,6 +69,10 @@ def loadMap(coord = [1, 1], enter = "def"):
                 items += [Item([x*size + offset, y*size + offset], "fullPotion")]
             if c == "~":
                 items += [Item([x*size + offset, y*size + offset], "speedPotion")]
+            if c == "^":
+                items += [Item([x*size + offset, y*size + offset], "revivePotion")]
+            if c == "?":
+                items += [Item([x*size + offset, y*size + offset], "healthPotion")]
             
     tiles = [walls,
              doors,

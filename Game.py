@@ -2,8 +2,11 @@ import pygame, sys, math, random
 from Player import *
 from MapLoader import *
 from Obstacles import *
+from Text import *
 
 pygame.init()
+pygame.mixer.init()
+if not pygame.font: print('Warning, fonts disabled')
 
 clock = pygame.time.Clock()
 
@@ -11,6 +14,14 @@ size = [900, 700]
 screen = pygame.display.set_mode(size)
 
 counter = 0
+
+health = Text("HP: ", [5,10])
+speedPotions = Text("Speed Potions: ", [900-170, 2], 24)
+fullPotions = Text("Full Heal Potions: ", [900-170, 17], 24)
+halfPotions = Text("Half Heal Potions: ", [900-170, 32], 24)
+revivePotions = Text("Revive Potions: ", [900-170, 700-20], 24)
+healthPotions = Text("Health Potions: ", [900-170, 700-35], 24)
+position = Text("X,Y: ", [5, 700-20], 24)
 
 tiles = loadMap()
 walls = tiles[0]
@@ -57,12 +68,14 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
                 player.useItem("f")
-                print("Health:", player.hp)
             elif event.key == pygame.K_h:
                 player.useItem("h")
-                print("Health:", player.hp)
             elif event.key == pygame.K_g:
                 player.useItem("g")
+            elif event.key == pygame.K_v:
+                player.useItem("v")
+            elif event.key == pygame.K_t:
+                player.useItem("t")
                 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_r:
@@ -82,6 +95,13 @@ while True:
             items.remove(item)
     
     player.update(size)
+    health.update(str(player.hp) + "/" + str(player.hpMax))
+    position.update(str(player.coord[0]) + "," + str(player.coord[1]))
+    speedPotions.update(player.inventory["speedPotion"])
+    fullPotions.update(player.inventory["fullHealPotion"])
+    halfPotions.update(player.inventory["halfHealPotion"])
+    revivePotions.update(player.inventory["revivePotion"])
+    healthPotions.update(player.inventory["healthPotion"])
     
     for door in doors:
         if player.doorCollide(door):
@@ -102,6 +122,13 @@ while True:
     for door in doors:
             screen.blit(door.image, door.rect)
     screen.blit(player.image, player.rect)
+    screen.blit(health.image, health.rect)
+    screen.blit(speedPotions.image, speedPotions.rect)
+    screen.blit(fullPotions.image, fullPotions.rect)
+    screen.blit(halfPotions.image, halfPotions.rect)
+    screen.blit(revivePotions.image, revivePotions.rect)
+    screen.blit(healthPotions.image, healthPotions.rect)
+    screen.blit(position.image, position.rect)
 
     pygame.display.flip()
     clock.tick(60)

@@ -7,7 +7,9 @@ class Item():
                            pygame.image.load("Images/Wand 2.png")]
         self.potionImages = [pygame.image.load("Images/HalfHealthPotion.png"),
                              pygame.image.load("Images/FullHealthPotion.png"),
-                             pygame.image.load("Images/SpeedPotion.png")]
+                             pygame.image.load("Images/SpeedPotion.png"),
+                             pygame.image.load("Images/RevivePotion.png"),
+                             pygame.image.load("Images/HealthPotion.png")]
         
         self.num = 0
         #Gonna make image change based on choice etc
@@ -19,8 +21,12 @@ class Item():
                 self.num = 0
             elif kind == "fullPotion":
                 self.num = 1
-            else:
+            elif kind == "speedPotion":
                 self.num = 2
+            elif kind == "revivePotion":
+                self.num = 3
+            elif kind == "healthPotion":
+                self.num = 4
         
         
         self.kind = kind

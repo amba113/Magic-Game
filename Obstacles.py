@@ -7,12 +7,14 @@ class Obstacle():
         self.appearance = appearance
         scale1 = [50, 50]
         scale2 = [75, 75]
+        scale3 = [25, 25]
         self.images = [pygame.transform.scale(pygame.image.load("Images/Wall.png"), scale1),
                        pygame.transform.scale(pygame.image.load("Images/Tree.png"), scale2),
                        pygame.image.load("Images/TestTB.png"),
                        pygame.image.load("Images/TestLR.png"),
                        pygame.image.load("Images/Portal.png"),
-                       pygame.image.load("Images/TutDoor.png")]
+                       pygame.image.load("Images/TutDoor.png"),
+                       pygame.transform.scale(pygame.image.load("Images/Cactus.png"), scale3)]
         
         if appearance == "wall":
             self.num = 0
@@ -26,6 +28,8 @@ class Obstacle():
             self.num = 4
         elif appearance == "tutent" or appearance == "tutext":
             self.num = 5
+        elif appearance == "cactus":
+            self.num = 6
         
         self.kind = appearance
         self.image = self.images[self.num]
@@ -33,21 +37,3 @@ class Obstacle():
         
     def update(self):
         pass
-    # ~ def playerCollide(self, other):
-        # ~ if self.rect.right > other.rect.left:
-            # ~ if self.rect.left < other.rect.right:
-                # ~ if self.rect.bottom > other.rect.top:
-                    # ~ if self.rect.top < other.rect.bottom:
-                        # ~ if self.kind == "wall" or self.kind == "tree":
-                            # ~ pass
-                        # ~ else:
-                            # ~ if self.kind == "top":
-                                  # ~ coord[1] -= 1
-                            # ~ elif self.kind == "bottom":
-                                  # ~ coord[1] += 1
-                            # ~ elif self.kind == "left":
-                                  # ~ coord[0] -= 1
-                            # ~ elif self.kind == "right":
-                                  # ~ coord[0] += 1
-                        # ~ print("New room: " + str(coord[1]) + str(coord[0]))
-            
