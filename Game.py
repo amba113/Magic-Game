@@ -3,6 +3,7 @@ from Player import *
 from MapLoader import *
 from Obstacles import *
 from Text import *
+from Text2 import *
 
 pygame.init()
 pygame.mixer.init()
@@ -22,6 +23,9 @@ halfPotions = Text("Half Heal Potions: ", [900-170, 32], 24)
 revivePotions = Text("Revive Potions: ", [900-170, 700-20], 24)
 healthPotions = Text("Health Potions: ", [900-170, 700-35], 24)
 position = Text("X,Y: ", [5, 700-20], 24)
+
+deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2], 36)
+deathNote2 = Text2("Press V to revive", [900/2, 700/2], 36)
 
 tiles = loadMap()
 walls = tiles[0]
@@ -102,6 +106,8 @@ while True:
     halfPotions.update(player.inventory["halfHealPotion"])
     revivePotions.update(player.inventory["revivePotion"])
     healthPotions.update(player.inventory["healthPotion"])
+    deathNote1.update("")
+    deathNote2.update("")
     
     for door in doors:
         if player.doorCollide(door):
@@ -115,20 +121,27 @@ while True:
             player.goto(tiles[2]) #relocate player
 
     screen.fill((250, 175, 225))
-    for wall in walls:
-            screen.blit(wall.image, wall.rect)
-    for item in items:
-            screen.blit(item.image, item.rect)
-    for door in doors:
-            screen.blit(door.image, door.rect)
-    screen.blit(player.image, player.rect)
-    screen.blit(health.image, health.rect)
-    screen.blit(speedPotions.image, speedPotions.rect)
-    screen.blit(fullPotions.image, fullPotions.rect)
-    screen.blit(halfPotions.image, halfPotions.rect)
-    screen.blit(revivePotions.image, revivePotions.rect)
-    screen.blit(healthPotions.image, healthPotions.rect)
-    screen.blit(position.image, position.rect)
+    
+    if player.dead:
+        if player.inventory["revivePotion"] > 0:
+            screen.blit(deathNote2.image, deathNote2.rect)
+        elif player.inventory["revivePotion"] == 0:
+            screen.blit(deathNote1.image, deathNote1.rect)
+    else:
+        for wall in walls:
+                screen.blit(wall.image, wall.rect)
+        for item in items:
+                screen.blit(item.image, item.rect)
+        for door in doors:
+                screen.blit(door.image, door.rect)
+        screen.blit(player.image, player.rect)
+        screen.blit(health.image, health.rect)
+        screen.blit(speedPotions.image, speedPotions.rect)
+        screen.blit(fullPotions.image, fullPotions.rect)
+        screen.blit(halfPotions.image, halfPotions.rect)
+        screen.blit(revivePotions.image, revivePotions.rect)
+        screen.blit(healthPotions.image, healthPotions.rect)
+        screen.blit(position.image, position.rect)
 
     pygame.display.flip()
     clock.tick(60)

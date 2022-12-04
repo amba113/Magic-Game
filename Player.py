@@ -50,6 +50,7 @@ class Player():
         
         self.counter = 0
         self.stop = 30
+        self.dead = False
         
     def update(self, size):
         self.move()
@@ -78,6 +79,7 @@ class Player():
             self.inventory["fullHealPotion"] = 0
             self.inventory["healthPotion"] = 0
             self.hpMax = 100
+            self.dead = True
     
     def wallCollide(self, size):
         width = size[0]
@@ -229,23 +231,24 @@ class Player():
             if self.rect.left < other.rect.right:
                 if self.rect.bottom > other.rect.top:
                     if self.rect.top < other.rect.bottom:
-                        if other.kind == "wand":
-                            self.inventory["wand"] = other
-                            self.wandFrame = other.num + 1
-                            self.frame = self.wandFrame
-                        elif other.kind == "halfPotion":
-                            self.inventory["halfHealPotion"] += 1
-                        elif other.kind == "fullPotion":
-                            self.inventory["fullHealPotion"] += 1
-                        elif other.kind == "speedPotion":
-                            self.inventory["speedPotion"] += 1
-                        elif other.kind == "revivePotion":
-                            self.inventory["revivePotion"] += 1
-                        elif other.kind == "healthPotion":
-                            self.inventory["healthPotion"] += 1
-                        else:
-                            pass
-                        return True
+                        if self.dead == False:
+                            if other.kind == "wand":
+                                self.inventory["wand"] = other
+                                self.wandFrame = other.num + 1
+                                self.frame = self.wandFrame
+                            elif other.kind == "halfPotion":
+                                self.inventory["halfHealPotion"] += 1
+                            elif other.kind == "fullPotion":
+                                self.inventory["fullHealPotion"] += 1
+                            elif other.kind == "speedPotion":
+                                self.inventory["speedPotion"] += 1
+                            elif other.kind == "revivePotion":
+                                self.inventory["revivePotion"] += 1
+                            elif other.kind == "healthPotion":
+                                self.inventory["healthPotion"] += 1
+                            else:
+                                pass
+                            return True
         return False
 
     def useItem(self, key):
@@ -274,6 +277,7 @@ class Player():
                 if self.hp == 0:
                     self.hp = self.hpMax
                     self.inventory["revivePotion"] -= 1
+                    self.dead = False
                     if self.inventory["wand"] == None:
                         self.frame = 0
                     else:
