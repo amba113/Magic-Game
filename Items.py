@@ -1,7 +1,7 @@
 import pygame, sys, math
 
 class Item():
-    def __init__(self, pos = [25,25], kind = "wand"):
+    def __init__(self, pos = [25,25], kind = "wand", char = '!'):
         
         self.wandImages = [pygame.image.load("Images/Wand.png"), 
                            pygame.image.load("Images/Wand 2.png")]
@@ -30,6 +30,7 @@ class Item():
         
         
         self.kind = kind
+        self.char = char
         self.image = self.images[self.num]
         self.rect = self.image.get_rect(center = pos)
         self.damage = 3

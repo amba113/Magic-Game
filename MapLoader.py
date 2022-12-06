@@ -3,11 +3,43 @@ from Obstacles import *
 from Player import *
 from Items import *
 
+def saveMap(items, coord = [1, 1]):
+    outList = []
+    for row in range(14):
+        outRow = []
+        for col in range(18):
+            outRow += [" "]
+        outList += [outRow]
+    
+    size = 50
+    offset = size/2
+    for item in items:
+        x = int((item.rect.centerx - offset)/size)
+        y = int((item.rect.centery - offset)/size)
+        print(x,y, item.kind, item.char)
+        outList[y][x] = item.char
+        
+    out = ""
+    for row in range(len(outList)):
+        for col in range(len(outList[row])):
+            out += outList[row][col]
+        out += '\n'
+    
+    direct = "Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"
+    f = open(direct, 'w')
+    f.write(out)
+    f.close()
+
 def loadMap(coord = [1, 1], enter = "def"):
     direct = "Rooms/" + str(coord[1]) + str(coord[0]) + ".lvl"
     f = open(direct, 'r')
     lines = f.readlines()
     f.close()
+    
+    direct2 = "Rooms/" + str(coord[1]) + str(coord[0]) + ".itm"
+    g = open(direct2, 'r')
+    lines2 = g.readlines()
+    g.close()
     
     size = 50
     offset = size/2
@@ -18,6 +50,7 @@ def loadMap(coord = [1, 1], enter = "def"):
     items = []
     
     newLines = []
+    newLines2 = []
     
     for line in lines:
         newLine = ""
@@ -61,18 +94,29 @@ def loadMap(coord = [1, 1], enter = "def"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
+            
+    for line in lines2:
+        newLine2 = ""
+        for c in line:
+            if c != "\n":
+                newLine2 += c
+        newLines2 += [newLine2]
+    lines2 = newLines2       
+    
+    for y, line in enumerate(lines2):
+        for x, c in enumerate(line):
             if c == "!":
-                items += [Item([x*size + offset, y*size + offset], "wand")]
+                items += [Item([x*size + offset, y*size + offset], "wand", '!')]
             if c == ";":
-                items += [Item([x*size + offset, y*size + offset], "halfPotion")]
+                items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
             if c == ":":
-                items += [Item([x*size + offset, y*size + offset], "fullPotion")]
+                items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
             if c == "~":
-                items += [Item([x*size + offset, y*size + offset], "speedPotion")]
+                items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
             if c == "^":
-                items += [Item([x*size + offset, y*size + offset], "revivePotion")]
+                items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
             if c == "?":
-                items += [Item([x*size + offset, y*size + offset], "healthPotion")]
+                items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
             
     tiles = [walls,
              doors,
@@ -80,3 +124,4 @@ def loadMap(coord = [1, 1], enter = "def"):
              items]
 
     return tiles
+    

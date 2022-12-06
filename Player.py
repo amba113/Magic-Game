@@ -33,6 +33,7 @@ class Player():
         self.zoom = False
         
         self.coord = [1, 1]
+        self.prevCoord = [1,1]
         
         self.didHitX = False
         self.didHitY = False
@@ -199,25 +200,34 @@ class Player():
                         
                         self.move()
                         
+
                         if other.kind == "wall" or other.kind == "tree":
                             pass
                         elif other.kind == "portal1":
                             self.coord = [0, 2]
+                            self.prevCoord = [3, 0]
                         elif other.kind == "portal2":
                             self.coord = [3, 0]
+                            self.prevCoord = [0, 2]
                         elif other.kind == "tutent":
                             self.coord = [.5, -1]
+                            self.prevCoord = [1, 0]
                         elif other.kind == "tutext":
                             self.coord = [0, 0]
+                            self.prevCoord = [.5, -1]
                         else:
                             if other.kind == "top":
                                 self.coord[1] = self.coord[1] - 1
+                                self.prevCoord[1] = self.coord[1] + 1
                             elif other.kind == "bottom":
                                 self.coord[1] = self.coord[1] + 1
+                                self.prevCoord[1] = self.coord[1] - 1
                             elif other.kind == "left":
                                 self.coord[0] = self.coord[0] - 1
+                                self.prevCoord[0] = self.coord[0] + 1
                             elif other.kind == "right":
                                 self.coord[0] = self.coord[0] + 1
+                                self.prevCoord[0] = self.coord[0] - 1
                                 
                         self.speedx = 0
                         self.speedy = 0

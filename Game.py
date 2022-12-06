@@ -1,4 +1,4 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, os
 from Player import *
 from MapLoader import *
 from Obstacles import *
@@ -111,6 +111,9 @@ while True:
     
     for door in doors:
         if player.doorCollide(door):
+            print(player.coord, player.prevCoord)
+            saveMap(items, player.prevCoord)
+            
             loc = door.kind
             tiles = loadMap(player.coord, loc)
             
