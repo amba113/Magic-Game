@@ -1,4 +1,4 @@
-import pygame, sys, math
+import pygame, sys, math, os
 from Obstacles import *
 from Player import *
 from Items import *
@@ -25,22 +25,12 @@ def saveMap(items, coord = [1, 1]):
             out += outList[row][col]
         out += '\n'
     
-    direct = "Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"
+    direct = "Rooms/Sav" + str(coord[1]) + str(coord[0]) + ".sav"
     f = open(direct, 'w')
     f.write(out)
     f.close()
 
 def loadMap(coord = [1, 1], enter = "def"):
-    direct = "Rooms/" + str(coord[1]) + str(coord[0]) + ".lvl"
-    f = open(direct, 'r')
-    lines = f.readlines()
-    f.close()
-    
-    direct2 = "Rooms/" + str(coord[1]) + str(coord[0]) + ".itm"
-    g = open(direct2, 'r')
-    lines2 = g.readlines()
-    g.close()
-    
     size = 50
     offset = size/2
     tiles = []
@@ -51,6 +41,11 @@ def loadMap(coord = [1, 1], enter = "def"):
     
     newLines = []
     newLines2 = []
+    
+    direct = "Rooms/Lvl/" + str(coord[1]) + str(coord[0]) + ".lvl"
+    f = open(direct, 'r')
+    lines = f.readlines()
+    f.close()
     
     for line in lines:
         newLine = ""
@@ -94,29 +89,66 @@ def loadMap(coord = [1, 1], enter = "def"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
-            
-    for line in lines2:
-        newLine2 = ""
-        for c in line:
-            if c != "\n":
-                newLine2 += c
-        newLines2 += [newLine2]
-    lines2 = newLines2       
     
-    for y, line in enumerate(lines2):
-        for x, c in enumerate(line):
-            if c == "!":
-                items += [Item([x*size + offset, y*size + offset], "wand", '!')]
-            if c == ";":
-                items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
-            if c == ":":
-                items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
-            if c == "~":
-                items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
-            if c == "^":
-                items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
-            if c == "?":
-                items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+    if os.path.isfile("Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"):
+        direct2 = "Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"
+        g = open(direct2, 'r')
+        lines2 = g.readlines()
+        g.close()
+        
+                
+        for line in lines2:
+            newLine2 = ""
+            for c in line:
+                if c != "\n":
+                    newLine2 += c
+            newLines2 += [newLine2]
+        lines2 = newLines2       
+        
+        for y, line in enumerate(lines2):
+            for x, c in enumerate(line):
+                if c == "!":
+                    items += [Item([x*size + offset, y*size + offset], "wand", '!')]
+                if c == ";":
+                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                if c == ":":
+                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                if c == "~":
+                    items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
+                if c == "^":
+                    items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
+                if c == "?":
+                    items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+    
+    else:
+        direct2 = "Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"
+        g = open(direct2, 'r')
+        lines2 = g.readlines()
+        g.close()
+        
+                
+        for line in lines2:
+            newLine2 = ""
+            for c in line:
+                if c != "\n":
+                    newLine2 += c
+            newLines2 += [newLine2]
+        lines2 = newLines2       
+        
+        for y, line in enumerate(lines2):
+            for x, c in enumerate(line):
+                if c == "!":
+                    items += [Item([x*size + offset, y*size + offset], "wand", '!')]
+                if c == ";":
+                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                if c == ":":
+                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                if c == "~":
+                    items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
+                if c == "^":
+                    items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
+                if c == "?":
+                    items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
             
     tiles = [walls,
              doors,
