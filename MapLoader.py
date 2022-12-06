@@ -2,6 +2,7 @@ import pygame, sys, math, os
 from Obstacles import *
 from Player import *
 from Items import *
+from Enemy import *
 
 def saveMap(items, coord = [1, 1]):
     outList = []
@@ -25,7 +26,7 @@ def saveMap(items, coord = [1, 1]):
             out += outList[row][col]
         out += '\n'
     
-    direct = "Rooms/Sav" + str(coord[1]) + str(coord[0]) + ".sav"
+    direct = "Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"
     f = open(direct, 'w')
     f.write(out)
     f.close()
@@ -38,6 +39,7 @@ def loadMap(coord = [1, 1], enter = "def"):
     doors = []
     playerLoc = []
     items = []
+    enemies = []
     
     newLines = []
     newLines2 = []
@@ -90,7 +92,7 @@ def loadMap(coord = [1, 1], enter = "def"):
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
     
-    if os.path.isfile("Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"):
+    if os.path.isfile("Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"):
         direct2 = "Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"
         g = open(direct2, 'r')
         lines2 = g.readlines()
@@ -119,8 +121,10 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+                if c == "1":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
     
-    else:
+    elif os.path.isfile("Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"):
         direct2 = "Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"
         g = open(direct2, 'r')
         lines2 = g.readlines()
@@ -149,11 +153,31 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+                if c == "1":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+    else:
+        for y, line in enumerate(lines):
+            for x, c in enumerate(line):
+                if c == "!":
+                    items += [Item([x*size + offset, y*size + offset], "wand", '!')]
+                if c == ";":
+                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                if c == ":":
+                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                if c == "~":
+                    items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
+                if c == "^":
+                    items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
+                if c == "?":
+                    items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+                if c == "1":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
             
     tiles = [walls,
              doors,
              playerLoc,
-             items]
+             items,
+             enemies]
 
     return tiles
     

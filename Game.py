@@ -2,6 +2,8 @@ import pygame, sys, math, random, os
 from Player import *
 from MapLoader import *
 from Obstacles import *
+from Items import *
+from Enemy import *
 from Text import *
 from Text2 import *
 
@@ -33,12 +35,21 @@ doors = tiles[1]
 player = Player(2, tiles[2])
 players = [player]
 items = tiles[3]
+enemies = tiles[4]
 
 loc = ""
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            direct = "Rooms/Sav/"
+            files = os.listdir(direct)
+            for f in files:
+                print(f)
+                if f[-4:] == ".sav":
+                    
+                    os.remove("Rooms/Sav/" + f)
+            print(files)
             sys.exit();
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
@@ -93,19 +104,26 @@ while True:
                 
     for wall in walls:
         player.wallTileCollide(wall)
+        # ~ enemies.wallTileCollide(wall)
     
     for item in items:
         if player.itemCollide(item):
             items.remove(item)
+            
+    for enemy in enemies:
+        player.enemyCollide(enemy)
     
     player.update(size)
+    
     health.update(str(player.hp) + "/" + str(player.hpMax))
     position.update(str(player.coord[0]) + "," + str(player.coord[1]))
+    
     speedPotions.update(player.inventory["speedPotion"])
     fullPotions.update(player.inventory["fullHealPotion"])
     halfPotions.update(player.inventory["halfHealPotion"])
     revivePotions.update(player.inventory["revivePotion"])
     healthPotions.update(player.inventory["healthPotion"])
+    
     deathNote1.update("")
     deathNote2.update("")
     
@@ -120,6 +138,7 @@ while True:
             walls = tiles[0]
             doors = tiles[1]
             items = tiles[3]
+            enemies = tiles[4]
             
             player.goto(tiles[2]) #relocate player
 
@@ -135,6 +154,8 @@ while True:
                 screen.blit(wall.image, wall.rect)
         for item in items:
                 screen.blit(item.image, item.rect)
+        for enemy in enemies:
+                screen.blit(enemy.image, enemy.rect)
         for door in doors:
                 screen.blit(door.image, door.rect)
         screen.blit(player.image, player.rect)

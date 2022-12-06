@@ -302,3 +302,13 @@ class Player():
                 self.inventory["healthPotion"] -= 1
             else:
                 print("No healths left")
+                
+    def enemyCollide(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        if self.dead == False:
+                            if self.counter % 20 == 0:
+                                if other.kind == 1:
+                                    self.hp -= 5
