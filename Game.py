@@ -104,7 +104,6 @@ while True:
                 
     for wall in walls:
         player.wallTileCollide(wall)
-        # ~ enemies.wallTileCollide(wall)
     
     for item in items:
         if player.itemCollide(item):
@@ -114,6 +113,7 @@ while True:
         player.enemyCollide(enemy)
     
     player.update(size)
+    enemy.update(size)
     
     health.update(str(player.hp) + "/" + str(player.hpMax))
     position.update(str(player.coord[0]) + "," + str(player.coord[1]))
