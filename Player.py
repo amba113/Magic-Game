@@ -1,4 +1,5 @@
 import pygame, sys, math, random
+from Spells import *
 
 class Player():
    
@@ -107,8 +108,8 @@ class Player():
     def goto(self, pos):
         self.rect.center = pos
 
-    def shoot(self):
-        pass
+    def shoot(self, spell, posM):
+        return Spell(spell, self.rect.center, posM)
         
     def goKey(self, direction):
         if self.zoom:

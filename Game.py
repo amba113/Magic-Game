@@ -6,6 +6,7 @@ from Items import *
 from Enemy import *
 from Text import *
 from Text2 import *
+from Spells import *
 
 pygame.init()
 pygame.mixer.init()
@@ -36,6 +37,8 @@ player = Player(2, tiles[2])
 players = [player]
 items = tiles[3]
 enemies = tiles[4]
+spells = []
+spellType = "basic"
 
 loc = ""
 
@@ -102,6 +105,16 @@ while True:
             elif event.key == pygame.K_2:
                 item.wandChoice(2)
                 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_0:
+                spellType = "basic"
+                
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            statesM = pygame.mouse.get_pressed(num_buttons = 3)
+            if statesM[0]:
+                posM = pygame.mouse.get_pos()
+                spells += [player.shoot(spellType, posM)]
+                
     for wall in walls:
         player.wallTileCollide(wall)
     
@@ -111,9 +124,24 @@ while True:
             
     for enemy in enemies:
         player.enemyCollide(enemy)
+        
+    for wall in walls:
+        enemy.wallTileCollide(wall)
+    
+    for wall in walls:
+        for spell in spells:
+            spell.wallTileCollide(wall)
+    for enemy in enemies:
+        for spell in spells:
+            spell.collide(enemy)
+            
+    for spell in spells:
+        enemy.weaponCollide(spell)
     
     player.update(size)
     enemy.update(size)
+    for spell in spells:
+        spell.update()
     
     health.update(str(player.hp) + "/" + str(player.hpMax))
     position.update(str(player.coord[0]) + "," + str(player.coord[1]))
@@ -149,11 +177,22 @@ while True:
             screen.blit(deathNote2.image, deathNote2.rect)
         elif player.inventory["revivePotion"] == 0:
             screen.blit(deathNote1.image, deathNote1.rect)
+            
+    for spell in spells:
+        if not spell.living:
+            spells.remove(spell)
+            
+    for enemy in enemies:
+        if not enemy.living:
+            enemies.remove(enemy)
+
     else:
-        for wall in walls:
-                screen.blit(wall.image, wall.rect)
         for item in items:
                 screen.blit(item.image, item.rect)
+        for spell in spells:
+                screen.blit(spell.image, spell.rect)
+        for wall in walls:
+                screen.blit(wall.image, wall.rect)
         for enemy in enemies:
                 screen.blit(enemy.image, enemy.rect)
         for door in doors:

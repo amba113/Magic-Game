@@ -21,35 +21,38 @@ class Enemy():
         self.didHitX = False
         self.didHitY = False
         
+        self.living = True
+        
     def weaponCollide(self, other):
-        if other.kind == "spell":
-            self.hp -= 5
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        if other.kind == "basic":
+                            self.hp -= 5
+                            print("Damage dealt, new health:", self.hp)
             
     def update(self, size):
         self.move()
-        self.wallCollide(size)
         
         self.didHitX = False
         self.didHitY = False
         
+        if self.hp < 0:
+            self.hp = 0
+        if self.hp == 0:
+            self.living = False
+        
     def move(self):
         self.speed = [self.speedx, self.speedy]
         self.rect = self.rect.move(self.speed)
-        
-    def wallCollide(self, size):
-        width = size[0] - 50
-        height = size[1] - 50
-        if not self.didHitY:
-            if self.rect.bottom > height:
-                self.speedy = -self.speedy
-                self.didHitY = True
-            if self.rect.top < 50:
-                self.speedy = -self.speedy
-                self.didHitY = True
-        if not self.didHitX:
-            if self.rect.right > width:
-                self.speedx = -self.speedx
-                self.didHitX = True
-            if self.rect.left < 50:
-                self.speedx = -self.speedx
-                self.didHitX = True
+                
+    def wallTileCollide (self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        self.speedy = -self.speedy
+                        self.speedx = -self.speedx
+                        return True
+        return False
