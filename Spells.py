@@ -11,7 +11,7 @@ class Spell():
             self.vel = 2
         
         self.x = target[0] - startPos[0]
-        self.y = target[1] - startPos[0]
+        self.y = target[1] - startPos[1]
         
         self.angle = math.atan(self.y/self.x)
         
