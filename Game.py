@@ -139,7 +139,7 @@ while True:
         enemy.weaponCollide(spell)
     
     player.update(size)
-    enemy.update(size)
+    enemy.update(player.rect.center)
     for spell in spells:
         spell.update()
     
