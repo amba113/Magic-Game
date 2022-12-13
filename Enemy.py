@@ -30,6 +30,9 @@ class Enemy():
         self.counter = 0
         self.stop = 30
         
+        self.xpos = startPos[0]
+        self.ypos = startPos[1]
+        
     def weaponCollide(self, other):
         if self.rect.right > other.rect.left:
             if self.rect.left < other.rect.right:
@@ -43,16 +46,10 @@ class Enemy():
                         return True
         return False
             
-    def update(self, playerPos):
-        # ~ if self.counter < 200:
-            # ~ self.counter += 1
-        # ~ else:
-            # ~ self.counter = 0
-            # ~ self.angry = False
+    def update(self, playerPos, size):
         
-        
-        
-        
+        self.spdy = self.speedy
+        self.spdx = self.speedx
         
         if self.angry:
             self.attack(playerPos)
@@ -61,10 +58,17 @@ class Enemy():
             else:
                 self.counter = 0
                 self.angry = False
+                
+                self.speedx = self.spdx
+                self.speedy = self.spdy
         else:
-            self.speedx = self.spdx
-            self.speedy = self.spdy
-            self.move()
+            if (self.speedx < 2 and self.speedx > -2) and (self.speedy < 0 or self.speedy > 0):
+                self.speedx = 2
+                self.speedy = 0
+
+        self.move()
+        
+        self.wallCollide(size)
         
         self.didHitX = False
         self.didHitY = False
@@ -73,6 +77,8 @@ class Enemy():
             self.hp = 0
         if self.hp == 0:
             self.living = False
+            
+
         
     def move(self):
         self.speed = [self.speedx, self.speedy]
@@ -85,12 +91,46 @@ class Enemy():
                     if self.rect.top < other.rect.bottom:
                         self.speedy = -self.speedy
                         self.speedx = -self.speedx
+                        self.spdy = self.speedy
+                        self.spdx = self.speedx
                         return True
         return False
         
+    def wallCollide(self, size):
+        width = size[0]
+        height = size[1]
+        if not self.didHitY:
+            if self.rect.bottom > height:
+                self.speedy = -self.speedy
+                self.didHitY = True
+            if self.rect.top < 0:
+                self.speedy = -self.speedy
+                self.didHitY = True
+        if not self.didHitX:
+            if self.rect.right > width:
+                self.speedx = -self.speedx
+                self.didHitX = True
+            if self.rect.left < 0:
+                self.speedx = -self.speedx
+                self.didHitX = True
+    # ~ def wallTileCollide (self, other):
+        # ~ if self.rect.right > other.rect.left:
+            # ~ if self.rect.left < other.rect.right:
+                # ~ if self.rect.bottom > other.rect.top:
+                    # ~ if self.rect.top < other.rect.bottom:
+                        # ~ self.speedy = -self.speedy
+                        # ~ self.speedx = -self.speedx
+                        # ~ self.spdy = self.speedy
+                        # ~ self.spdx = self.speedx
+                        # ~ return True
+        # ~ return False
+        
     def attack(self, target):
-        self.x = target[0] - self.rect.centerx[0]
-        self.y = target[1] - self.rect.centery[1]
+        self.xpos = self.rect.centerx
+        self.ypos = self.rect.centery
+        
+        self.x = target[0] - self.rect.centerx
+        self.y = target[1] - self.rect.centery
         
         self.angle = math.atan2(self.y, self.x)
         self.speedx = self.vel * math.cos(self.angle)
@@ -99,5 +139,5 @@ class Enemy():
         self.xpos += self.speedx
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
-        self.rect.center = [int(self.xpos), int(self.ypos)]
+        self.rect.center = [self.xpos, self.ypos]
 
