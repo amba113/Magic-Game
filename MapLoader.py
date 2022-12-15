@@ -126,6 +126,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+                if c == "S":
+                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
                 if c == "1":
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
                 if c == "2":

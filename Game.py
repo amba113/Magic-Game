@@ -100,7 +100,10 @@ while True:
             elif event.key == pygame.K_g:
                 player.useItem("g")
             elif event.key == pygame.K_v:
+                player.goto(tiles[2])
                 player.useItem("v")
+                for enemy in enemies:
+                    enemy.angry = False
             elif event.key == pygame.K_t:
                 player.useItem("t")
                 
