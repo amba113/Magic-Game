@@ -56,7 +56,16 @@ while True:
             sys.exit();
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
+                direct = "Rooms/Sav/"
+                files = os.listdir(direct)
+                for f in files:
+                    print(f)
+                    if f[-4:] == ".sav":
+                        
+                        os.remove("Rooms/Sav/" + f)
+                print(files)
                 sys.exit();
+                
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.goKey("left")
