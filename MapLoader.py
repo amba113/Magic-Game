@@ -4,7 +4,7 @@ from Player import *
 from Items import *
 from Enemy import *
 
-def saveMap(items, coord = [1, 1]):
+def saveMap(items, enemies, coord = [1, 1]):
     outList = []
     for row in range(14):
         outRow = []
@@ -19,6 +19,11 @@ def saveMap(items, coord = [1, 1]):
         y = int((item.rect.centery - offset)/size)
         print(x,y, item.kind, item.char)
         outList[y][x] = item.char
+    for enemy in enemies:
+        x = int((enemy.rect.centerx - offset)/size)
+        y = int((enemy.rect.centery - offset)/size)
+        print(x,y, enemy.kind, enemy.char)
+        outList[y][x] = enemy.char
         
     out = ""
     for row in range(len(outList)):
@@ -123,6 +128,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "1":
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                if c == "2":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
     
     elif os.path.isfile("Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"):
         direct2 = "Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"
@@ -153,8 +160,12 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "revivePotion", '^')]
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
+                if c == "S":
+                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
                 if c == "1":
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                if c == "2":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
     else:
         for y, line in enumerate(lines):
             for x, c in enumerate(line):
@@ -172,6 +183,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "1":
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                if c == "2":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
             
     tiles = [walls,
              doors,

@@ -49,6 +49,7 @@ class Player():
                           "revivePotion": 0,
                           "healthPotion": 0
         }
+        self.spells = ["basic"]
         
         self.counter = 0
         self.stop = 30
@@ -257,6 +258,8 @@ class Player():
                                 self.inventory["revivePotion"] += 1
                             elif other.kind == "healthPotion":
                                 self.inventory["healthPotion"] += 1
+                            elif other.kind == "Spell2":
+                                self.spells += ["basic2"]
                             else:
                                 pass
                             return True
@@ -313,3 +316,5 @@ class Player():
                             if self.counter % 20 == 0:
                                 if other.kind == 1:
                                     self.hp -= 5
+                                if other.kind == 2:
+                                    self.hp -= 10

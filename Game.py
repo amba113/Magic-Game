@@ -109,14 +109,17 @@ while True:
                 player.goto(tiles[2])
                 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1:
+            if event.key == pygame.K_1 and event.key == pygame.KMOD_CTRL:
                 item.wandChoice(1)
-            elif event.key == pygame.K_2:
+            elif event.key == pygame.K_2 and event.key == pygame.KMOD_CTRL:
                 item.wandChoice(2)
                 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_0:
+            if event.key == pygame.K_1:
                 spellType = "basic"
+            elif event.key == pygame.K_2:
+                if "basic2" in player.spells:
+                    spellType = "basic2"
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             statesM = pygame.mouse.get_pressed(num_buttons = 3)
@@ -133,6 +136,9 @@ while True:
             
     for enemy in enemies:
         player.enemyCollide(enemy)
+        
+    for player in players:
+        enemy.playerSense(player)
         
     for wall in walls:
         enemy.wallTileCollide(wall)
@@ -167,7 +173,7 @@ while True:
     for door in doors:
         if player.doorCollide(door):
             print(player.coord, player.prevCoord)
-            saveMap(items, player.prevCoord)
+            saveMap(items, enemies, player.prevCoord)
             
             loc = door.kind
             tiles = loadMap(player.coord, loc)
@@ -181,11 +187,7 @@ while True:
 
     screen.fill((250, 175, 225))
     
-    if player.dead:
-        if player.inventory["revivePotion"] > 0:
-            screen.blit(deathNote2.image, deathNote2.rect)
-        elif player.inventory["revivePotion"] == 0:
-            screen.blit(deathNote1.image, deathNote1.rect)
+    
             
     for spell in spells:
         if not spell.living:
@@ -195,6 +197,12 @@ while True:
         if not enemy.living:
             enemies.remove(enemy)
 
+
+    if player.dead:
+        if player.inventory["revivePotion"] > 0:
+            screen.blit(deathNote2.image, deathNote2.rect)
+        elif player.inventory["revivePotion"] == 0:
+            screen.blit(deathNote1.image, deathNote1.rect)
     else:
         for item in items:
                 screen.blit(item.image, item.rect)

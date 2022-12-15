@@ -1,11 +1,14 @@
 import pygame, sys, math, random
 
 class Enemy():
-    def __init__(self, startPos = [0, 0], kind = 1, speed = [0,0]):
+    def __init__(self, startPos = [0, 0], kind = 1, char = "1", speed = [0,0]):
         
-        self.images = [pygame.image.load("Images/Enemy1.png")]
+        scale = [23*2, 31*2]
+        self.images = [pygame.image.load("Images/Enemy1.png"),
+                       pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale)]
         
         self.kind = kind
+        self.char = char
         
         self.image = self.images[self.kind - 1]
         self.rect = self.image.get_rect(center = startPos)
@@ -13,22 +16,31 @@ class Enemy():
         self.speedx = speed[0]
         self.speedy = speed[1]
         
+        self.counter = 0
+        self.stop = 30
+        
         if self.kind == 1:
             self.hp = 100
-            self.speedx = 2
+            self.speedx = 3
             self.speedy = 0
-            self.spdx = 2
+            self.spdx = 3
             self.spdy = 0
-            self.vel = 2
-            
+            self.vel = 3
+            self.stop = 200
+        if self.kind == 2:
+            self.hp = 200
+            self.speedx = 0
+            self.speedy = 1.5
+            self.spdx = 0
+            self.spdy = 1.5
+            self.vel = 1.5
+            self.stop = 350
+
         self.didHitX = False
         self.didHitY = False
         
         self.living = True
         self.angry = False
-        
-        self.counter = 0
-        self.stop = 30
         
         self.xpos = startPos[0]
         self.ypos = startPos[1]
@@ -45,6 +57,16 @@ class Enemy():
                         self.counter = 0
                         return True
         return False
+    
+    def playerSense(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        self.angry = True
+                        self.counter = 0
+                        return True
+        return False
             
     def update(self, playerPos, size):
         
@@ -53,7 +75,7 @@ class Enemy():
         
         if self.angry:
             self.attack(playerPos)
-            if self.counter < 200:
+            if self.counter < self.stop:
                 self.counter += 1
             else:
                 self.counter = 0
@@ -62,9 +84,12 @@ class Enemy():
                 self.speedx = self.spdx
                 self.speedy = self.spdy
         else:
-            if (self.speedx < 2 and self.speedx > -2) and (self.speedy < 0 or self.speedy > 0):
-                self.speedx = 2
+            if self.kind == 1 and (self.speedx < self.vel and self.speedx > -self.vel) and (self.speedy < 0 or self.speedy > 0):
+                self.speedx = self.vel
                 self.speedy = 0
+            elif self.kind == 2 and (self.speedx < 0 and self.speedx > 0) and (self.speedy < -self.vel or self.speedy > self.vel):
+                self.speedx = 0
+                self.speedy = self.vel
 
         self.move()
         
@@ -93,6 +118,7 @@ class Enemy():
                         self.speedx = -self.speedx
                         self.spdy = self.speedy
                         self.spdx = self.speedx
+                        self.move()
                         return True
         return False
         
@@ -113,17 +139,7 @@ class Enemy():
             if self.rect.left < 0:
                 self.speedx = -self.speedx
                 self.didHitX = True
-    # ~ def wallTileCollide (self, other):
-        # ~ if self.rect.right > other.rect.left:
-            # ~ if self.rect.left < other.rect.right:
-                # ~ if self.rect.bottom > other.rect.top:
-                    # ~ if self.rect.top < other.rect.bottom:
-                        # ~ self.speedy = -self.speedy
-                        # ~ self.speedx = -self.speedx
-                        # ~ self.spdy = self.speedy
-                        # ~ self.spdx = self.speedx
-                        # ~ return True
-        # ~ return False
+
         
     def attack(self, target):
         self.xpos = self.rect.centerx

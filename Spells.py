@@ -2,13 +2,17 @@ import pygame, sys, math
 
 class Spell():
     def __init__(self, spell, startPos, target):
-        self.images = [pygame.image.load("Images/SpellTest.png")]
+        self.images = [pygame.image.load("Images/SpellTest.png"), 
+                       pygame.image.load("Images/SpellTest2.png")]
         
         self.kind = spell
         
         if self.kind == "basic":
             self.num = 0
             self.vel = 2
+        if self.kind == "basic2":
+            self.num = 1
+            self.vel = 4
         
         self.x = target[0] - startPos[0]
         self.y = target[1] - startPos[1]

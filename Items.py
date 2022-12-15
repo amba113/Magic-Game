@@ -10,6 +10,7 @@ class Item():
                              pygame.image.load("Images/SpeedPotion.png"),
                              pygame.image.load("Images/RevivePotion.png"),
                              pygame.image.load("Images/HealthPotion.png")]
+        self.spellImages = [pygame.image.load("Images/SpellTest2.png")]
         
         self.num = 0
         #Gonna make image change based on choice etc
@@ -27,6 +28,10 @@ class Item():
                 self.num = 3
             elif kind == "healthPotion":
                 self.num = 4
+        elif "Spell" in kind:
+            self.images = self.spellImages
+            if kind == "Spell2":
+                self.num = 0
         
         
         self.kind = kind
