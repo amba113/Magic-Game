@@ -26,9 +26,9 @@ class Player():
         self.speedy = self.speed[1]
         self.speed = [self.speedx, self.speedy]
         self.walkSpeed = speed
-        self.sprintSpeed = speed*5
-        self.zoomSpeed = speed * 10
-        self.zoomSprintSpeed = speed * 20
+        self.sprintSpeed = speed*2
+        self.zoomSpeed = speed * 3
+        self.zoomSprintSpeed = speed * 5
         self.maxSpeed = self.walkSpeed
         self.moveType = "walk"
         self.zoom = False

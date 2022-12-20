@@ -84,10 +84,10 @@ class Enemy():
                 self.speedx = self.spdx
                 self.speedy = self.spdy
         else:
-            if self.kind == 1 and (self.speedx < self.vel and self.speedx > -self.vel) and (self.speedy < 0 or self.speedy > 0):
+            if self.kind == 1 and (self.speedx < self.vel or self.speedx > -self.vel) and (self.speedy < 0 or self.speedy > 0):
                 self.speedx = self.vel
                 self.speedy = 0
-            elif self.kind == 2 and (self.speedx < 0 and self.speedx > 0) and (self.speedy < -self.vel or self.speedy > self.vel):
+            elif self.kind == 2 and (self.speedx < 0 or self.speedx > 0) and (self.speedy < -self.vel or self.speedy > self.vel):
                 self.speedx = 0
                 self.speedy = self.vel
 
