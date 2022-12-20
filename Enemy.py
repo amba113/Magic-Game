@@ -68,10 +68,13 @@ class Enemy():
                         return True
         return False
             
-    def update(self, playerPos, size):
+    def update(self, playerPos, size, status):
         
         self.spdy = self.speedy
         self.spdx = self.speedx
+        
+        if status == True:
+            self.angry = False
         
         if self.angry:
             self.attack(playerPos)
@@ -110,6 +113,19 @@ class Enemy():
         self.rect = self.rect.move(self.speed)
                 
     def wallTileCollide (self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        self.speedy = -self.speedy
+                        self.speedx = -self.speedx
+                        self.spdy = self.speedy
+                        self.spdx = self.speedx
+                        self.move()
+                        return True
+        return False
+        
+    def hideCollide (self, other):
         if self.rect.right > other.rect.left:
             if self.rect.left < other.rect.right:
                 if self.rect.bottom > other.rect.top:

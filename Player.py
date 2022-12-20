@@ -55,6 +55,8 @@ class Player():
         self.stop = 30
         self.dead = False
         
+        self.hidden = False
+        
     def update(self, size):
         self.move()
         self.wallCollide(size)
@@ -318,3 +320,13 @@ class Player():
                                     self.hp -= 5
                                 if other.kind == 2:
                                     self.hp -= 10
+    def hideCollide(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        self.move()
+                        self.hidden = True
+        else:
+            self.move()
+            self.hidden = False

@@ -29,7 +29,6 @@ class Spell():
         self.pos = [self.xpos, self.ypos]
         
         self.speed = [self.xspeed, self.yspeed]
-        print(self.speed, self.angle)
         self.living = True
         
     def update(self):

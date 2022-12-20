@@ -17,12 +17,10 @@ def saveMap(items, enemies, coord = [1, 1]):
     for item in items:
         x = int((item.rect.centerx - offset)/size)
         y = int((item.rect.centery - offset)/size)
-        print(x,y, item.kind, item.char)
         outList[y][x] = item.char
     for enemy in enemies:
         x = int((enemy.rect.centerx - offset)/size)
         y = int((enemy.rect.centery - offset)/size)
-        print(x,y, enemy.kind, enemy.char)
         outList[y][x] = enemy.char
         
     out = ""
@@ -45,6 +43,7 @@ def loadMap(coord = [1, 1], enter = "def"):
     playerLoc = []
     items = []
     enemies = []
+    hides = []
     
     newLines = []
     newLines2 = []
@@ -86,6 +85,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                 doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutent")]
             if c == "x":
                 doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutext")]
+            if c == "=":
+                hides += [Obstacle([x*size + .5*offset, y*size + 2*offset], "bush")]
             if c == "$" and enter == "def":
                 playerLoc = [x*size + offset, y*size + offset]
             elif c == "%" and (enter == "bottom" or enter == "tutext"):
@@ -192,7 +193,8 @@ def loadMap(coord = [1, 1], enter = "def"):
              doors,
              playerLoc,
              items,
-             enemies]
+             enemies,
+             hides]
 
     return tiles
     

@@ -33,6 +33,7 @@ deathNote2 = Text2("Press V to revive", [900/2, 700/2], 36)
 tiles = loadMap()
 walls = tiles[0]
 doors = tiles[1]
+hides = tiles[5]
 player = Player(2, tiles[2])
 players = [player]
 items = tiles[3]
@@ -48,22 +49,18 @@ while True:
             direct = "Rooms/Sav/"
             files = os.listdir(direct)
             for f in files:
-                print(f)
                 if f[-4:] == ".sav":
                     
                     os.remove("Rooms/Sav/" + f)
-            print(files)
             sys.exit();
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 direct = "Rooms/Sav/"
                 files = os.listdir(direct)
                 for f in files:
-                    print(f)
                     if f[-4:] == ".sav":
                         
                         os.remove("Rooms/Sav/" + f)
-                print(files)
                 sys.exit();
                 
         if event.type == pygame.KEYDOWN:
@@ -156,8 +153,14 @@ while True:
     for spell in spells:
         enemy.weaponCollide(spell)
     
+    for hide in hides:
+        player.hideCollide(hide)
+        
+    for hide in hides:
+        enemy.hideCollide(hide)
+    
     player.update(size)
-    enemy.update(player.rect.center, size)
+    enemy.update(player.rect.center, size, player.hidden)
     for spell in spells:
         spell.update()
     
@@ -175,7 +178,6 @@ while True:
     
     for door in doors:
         if player.doorCollide(door):
-            print(player.coord, player.prevCoord)
             saveMap(items, enemies, player.prevCoord)
             
             loc = door.kind
@@ -208,16 +210,18 @@ while True:
             screen.blit(deathNote1.image, deathNote1.rect)
     else:
         for item in items:
-                screen.blit(item.image, item.rect)
+            screen.blit(item.image, item.rect)
         for spell in spells:
-                screen.blit(spell.image, spell.rect)
+            screen.blit(spell.image, spell.rect)
         for wall in walls:
-                screen.blit(wall.image, wall.rect)
+            screen.blit(wall.image, wall.rect)
         for enemy in enemies:
-                screen.blit(enemy.image, enemy.rect)
+            screen.blit(enemy.image, enemy.rect)
         for door in doors:
-                screen.blit(door.image, door.rect)
+            screen.blit(door.image, door.rect)
         screen.blit(player.image, player.rect)
+        for hide in hides:
+            screen.blit(hide.image, hide.rect)
         screen.blit(health.image, health.rect)
         screen.blit(speedPotions.image, speedPotions.rect)
         screen.blit(fullPotions.image, fullPotions.rect)
