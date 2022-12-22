@@ -27,6 +27,7 @@ class Enemy():
             self.spdy = 0
             self.vel = 3
             self.stop = 200
+            self.rad = 200
         if self.kind == 2:
             self.hp = 200
             self.speedx = 0
@@ -35,6 +36,7 @@ class Enemy():
             self.spdy = 1.5
             self.vel = 1.5
             self.stop = 350
+            self.rad = 100
 
         self.didHitX = False
         self.didHitY = False
@@ -59,10 +61,10 @@ class Enemy():
         return False
     
     def playerSense(self, other):
-        if self.rect.right > other.rect.left:
-            if self.rect.left < other.rect.right:
-                if self.rect.bottom > other.rect.top:
-                    if self.rect.top < other.rect.bottom:
+        if self.rect.right + self.rad > other.rect.left:
+            if self.rect.left - self.rad < other.rect.right:
+                if self.rect.bottom + self.rad > other.rect.top:
+                    if self.rect.top - self.rad < other.rect.bottom:
                         self.angry = True
                         self.counter = 0
                         return True

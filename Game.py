@@ -97,7 +97,8 @@ while True:
             elif event.key == pygame.K_g:
                 player.useItem("g")
             elif event.key == pygame.K_v:
-                player.goto(tiles[2])
+                if player.dead:
+                    player.goto(tiles[2])
                 player.useItem("v")
                 for enemy in enemies:
                     enemy.angry = False
@@ -158,6 +159,9 @@ while True:
         
     for hide in hides:
         enemy.hideCollide(hide)
+        
+    for player in players:
+        hide.playerCollide(player)
     
     player.update(size)
     enemy.update(player.rect.center, size, player.hidden)

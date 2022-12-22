@@ -16,7 +16,8 @@ class Obstacle():
                        pygame.image.load("Images/Portal.png"),
                        pygame.image.load("Images/TutDoor.png"),
                        pygame.transform.scale(pygame.image.load("Images/Cactus.png"), scale3),
-                       pygame.transform.scale(pygame.image.load("Images/Bush.png"), scale4)]
+                       pygame.transform.scale(pygame.image.load("Images/Bush.png"), scale4),
+                       pygame.transform.scale(pygame.image.load("Images/BushClear.png"), scale4)]
         
         if appearance == "wall":
             self.num = 0
@@ -39,5 +40,21 @@ class Obstacle():
         self.image = self.images[self.num]
         self.rect = self.image.get_rect(center = pos)
         
+    def playerCollide(self, other):
+        if self.rect.right > other.rect.left - 10:
+            if self.rect.left < other.rect.right + 10:
+                if self.rect.bottom > other.rect.top + 10:
+                    if self.rect.top < other.rect.bottom - 10:
+                        if self.kind == "bush":
+                            self.num = 8
+                    elif self.kind == "bush":
+                        self.num = 7
+                elif self.kind == "bush":
+                    self.num = 7
+            elif self.kind == "bush":
+                self.num = 7
+        elif self.kind == "bush":
+            self.num = 7
+        self.image = self.images[self.num]
     def update(self):
         pass
