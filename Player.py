@@ -58,6 +58,11 @@ class Player():
         self.hidden = False
         
     def update(self, size):
+        if self.zoom:
+            self.maxSpeed = self.zoomSpeed
+        else:
+            self.maxSpeed = self.walkSpeed
+        
         self.move()
         self.wallCollide(size)
         
@@ -85,6 +90,7 @@ class Player():
             self.inventory["healthPotion"] = 0
             self.hpMax = 100
             self.dead = True
+        print(self.speed)
     
     def wallCollide(self, size):
         width = size[0]
@@ -115,9 +121,6 @@ class Player():
         return Spell(spell, self.rect.center, posM)
         
     def goKey(self, direction):
-        if self.zoom:
-            self.maxSpeed = self.maxSpeed * 5
-        
         if direction == "left":
             self.speedx = -self.maxSpeed
         elif direction == "right":
@@ -178,14 +181,23 @@ class Player():
                             if self.counter % 10 == 0:
                                 self.hp -= 1
                         else:
-                            self.speedx = -self.speedx
-                            self.speedy = -self.speedy
-                            self.move()
+                            print(self.rect.center, other.rect.center)
+                            if self.moveType == "zoomSprint" or self.moveType == "zoom":
+                                input(">")
+                            diffx = abs(self.rect.centerx-other.rect.centerx)
+                            diffy = abs(self.rect.centery-other.rect.centery)
+                            print(diffx, diffy)
+                            if diffx > diffy:
+                                if self.rect.centerx > other.rect.centerx:
+                                    self.rect.left = other.rect.right + .5
+                                elif self.rect.centerx < other.rect.centerx:
+                                    self.rect.right = other.rect.left - .5
+                            else:
+                                if self.rect.centery > other.rect.centery:
+                                    self.rect.top = other.rect.bottom + .5
+                                elif self.rect.centery < other.rect.centery:
+                                    self.rect.bottom = other.rect.top - .5
                             
-                            self.speedx = 0
-                            self.speedy = 0
-                            
-                            self.move()
 
                         return True
         return False

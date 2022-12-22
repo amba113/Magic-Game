@@ -27,7 +27,7 @@ class Enemy():
             self.spdy = 0
             self.vel = 3
             self.stop = 200
-            self.rad = 200
+            self.rad = 100
         if self.kind == 2:
             self.hp = 200
             self.speedx = 0

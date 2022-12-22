@@ -191,6 +191,7 @@ while True:
             doors = tiles[1]
             items = tiles[3]
             enemies = tiles[4]
+            hides = tiles[5]
             
             player.goto(tiles[2]) #relocate player
 
