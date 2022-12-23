@@ -21,6 +21,7 @@ class Player():
         
         self.rect = self.image.get_rect(center = startPos)
         
+        self.sprinting = False
         self.speed = [0,0]
         self.speedx = self.speed[0]
         self.speedy = self.speed[1]
@@ -58,10 +59,32 @@ class Player():
         self.hidden = False
         
     def update(self, size):
-        if self.zoom:
+        if self.sprinting and not self.zoom:
+            self.moveType = "sprint"
+        elif self.sprinting and self.zoom:
+            self.moveType = "zoomSprint"
+        elif not self.sprinting and self.zoom:
+            self.moveType = "zoom"
+        else:
+            self.moveType = "walk"
+            
+        if self.moveType == "sprint":
+            self.maxSpeed = self.sprintSpeed
+        elif self.moveType == "zoom":
             self.maxSpeed = self.zoomSpeed
+        elif self.moveType == "zoomSprint":
+            self.maxSpeed = self.zoomSprintSpeed
         else:
             self.maxSpeed = self.walkSpeed
+        
+        if self.speedx < 0:
+            self.speedx = -self.maxSpeed
+        elif self.speedx > 0:
+            self.speedx = self.maxSpeed
+        if self.speedy < 0:
+            self.speedy = -self.maxSpeed
+        elif self.speedy > 0:
+            self.speedy = self.maxSpeed
         
         self.move()
         self.wallCollide(size)
@@ -71,7 +94,7 @@ class Player():
         
         self.image = self.images[self.frame]
         
-        if self.counter < 150:
+        if self.counter < 300:
             self.counter += 1
         else:
             self.counter = 0
@@ -141,36 +164,6 @@ class Player():
         elif direction == "sdown":
             if self.speedy > 0:
                 self.speedy = 0
-   
-    def sprint(self, sprinting):
-        if sprinting and self.moveType != "zoom":
-            self.moveType = "sprint"
-        elif sprinting and self.moveType == "zoom":
-            self.moveType = "zoomSprint"
-        elif not sprinting and self.moveType == "zoom":
-            self.moveType = "zoom"
-        else:
-            self.moveType = "walk"
-            
-        
-        if self.moveType == "sprint":
-            self.maxSpeed = self.sprintSpeed
-        elif self.moveType == "zoom":
-            self.maxSpeed = self.zoomSpeed
-        elif self.moveType == "zoomSprint":
-            self.maxSpeed = self.zoomSprintSpeed
-        else:
-            self.maxSpeed = self.walkSpeed
-    
-            
-        if self.speedx < 0:
-            self.speedx = -self.maxSpeed
-        elif self.speedx > 0:
-            self.speedx = self.maxSpeed
-        if self.speedy < 0:
-            self.speedy = -self.maxSpeed
-        elif self.speedy > 0:
-            self.speedy = self.maxSpeed
                 
     def wallTileCollide(self, other):
         if self.rect.right > other.rect.left:

@@ -84,10 +84,10 @@ while True:
         
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                player.sprint(True)
+                player.sprinting = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                player.sprint(False)
+                player.sprinting = False
                 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
