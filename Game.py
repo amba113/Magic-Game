@@ -159,6 +159,7 @@ while True:
                                 if button.click(pygame.mouse.get_pos()):
                                     selected = button.kind
                     print(selected)
+                    
 
                     screen.blit(popup.image, popup.rect)
                     for button in buttons:
@@ -227,6 +228,7 @@ while True:
             items = tiles[3]
             enemies = tiles[4]
             hides = tiles[5]
+            spells = []
             
             player.goto(tiles[2]) #relocate player
 

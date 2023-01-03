@@ -111,7 +111,6 @@ class Player():
             self.inventory["healthPotion"] = 0
             self.hpMax = 100
             self.dead = True
-        print(self.speed)
     
     def wallCollide(self, size):
         width = size[0]
