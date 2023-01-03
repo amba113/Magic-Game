@@ -54,10 +54,8 @@ class Enemy():
                     if self.rect.top < other.rect.bottom:
                         if other.kind == "basic":
                             self.hp -= 5
-                            print("Damage dealt, new health:", self.hp)
                         elif other.kind == "basic2":
                             self.hp -= 10
-                            print("Damage dealt, new health:", self.hp)
                         self.angry = True
                         self.counter = 0
                         return True

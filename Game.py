@@ -117,8 +117,9 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             statesM = pygame.mouse.get_pressed(num_buttons = 3)
             if statesM[0]:
-                posM = pygame.mouse.get_pos()
-                spells += [player.shoot(spellType, posM)]
+                if player.inventory["wand"] != None:
+                    posM = pygame.mouse.get_pos()
+                    spells += [player.shoot(spellType, posM)]
                 
     for wall in walls:
         player.wallTileCollide(wall)
