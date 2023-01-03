@@ -7,6 +7,8 @@ from Enemy import *
 from Text import *
 from Text2 import *
 from Spells import *
+from Popup import *
+from WandButton import *
 
 pygame.init()
 pygame.mixer.init()
@@ -106,16 +108,6 @@ while True:
                 player.useItem("t")
                 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_r:
-                player.goto(tiles[2])
-                
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_1 and event.key == pygame.KMOD_CTRL:
-                item.wandChoice(1)
-            elif event.key == pygame.K_2 and event.key == pygame.KMOD_CTRL:
-                item.wandChoice(2)
-                
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
                 spellType = "basic"
             elif event.key == pygame.K_2:
@@ -133,6 +125,49 @@ while True:
     
     for item in items:
         if player.itemCollide(item):
+            if item.kind == "wand":
+                selected = ""
+                popup = Popup([size[0]/2, size[1]/2])
+                buttons = [WandButton([(size[0]/2)/2 + 40, (size[1]/2)], 1),
+                           WandButton([(size[0]/2) - 60, (size[1]/2)], 2),
+                           WandButton([(size[0]/2) + 60, (size[1]/2)], 3),
+                           WandButton([3*(size[0]/2)/2 - 40, (size[1]/2)], 4)]
+                while selected == "":
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            direct = "Rooms/Sav/"
+                            files = os.listdir(direct)
+                            for f in files:
+                                if f[-4:] == ".sav":
+                                    
+                                    os.remove("Rooms/Sav/" + f)
+                            sys.exit();
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                direct = "Rooms/Sav/"
+                                files = os.listdir(direct)
+                                for f in files:
+                                    if f[-4:] == ".sav":
+                                        
+                                        os.remove("Rooms/Sav/" + f)
+                                sys.exit();
+                            
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        stateM = pygame.mouse.get_pressed(num_buttons = 3)
+                        if stateM[0]:
+                            for button in buttons:
+                                if button.click(pygame.mouse.get_pos()):
+                                    selected = button.kind
+                    print(selected)
+
+                    screen.blit(popup.image, popup.rect)
+                    for button in buttons:
+                        screen.blit(button.image, button.rect)
+                    pygame.display.flip()
+                    clock.tick(60)
+                player.wandFrame = selected
+                player.frame = player.wandFrame
+                        
             items.remove(item)
             
     for enemy in enemies:

@@ -3,8 +3,6 @@ from Spells import *
 
 class Player():
    
-    
-    
     def __init__(self, speed = 2, startPos = [0,0]):
         
         scale = [60, 60]
@@ -174,12 +172,10 @@ class Player():
                             if self.counter % 10 == 0:
                                 self.hp -= 1
                         else:
-                            print(self.rect.center, other.rect.center)
                             if self.moveType == "zoomSprint" or self.moveType == "zoom":
                                 input(">")
                             diffx = abs(self.rect.centerx-other.rect.centerx)
                             diffy = abs(self.rect.centery-other.rect.centery)
-                            print(diffx, diffy)
                             if diffx > diffy:
                                 if self.rect.centerx > other.rect.centerx:
                                     self.rect.left = other.rect.right + .5

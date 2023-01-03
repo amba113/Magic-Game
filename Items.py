@@ -39,8 +39,3 @@ class Item():
         self.image = self.images[self.num]
         self.rect = self.image.get_rect(center = pos)
         self.damage = 3
-        
-    def wandChoice(self, choice):
-        self.num = choice - 1
-        self.image = self.images[self.num]
-        
