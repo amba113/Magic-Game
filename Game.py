@@ -174,34 +174,27 @@ while True:
             
     for enemy in enemies:
         player.enemyCollide(enemy)
-        
-    for player in players:
         enemy.playerSense(player)
         
-    for wall in walls:
-        enemy.wallTileCollide(wall)
-    
-    for wall in walls:
-        for spell in spells:
-            spell.wallTileCollide(wall)
-    for enemy in enemies:
+        for wall in walls:
+            enemy.wallTileCollide(wall)
+        for hide in hides:
+            enemy.hideCollide(hide)
         for spell in spells:
             spell.collide(enemy)
-            
-    for spell in spells:
-        enemy.weaponCollide(spell)
+            enemy.weaponCollide(spell)
+        enemy.update(player.rect.center, size, player.hidden)
+        
+    for wall in walls:
+        for spell in spells:
+            spell.wallTileCollide(wall)        
     
     for hide in hides:
         player.hideCollide(hide)
-        
-    for hide in hides:
-        enemy.hideCollide(hide)
-        
-    for player in players:
         hide.playerCollide(player)
     
     player.update(size)
-    enemy.update(player.rect.center, size, player.hidden)
+    
     for spell in spells:
         spell.update()
     
@@ -220,10 +213,10 @@ while True:
     for door in doors:
         if player.doorCollide(door):
             saveMap(items, enemies, player.prevCoord)
-            
+            print("prev:", player.prevCoord, door.kind)
             loc = door.kind
             tiles = loadMap(player.coord, loc)
-            
+            print("now", player.coord)
             walls = tiles[0]
             doors = tiles[1]
             items = tiles[3]
@@ -233,9 +226,7 @@ while True:
             
             player.goto(tiles[2]) #relocate player
 
-    screen.fill((250, 175, 225))
-    
-    
+    screen.fill((250, 175, 225))    
             
     for spell in spells:
         if not spell.living:

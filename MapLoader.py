@@ -4,7 +4,7 @@ from Player import *
 from Items import *
 from Enemy import *
 
-def saveMap(items, enemies, coord = [1, 1]):
+def saveMap(items, enemies, coord):
     outList = []
     for row in range(14):
         outRow = []

@@ -219,19 +219,18 @@ class Player():
                         elif other.kind == "tutext":
                             self.coord = [0, 0]
                             self.prevCoord = [.5, -1]
-                        else:
-                            if other.kind == "top":
-                                self.coord[1] = self.coord[1] - 1
-                                self.prevCoord[1] = self.coord[1] + 1
-                            elif other.kind == "bottom":
-                                self.coord[1] = self.coord[1] + 1
-                                self.prevCoord[1] = self.coord[1] - 1
-                            elif other.kind == "left":
-                                self.coord[0] = self.coord[0] - 1
-                                self.prevCoord[0] = self.coord[0] + 1
-                            elif other.kind == "right":
-                                self.coord[0] = self.coord[0] + 1
-                                self.prevCoord[0] = self.coord[0] - 1
+                        elif other.kind == "top":
+                            self.prevCoord = self.coord.copy()
+                            self.coord[1] -= 1
+                        elif other.kind == "bottom":
+                            self.prevCoord = self.coord.copy()
+                            self.coord[1] += 1
+                        elif other.kind == "left":
+                            self.prevCoord = self.coord.copy()
+                            self.coord[0] -= 1
+                        elif other.kind == "right":
+                            self.prevCoord = self.coord.copy()
+                            self.coord[0] += 1 
                                 
                         self.speedx = 0
                         self.speedy = 0
