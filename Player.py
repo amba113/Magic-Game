@@ -1,9 +1,9 @@
-import pygame, sys, math, random
+import pygame, sys, math, random, inspect
 from Spells import *
 
 class Player():
    
-    def __init__(self, speed = 2, startPos = [0,0]):
+    def __init__(self, speed = 4, startPos = [0,0]):
         
         scale = [60, 60]
         self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
@@ -130,7 +130,7 @@ class Player():
                 self.speedx = -self.speedx
                 self.didHitX = True
     
-    def move(self):
+    def move(self):      
         self.speed = [self.speedx, self.speedy]
         self.rect = self.rect.move(self.speed)
     
@@ -325,8 +325,6 @@ class Player():
             if self.rect.left < other.rect.right:
                 if self.rect.bottom > other.rect.top:
                     if self.rect.top < other.rect.bottom:
-                        self.move()
                         self.hidden = True
         else:
-            self.move()
             self.hidden = False
