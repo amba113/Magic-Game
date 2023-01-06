@@ -13,7 +13,6 @@ class Item():
         self.spellImages = [pygame.image.load("Images/SpellTest2.png")]
         
         self.num = 0
-        #Gonna make image change based on choice etc
         if kind == "wand":
             self.images = self.wandImages
         elif "Potion" in kind:

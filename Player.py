@@ -9,6 +9,8 @@ class Player():
         self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
                        pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
                        pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale),
+                       pygame.transform.scale(pygame.image.load("Images/PersonWand3.png"), scale),
+                       pygame.transform.scale(pygame.image.load("Images/PersonWand4.png"), scale),
                        pygame.transform.scale(pygame.image.load("Images/Dead Person.png"), scale)]
 
         self.frame = 0
@@ -104,7 +106,7 @@ class Player():
         if self.hp == 0:
             print("You dead")
             self.speed = [0, 0]
-            self.frame = 3
+            self.frame = len(self.images) - 1
             self.inventory["speedPotion"] = 0
             self.inventory["halfHealPotion"] = 0
             self.inventory["fullHealPotion"] = 0
