@@ -64,8 +64,6 @@ while True:
                         
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
-                
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.goKey("left")
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -74,24 +72,9 @@ while True:
                 player.goKey("up")
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
                 player.goKey("down")
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                player.goKey("sleft")
-            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
-                player.goKey("sright")
-            elif event.key == pygame.K_w or event.key == pygame.K_UP:
-                player.goKey("sup")
-            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                player.goKey("sdown")
-        
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                 player.sprinting = True
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
-                player.sprinting = False
                 
-        if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_f:
                 player.useItem("f")
             elif event.key == pygame.K_h:
@@ -106,13 +89,23 @@ while True:
                     enemy.angry = False
             elif event.key == pygame.K_t:
                 player.useItem("t")
-                
-        if event.type == pygame.KEYDOWN:
+
             if event.key == pygame.K_1:
                 spellType = "basic"
             elif event.key == pygame.K_2:
                 if "basic2" in player.spells:
                     spellType = "basic2"
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                player.goKey("sleft")
+            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                player.goKey("sright")
+            elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                player.goKey("sup")
+            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                player.goKey("sdown")
+            if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                player.sprinting = False
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             statesM = pygame.mouse.get_pressed(num_buttons = 3)
@@ -143,7 +136,7 @@ while True:
                                     
                                     os.remove("Rooms/Sav/" + f)
                             sys.exit();
-                        if event.type == pygame.KEYDOWN:
+                        elif event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_ESCAPE:
                                 direct = "Rooms/Sav/"
                                 files = os.listdir(direct)
@@ -152,6 +145,17 @@ while True:
                                         
                                         os.remove("Rooms/Sav/" + f)
                                 sys.exit();
+                        elif event.type == pygame.KEYUP:
+                            if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                                player.goKey("sleft")
+                            elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                                player.goKey("sright")
+                            elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                                player.goKey("sup")
+                            elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                                player.goKey("sdown")
+                            if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                                player.sprinting = False
                             
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         stateM = pygame.mouse.get_pressed(num_buttons = 3)
