@@ -321,6 +321,8 @@ class Player():
                                     self.hp -= 5
                                 if other.kind == 2:
                                     self.hp -= 10
+                                if other.kind == 3:
+                                    self.hp -= 3
     def hideCollide(self, other):
         if self.rect.right > other.rect.left:
             if self.rect.left < other.rect.right:

@@ -5,7 +5,8 @@ class Enemy():
         
         scale = [23*2, 31*2]
         self.images = [pygame.image.load("Images/Enemy1.png"),
-                       pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale)]
+                       pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale),
+                       pygame.image.load("Images/Enemy3.png")]
         
         self.kind = kind
         self.char = char
@@ -37,6 +38,15 @@ class Enemy():
             self.vel = 1.5
             self.stop = 350
             self.rad = 100
+        if self.kind == 3:
+            self.hp = 50
+            self.speedx = 3
+            self.speedy = 3
+            self.spdx = 3
+            self.spdy = 3
+            self.vel = 3
+            self.stop = 250
+            self.rad = 75
 
         self.didHitX = False
         self.didHitY = False

@@ -133,6 +133,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
                 if c == "2":
                     enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                if c == "3":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
     
     elif os.path.isfile("Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"):
         direct2 = "Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"
@@ -169,6 +171,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
                 if c == "2":
                     enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                if c == "3":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
     else:
         for y, line in enumerate(lines):
             for x, c in enumerate(line):
@@ -188,6 +192,8 @@ def loadMap(coord = [1, 1], enter = "def"):
                     enemies += [Enemy([x*size + offset, y*size + offset], 1)]
                 if c == "2":
                     enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                if c == "3":
+                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
             
     tiles = [walls,
              doors,

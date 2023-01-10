@@ -1,15 +1,9 @@
 import pygame, sys, math, random
 
-class SettingsButton():
+class SettingsOpen():
 
-    def __init__(self, pos, num = 1):
-        self.kind = num
-        
-        self.images = [pygame.image.load("Images/Control Set Button.png"),
-                       pygame.image.load("Images/Store Button.png"),
-                       pygame.image.load("Images/Quit Button.png")]
-        
-        self.image = self.images[num - 1]
+    def __init__(self, pos = [25,25]):
+        self.image = pygame.transform.scale(pygame.image.load("Images/Settings.png"), [30, 30])
         
         
         self.rect = self.image.get_rect(center = pos)

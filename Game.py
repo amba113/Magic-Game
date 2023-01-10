@@ -9,6 +9,8 @@ from Text2 import *
 from Spells import *
 from Popup import *
 from WandButton import *
+from SettingsButtons import *
+from SettingsOpen import *
 
 pygame.init()
 pygame.mixer.init()
@@ -21,7 +23,7 @@ screen = pygame.display.set_mode(size)
 
 counter = 0
 
-health = Text("HP: ", [5,10])
+health = Text("HP: ", [55,10])
 speedPotions = Text("Speed Potions: ", [900-170, 2], 24)
 fullPotions = Text("Full Heal Potions: ", [900-170, 17], 24)
 halfPotions = Text("Half Heal Potions: ", [900-170, 32], 24)
@@ -31,6 +33,7 @@ position = Text("X,Y: ", [5, 700-20], 24)
 
 deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2], 36)
 deathNote2 = Text2("Press V to revive", [900/2, 700/2], 36)
+settingsOpen = SettingsOpen([25, 25])
 
 tiles = loadMap()
 walls = tiles[0]
@@ -110,7 +113,61 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN:
             statesM = pygame.mouse.get_pressed(num_buttons = 3)
             if statesM[0]:
-                if player.inventory["wand"] != None:
+                if settingsOpen.click:
+                    selected = ""
+                    setOpen = True
+                    buttons = [SettingsButton([60, 65], 1),
+                               SettingsButton([60, 115], 2),
+                               SettingsButton([60, 165], 3)]
+                    while selected == "" and setOpen == True:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                direct = "Rooms/Sav/"
+                                files = os.listdir(direct)
+                                for f in files:
+                                    if f[-4:] == ".sav":
+                                        
+                                        os.remove("Rooms/Sav/" + f)
+                                sys.exit();
+                            
+                            elif event.type == pygame.KEYUP:
+                                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                                    player.goKey("sleft")
+                                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                                    player.goKey("sright")
+                                elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                                    player.goKey("sup")
+                                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                                    player.goKey("sdown")
+                                if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
+                                    player.sprinting = False
+                        
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE:
+                                setOpen = False
+                        
+                        if event.type == pygame.MOUSEBUTTONDOWN:
+                            stateM = pygame.mouse.get_pressed(num_buttons = 3)
+                            if stateM[0]:
+                                for button in buttons:
+                                    if button.click(pygame.mouse.get_pos()):
+                                        selected = button.kind
+                                                                
+                        if selected == len(buttons):
+                            direct = "Rooms/Sav/"
+                            files = os.listdir(direct)
+                            for f in files:
+                                if f[-4:] == ".sav":
+                                    
+                                    os.remove("Rooms/Sav/" + f)
+                            sys.exit();
+
+                        for button in buttons:
+                            screen.blit(button.image, button.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
+                        
+                elif player.inventory["wand"] != None:
                     posM = pygame.mouse.get_pos()
                     spells += [player.shoot(spellType, posM)]
                 
@@ -260,6 +317,7 @@ while True:
         screen.blit(player.image, player.rect)
         for hide in hides:
             screen.blit(hide.image, hide.rect)
+        screen.blit(settingsOpen.image, settingsOpen.rect)
         screen.blit(health.image, health.rect)
         screen.blit(speedPotions.image, speedPotions.rect)
         screen.blit(fullPotions.image, fullPotions.rect)
