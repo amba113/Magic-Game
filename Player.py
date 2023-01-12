@@ -48,7 +48,8 @@ class Player():
                           "fullHealPotion": 0,
                           "speedPotion": 0,
                           "revivePotion": 0,
-                          "healthPotion": 0
+                          "healthPotion": 0,
+                          "coins": 0
         }
         self.spells = ["basic"]
         
@@ -263,6 +264,9 @@ class Player():
                                 self.inventory["healthPotion"] += 1
                             elif other.kind == "Spell2":
                                 self.spells += ["basic2"]
+                            elif other.kind == "coin":
+                                self.inventory["coins"] += 1
+                                print("Bank balance: ", self.inventory["coins"])
                             else:
                                 pass
                             return True

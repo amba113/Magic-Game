@@ -121,6 +121,8 @@ while True:
                     buttons = [SettingsButton([60, 65], 1),
                                SettingsButton([60, 115], 2),
                                SettingsButton([60, 165], 3)]
+                    popup = []
+                    close = []
                     while selected == "" and setOpen == True:
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:
@@ -144,18 +146,27 @@ while True:
                                 if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                                     player.sprinting = False
                         
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_ESCAPE:
-                                setOpen = False
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_ESCAPE:
+                                    setOpen = False
                         
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            stateM = pygame.mouse.get_pressed(num_buttons = 3)
-                            if stateM[0]:
-                                for button in buttons:
-                                    if button.click(pygame.mouse.get_pos()):
-                                        selected = button.kind
-                                                                
-                        if selected == len(buttons):
+                            if event.type == pygame.MOUSEBUTTONDOWN:
+                                stateM = pygame.mouse.get_pressed(num_buttons = 3)
+                                if stateM[0]:
+                                    buttonClicked = False
+                                    for button in buttons:
+                                        if button.click(pygame.mouse.get_pos()):
+                                            buttonClicked = True
+                                            selected = button.kind
+                                    if not buttonClicked:
+                                        setOpen = False
+                        
+                        if selected == 2:
+                            popup = Popup([size[0]/2, size[1]/2], 0)
+                            close = SettingsButton([650, 125], 4)
+                            
+                            
+                        elif selected == len(buttons):
                             direct = "Rooms/Sav/"
                             files = os.listdir(direct)
                             for f in files:
@@ -163,7 +174,9 @@ while True:
                                     
                                     os.remove("Rooms/Sav/" + f)
                             sys.exit()
-
+                        
+                        screen.blit(popup.image, popup.rect)
+                        screen.blit(close.image, close.rect)
                         for button in buttons:
                             screen.blit(button.image, button.rect)
                         pygame.display.flip()
@@ -179,7 +192,7 @@ while True:
         if player.itemCollide(item):
             if item.kind == "wand":
                 selected = ""
-                popup = Popup([size[0]/2, size[1]/2])
+                popup = Popup([size[0]/2, size[1]/2], 0)
                 buttons = [WandButton([(size[0]/2)/2 + 40, (size[1]/2)], 1),
                            WandButton([(size[0]/2) - 60, (size[1]/2)], 2),
                            WandButton([(size[0]/2) + 60, (size[1]/2)], 3),

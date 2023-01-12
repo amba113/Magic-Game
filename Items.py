@@ -11,6 +11,7 @@ class Item():
                              pygame.image.load("Images/RevivePotion.png"),
                              pygame.image.load("Images/HealthPotion.png")]
         self.spellImages = [pygame.image.load("Images/SpellTest2.png")]
+        self.coinImages = [pygame.image.load("Images/Coin.png")]
         
         self.num = 0
         if kind == "wand":
@@ -31,6 +32,9 @@ class Item():
             self.images = self.spellImages
             if kind == "Spell2":
                 self.num = 0
+        elif kind == "coin":
+            self.images = self.coinImages
+            self.num = 0
         
         
         self.kind = kind
