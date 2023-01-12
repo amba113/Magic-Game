@@ -39,11 +39,18 @@ class Enemy():
             self.stop = 350
             self.rad = 100
         if self.kind == 3:
+            self.randN1 = random.randrange(-1, 1)
+            self.randN2 = random.randrange(-1, 1)
+            print("was: ", self.randN1, self.randN2)
+            while self.randN1 == 0 and self.randN2 == 0:
+                self.randN1 = random.randrange(-1, 1)
+                self.randN2 = random.randrange(-1, 1)
+            print("is: ", self.randN1, self.randN2)
             self.hp = 50
-            self.speedx = 3
-            self.speedy = 3
-            self.spdx = 3
-            self.spdy = 3
+            self.speedx = 3*self.randN1
+            self.speedy = 3*self.randN2
+            self.spdx = 3*self.randN1
+            self.spdy = 3*self.randN2
             self.vel = 3
             self.stop = 250
             self.rad = 75
