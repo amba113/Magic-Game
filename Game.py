@@ -50,6 +50,7 @@ loc = ""
  
 while True:
     for event in pygame.event.get():
+        
         if event.type == pygame.QUIT:
             direct = "Rooms/Sav/"
             files = os.listdir(direct)
@@ -112,8 +113,9 @@ while True:
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
             statesM = pygame.mouse.get_pressed(num_buttons = 3)
+            posM = pygame.mouse.get_pos()
             if statesM[0]:
-                if settingsOpen.click:
+                if settingsOpen.click(posM):
                     selected = ""
                     setOpen = True
                     buttons = [SettingsButton([60, 65], 1),
@@ -160,7 +162,7 @@ while True:
                                 if f[-4:] == ".sav":
                                     
                                     os.remove("Rooms/Sav/" + f)
-                            sys.exit();
+                            sys.exit()
 
                         for button in buttons:
                             screen.blit(button.image, button.rect)
@@ -168,7 +170,6 @@ while True:
                         clock.tick(60)
                         
                 elif player.inventory["wand"] != None:
-                    posM = pygame.mouse.get_pos()
                     spells += [player.shoot(spellType, posM)]
                 
     for wall in walls:

@@ -15,3 +15,4 @@ class SettingsOpen():
                     if self.rect.top < mousePos[1]:
                         return True
         return False
+
