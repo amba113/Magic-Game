@@ -8,7 +8,11 @@ class SettingsButton():
         self.images = [pygame.image.load("Images/Control Set Button.png"),
                        pygame.image.load("Images/Store Button.png"),
                        pygame.image.load("Images/Quit Button.png"),
-                       pygame.image.load("Images/Store Close.png")]
+                       pygame.image.load("Images/Store Close.png"),
+                       pygame.image.load("Images/Pets Option.png"),
+                       pygame.image.load("Images/Spells Option.png"),
+                       pygame.image.load("Images/Potions Option.png"),
+                       pygame.image.load("Images/Clothes Option.png")]
         
         self.image = self.images[num - 1]
         

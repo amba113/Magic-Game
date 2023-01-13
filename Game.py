@@ -48,6 +48,8 @@ spellType = "basic"
 selected = ""
 popup = []
 close = []
+options1 = []
+options2 = []
 
 loc = ""
  
@@ -183,12 +185,18 @@ while True:
                 if selected == 2:
                     popup = [Popup([size[0]/2, size[1]/2], 1)]
                     close = [SettingsButton([770, 125], 4)]
+                    options1 = [SettingsButton([900/2, 225], 5),
+                                SettingsButton([900/2, 325], 6),
+                                SettingsButton([900/2, 425], 7),
+                                SettingsButton([900/2, 525], 8)]
                     if statesM[0]:
                         if close[0].click(pygame.mouse.get_pos()):
-                            print("x pressed")
                             selected = ""
                             popup = []
                             close = []
+                        for option in options1:
+                            if option.click(pygame.mouse.get_pos()):
+                                print(option.kind)
                     else:
                         pass
                 
@@ -307,7 +315,7 @@ while True:
             hides = tiles[5]
             spells = []
             
-            player.goto(tiles[2]) #relocate player
+            player.goto(tiles[2])
 
     screen.fill((250, 175, 225))    
             
@@ -331,6 +339,8 @@ while True:
         if selected == 2:
             screen.blit(popup[0].image, popup[0].rect)
             screen.blit(close[0].image, close[0].rect)
+            for option in options1:
+                screen.blit(option.image, option.rect)
         else:
             for item in items:
                 screen.blit(item.image, item.rect)
