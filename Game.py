@@ -45,6 +45,9 @@ items = tiles[3]
 enemies = tiles[4]
 spells = []
 spellType = "basic"
+selected = ""
+popup = []
+close = []
 
 loc = ""
  
@@ -122,7 +125,6 @@ while True:
                                SettingsButton([60, 115], 2),
                                SettingsButton([60, 165], 3)]
                     popup = []
-                    close = []
                     while selected == "" and setOpen == True:
                         for event in pygame.event.get():
                             if event.type == pygame.QUIT:
@@ -160,13 +162,7 @@ while True:
                                             selected = button.kind
                                     if not buttonClicked:
                                         setOpen = False
-                        
-                        if selected == 2:
-                            popup = Popup([size[0]/2, size[1]/2], 0)
-                            close = SettingsButton([650, 125], 4)
-                            
-                            
-                        elif selected == len(buttons):
+                        if selected == len(buttons):
                             direct = "Rooms/Sav/"
                             files = os.listdir(direct)
                             for f in files:
@@ -175,16 +171,24 @@ while True:
                                     os.remove("Rooms/Sav/" + f)
                             sys.exit()
                         
-                        screen.blit(popup.image, popup.rect)
-                        screen.blit(close.image, close.rect)
                         for button in buttons:
                             screen.blit(button.image, button.rect)
+                        if popup != []:
+                            screen.blit(popup[0].image, popup[0].rect)
                         pygame.display.flip()
                         clock.tick(60)
                         
                 elif player.inventory["wand"] != None:
                     spells += [player.shoot(spellType, posM)]
+    if selected == 2:
+        popup = [Popup([size[0]/2, size[1]/2], 1)]
+        close = [SettingsButton([775, 125], 4)]
+        if statesM[0]:
+            if close[0].click(pygame.mouse.get_pos()):
+                print("x pressed")
+                selected = ""
                 
+    
     for wall in walls:
         player.wallTileCollide(wall)
     
@@ -338,6 +342,10 @@ while True:
         screen.blit(halfPotions.image, halfPotions.rect)
         screen.blit(revivePotions.image, revivePotions.rect)
         screen.blit(healthPotions.image, healthPotions.rect)
+        if popup != []:
+            screen.blit(popup[0].image, popup[0].rect)
+        if close != []:
+            screen.blit(close[0].image, close[0].rect)
         screen.blit(position.image, position.rect)
 
     pygame.display.flip()
