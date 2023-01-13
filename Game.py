@@ -180,13 +180,17 @@ while True:
                         
                 elif player.inventory["wand"] != None:
                     spells += [player.shoot(spellType, posM)]
-    if selected == 2:
-        popup = [Popup([size[0]/2, size[1]/2], 1)]
-        close = [SettingsButton([775, 125], 4)]
-        if statesM[0]:
-            if close[0].click(pygame.mouse.get_pos()):
-                print("x pressed")
-                selected = ""
+                if selected == 2:
+                    popup = [Popup([size[0]/2, size[1]/2], 1)]
+                    close = [SettingsButton([770, 125], 4)]
+                    if statesM[0]:
+                        if close[0].click(pygame.mouse.get_pos()):
+                            print("x pressed")
+                            selected = ""
+                            popup = []
+                            close = []
+                    else:
+                        pass
                 
     
     for wall in walls:
@@ -322,19 +326,23 @@ while True:
         elif player.inventory["revivePotion"] == 0:
             screen.blit(deathNote1.image, deathNote1.rect)
     else:
-        for item in items:
-            screen.blit(item.image, item.rect)
-        for spell in spells:
-            screen.blit(spell.image, spell.rect)
         for wall in walls:
             screen.blit(wall.image, wall.rect)
-        for enemy in enemies:
-            screen.blit(enemy.image, enemy.rect)
-        for door in doors:
-            screen.blit(door.image, door.rect)
-        screen.blit(player.image, player.rect)
-        for hide in hides:
-            screen.blit(hide.image, hide.rect)
+        if selected == 2:
+            screen.blit(popup[0].image, popup[0].rect)
+            screen.blit(close[0].image, close[0].rect)
+        else:
+            for item in items:
+                screen.blit(item.image, item.rect)
+            for spell in spells:
+                screen.blit(spell.image, spell.rect)
+            for enemy in enemies:
+                screen.blit(enemy.image, enemy.rect)
+            for door in doors:
+                screen.blit(door.image, door.rect)
+            screen.blit(player.image, player.rect)
+            for hide in hides:
+                screen.blit(hide.image, hide.rect)
         screen.blit(settingsOpen.image, settingsOpen.rect)
         screen.blit(health.image, health.rect)
         screen.blit(speedPotions.image, speedPotions.rect)
@@ -342,11 +350,7 @@ while True:
         screen.blit(halfPotions.image, halfPotions.rect)
         screen.blit(revivePotions.image, revivePotions.rect)
         screen.blit(healthPotions.image, healthPotions.rect)
-        if popup != []:
-            screen.blit(popup[0].image, popup[0].rect)
-        if close != []:
-            screen.blit(close[0].image, close[0].rect)
         screen.blit(position.image, position.rect)
-
+        
     pygame.display.flip()
     clock.tick(60)
