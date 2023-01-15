@@ -4,16 +4,16 @@ class StoreChoice():
 
     def __init__(self, pos, kind, num = 1):
         self.kind = num
-        
-        self.petImages = [pygame.image.load("Images/Black Cat Choice.png"),
-                          pygame.image.load("Images/Calico Cat Choice.png"),
-                          pygame.image.load("Images/Owl Choice.png"),
-                          pygame.image.load("Images/Frog Choice.png")]
-        self.potionImages = [pygame.image.load("Images/Speed Choice.png"),
-                             pygame.image.load("Images/Health Choice.png"),
-                             pygame.image.load("Images/Full Heal Choice.png"),
-                             pygame.image.load("Images/Half Heal Choice.png"),
-                             pygame.image.load("Images/Revive Choice.png")]
+        scale = [150, 150]
+        self.petImages = [pygame.transform.scale(pygame.image.load("Images/Black Cat Choice.png"), scale),
+                          pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
+                          pygame.transform.scale(pygame.image.load("Images/Owl Choice.png"), scale),
+                          pygame.transform.scale(pygame.image.load("Images/Frog Choice.png"), scale)]
+        self.potionImages = [pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
+                             pygame.transform.scale(pygame.image.load("Images/Health Choice.png"), scale),
+                             pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
+                             pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
+                             pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)]
         self.clothesImages = []
         self.spellImages = []
         

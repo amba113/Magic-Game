@@ -32,6 +32,7 @@ revivePotions = Text("Revive Potions: ", [900-170, 700-20], 24)
 healthPotions = Text("Health Potions: ", [900-170, 700-35], 24)
 position = Text("X,Y: ", [5, 700-20], 24)
 
+money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
 deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2], 36)
 deathNote2 = Text2("Press V to revive", [900/2, 700/2], 36)
 settingsOpen = SettingsOpen([25, 25])
@@ -323,6 +324,7 @@ while True:
     halfPotions.update(player.inventory["halfHealPotion"])
     revivePotions.update(player.inventory["revivePotion"])
     healthPotions.update(player.inventory["healthPotion"])
+    money.update(player.inventory["coins"])
     
     deathNote1.update("")
     deathNote2.update("")
@@ -367,6 +369,7 @@ while True:
             screen.blit(close[0].image, close[0].rect)
             for option in options:
                 screen.blit(option.image, option.rect)
+            screen.blit(money.image, money.rect)
         else:
             for item in items:
                 screen.blit(item.image, item.rect)
