@@ -11,6 +11,7 @@ from Popup import *
 from WandButton import *
 from SettingsButtons import *
 from SettingsOpen import *
+from StoreOptions import *
 
 pygame.init()
 pygame.mixer.init()
@@ -48,8 +49,7 @@ spellType = "basic"
 selected = ""
 popup = []
 close = []
-options1 = []
-options2 = []
+options = []
 
 loc = ""
  
@@ -185,7 +185,7 @@ while True:
                 if selected == 2:
                     popup = [Popup([size[0]/2, size[1]/2], 1)]
                     close = [SettingsButton([770, 125], 4)]
-                    options1 = [SettingsButton([900/2, 225], 5),
+                    options = [SettingsButton([900/2, 225], 5),
                                 SettingsButton([900/2, 325], 6),
                                 SettingsButton([900/2, 425], 7),
                                 SettingsButton([900/2, 525], 8)]
@@ -194,9 +194,35 @@ while True:
                             selected = ""
                             popup = []
                             close = []
-                        for option in options1:
+                        for option in options:
                             if option.click(pygame.mouse.get_pos()):
-                                print(option.kind)
+                                if option.kind == 5:
+                                    options = []
+                                    options = [StoreChoice([900/3, 225], option.kind, 1),
+                                               StoreChoice([2*900/3, 225], option.kind, 2),
+                                               StoreChoice([900/3, 450], option.kind, 3),
+                                               StoreChoice([2*900/3, 450], option.kind, 4)]
+                                    if statesM[0]:
+                                        for option in options:
+                                            if option.click(pygame.mouse.get_pos()):
+                                                player.purchase(option.kind, "pet")
+                                elif option.kind == 6:
+                                    print("Spells chosen")
+                                elif option.kind == 7:
+                                    options = []
+                                    options = [StoreChoice([900/3, 225], option.kind, 1),
+                                               StoreChoice([2*900/3, 225], option.kind, 2),
+                                               StoreChoice([900/4, 450], option.kind, 3),
+                                               StoreChoice([900/2, 450], option.kind, 4),
+                                               StoreChoice([3*900/4, 450], option.kind, 5)]
+                                    if statesM[0]:
+                                        for option in options:
+                                            if option.click(pygame.mouse.get_pos()):
+                                                player.purchase(option.kind, "potion")
+                                elif option.kind == 8:
+                                    print("Clothes chosen")
+                                else:
+                                    print("Error")
                     else:
                         pass
                 
@@ -339,7 +365,7 @@ while True:
         if selected == 2:
             screen.blit(popup[0].image, popup[0].rect)
             screen.blit(close[0].image, close[0].rect)
-            for option in options1:
+            for option in options:
                 screen.blit(option.image, option.rect)
         else:
             for item in items:

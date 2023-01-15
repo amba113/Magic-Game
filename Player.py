@@ -335,3 +335,68 @@ class Player():
                         self.hidden = True
         else:
             self.hidden = False
+            
+    def purchase(self, num, kind):
+        if kind.lower() == "pet":
+            if num == 1:
+                if self.inventory["coins"] >= 3:
+                    self.inventory["coins"] -= 3
+                    print("Black cat acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 2:
+                if self.inventory["coins"] >= 1:
+                    self.inventory["coins"] -= 1
+                    print("Calico cat acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 3:
+                if self.inventory["coins"] >= 2:
+                    self.inventory["coins"] -= 2
+                    print("Owl acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 4:
+                if self.inventory["coins"] >= 5:
+                    self.inventory["coins"] -= 5
+                    print("Frog acquired")
+                else:
+                    print("You are too poor to afford this")
+        elif kind.lower() == "spell":
+            pass
+        elif kind.lower() == "potion":
+            if num == 1:
+                if self.inventory["coins"] >= 1:
+                    self.inventory["coins"] -= 1
+                    self.inventory["speedPotion"] += 1
+                    print("Speed acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 2:
+                if self.inventory["coins"] >= 2:
+                    self.inventory["coins"] -= 2
+                    self.inventory["healthPotion"] += 1
+                    print("Health acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 3:
+                if self.inventory["coins"] >= 3:
+                    self.inventory["coins"] -= 3
+                    self.inventory["fullHealPotion"] += 1
+                    print("Full Heal acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 4:
+                if self.inventory["coins"] >= 1:
+                    self.inventory["coins"] -= 1
+                    self.inventory["halfHealPotion"] += 1
+                    print("Half Heal acquired")
+                else:
+                    print("You are too poor to afford this")
+            elif num == 5:
+                if self.inventory["coins"] >= 10:
+                    self.inventory["coins"] -= 10
+                    self.inventory["revivePotion"] += 1
+                    print("Revive acquired")
+                else:
+                    print("You are too poor to afford this")
