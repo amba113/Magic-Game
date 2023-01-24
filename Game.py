@@ -12,6 +12,7 @@ from WandButton import *
 from SettingsButtons import *
 from SettingsOpen import *
 from StoreOptions import *
+from Pets import *
 
 pygame.init()
 pygame.mixer.init()
@@ -51,6 +52,7 @@ selected = ""
 popup = []
 close = []
 options = []
+pets = []
 
 loc = ""
  
@@ -206,7 +208,8 @@ while True:
                                     if statesM[0]:
                                         for option in options:
                                             if option.click(pygame.mouse.get_pos()):
-                                                player.purchase(option.kind, "pet")
+                                                if player.purchase(option.kind, "pet"):
+                                                    pets += [Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], option.kind)]
                                 elif option.kind == 6:
                                     print("Spells chosen")
                                 elif option.kind == 7:
@@ -313,6 +316,9 @@ while True:
     
     player.update(size)
     
+    for pet in pets:
+        pet.update(player.rect.center)
+    
     for spell in spells:
         spell.update()
     
@@ -377,6 +383,8 @@ while True:
                 screen.blit(spell.image, spell.rect)
             for enemy in enemies:
                 screen.blit(enemy.image, enemy.rect)
+            for pet in pets:
+                screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
             screen.blit(player.image, player.rect)
