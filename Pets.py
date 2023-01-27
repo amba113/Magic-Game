@@ -1,4 +1,5 @@
 import pygame, sys, math, random
+from Spells import*
 
 class Pet():
     def __init__(self, startPos, kind = 1, vel = 2, speed = [0,0]):
@@ -18,9 +19,13 @@ class Pet():
         
         self.vel = vel
 
-    def update(self, playerPos):
-        self.move()
-        self.follow(playerPos)
+    def update(self, playerPos, status = False, enemyPos = [0,0]):
+        if status == True:
+            self.defend(enemyPos)
+        else:
+            self.move()
+            self.follow(playerPos)
+              
     
     def move(self):
         self.speed = [self.speedx, self.speedy]
@@ -54,3 +59,27 @@ class Pet():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
+        print("0000000000000000000000000000000000000000000000000000000000000000000")
+        
+    def defend(self, target):
+        # ~ if status == True:
+        self.vel = 4
+        self.xpos = self.rect.centerx
+        self.ypos = self.rect.centery
+        
+        self.x = target[0] - self.rect.centerx
+        self.y = target[1] - self.rect.centery
+        
+        self.angle = math.atan2(self.y, self.x)
+        self.speedx = self.vel * math.cos(self.angle)
+        self.speedy = self.vel * math.sin(self.angle)
+
+        self.xpos += self.speedx
+        self.ypos += self.speedy
+        self.pos = [self.xpos, self.ypos]
+        self.rect.center = [self.xpos, self.ypos]
+        print("-------------------------------------------------------------------")
+        # ~ else:
+            # ~ self.move()
+        
+        # ~ return Spell(spell, self.rect.center, posM)

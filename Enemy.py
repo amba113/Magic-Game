@@ -125,6 +125,7 @@ class Enemy():
             self.hp = 0
         if self.hp == 0:
             self.living = False
+            self.angry = False
             
 
         
@@ -192,4 +193,12 @@ class Enemy():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
-
+        
+    def petCollide(self, other):
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
+                        if self.living:
+                            self.hp -= 10
+                            print("ouch")

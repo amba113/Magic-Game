@@ -313,12 +313,19 @@ while True:
     for hide in hides:
         player.hideCollide(hide)
         hide.playerCollide(player)
-    
+
     player.update(size)
     
     for pet in pets:
-        pet.update(player.rect.center)
-    
+        for enemy in enemies:
+            if enemy.angry == True:
+                print("pet defend")
+                pet.update(player.rect.center, True, enemy.rect.center)
+            else:
+                print("pet follow")
+                pet.update(player.rect.center)
+            enemy.petCollide(pet)
+
     for spell in spells:
         spell.update()
     
