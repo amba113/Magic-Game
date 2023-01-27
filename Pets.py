@@ -27,11 +27,24 @@ class Pet():
         self.rect = self.rect.move(self.speed)
     
     def follow(self, target):
+        adjustx = 25
+        adjusty = 15
         self.xpos = self.rect.centerx
         self.ypos = self.rect.centery
         
-        self.x = target[0] - self.rect.centerx
-        self.y = target[1] - self.rect.centery
+        if self.rect.centerx < target[0]:
+            adjustx = -30
+        else:
+            adjustx = 25
+        
+        
+        self.x = target[0] + adjustx - self.rect.centerx
+        self.y = target[1] + adjusty - self.rect.centery
+        
+        if self.x > 50 or self.y > 50 or self.x < -50 or self.y < -50:
+            self.vel = 6
+        else:
+            self.vel = 2
         
         self.angle = math.atan2(self.y, self.x)
         self.speedx = self.vel * math.cos(self.angle)
