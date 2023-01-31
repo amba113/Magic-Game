@@ -6,7 +6,7 @@ class StoreChoice():
         self.kind = option
         scale = [150, 150]
         self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Black Cat Choice.png"), scale),
-                          "calcioCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
+                          "calicoCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
                           "owl": pygame.transform.scale(pygame.image.load("Images/Owl Choice.png"), scale),
                           "frog": pygame.transform.scale(pygame.image.load("Images/Frog Choice.png"), scale)}
         self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
@@ -16,14 +16,14 @@ class StoreChoice():
                              "revive": pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)}
         self.clothesImages = {}
         self.spellImages = {}
-        
-        if kind == "pet":
+        print(kind)
+        if kind == "pets":
             self.image = self.petImages[option]
-        elif kind == "potion":
+        elif kind == "potions":
             self.image = self.potionImages[option]
-        elif kind == "clothing":
+        elif kind == "clothes":
             self.image = self.clothesImages[option]
-        elif kind == "spell":
+        elif kind == "spells":
             self.image = self.spellImages[option]
         
         self.rect = self.image.get_rect(center = pos)

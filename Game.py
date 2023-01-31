@@ -169,7 +169,6 @@ while True:
                             files = os.listdir(direct)
                             for f in files:
                                 if f[-4:] == ".sav":
-                                    
                                     os.remove("Rooms/Sav/" + f)
                             sys.exit()
                         
@@ -182,7 +181,7 @@ while True:
                         
                 elif player.inventory["wand"] != None:
                     spells += [player.shoot(spellType, event.pos)]
-                if selected == 2:
+                if selected == "store":
                     popup = [Popup("store", [size[0]/2, size[1]/2])]
                     close = [SettingsButton([770, 125], "close")]
                     options = [SettingsButton([900/2, 225], "pets"),
@@ -371,7 +370,7 @@ while True:
     else:
         for wall in walls:
             screen.blit(wall.image, wall.rect)
-        if selected == 2:
+        if selected == "store":
             screen.blit(popup[0].image, popup[0].rect)
             screen.blit(close[0].image, close[0].rect)
             for option in options:
