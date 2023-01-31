@@ -106,6 +106,7 @@ while True:
             elif event.key == pygame.K_2:
                 if "basic2" in player.spells:
                     spellType = "basic2"
+                    
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.goKey("sleft")
@@ -119,15 +120,13 @@ while True:
                 player.sprinting = False
                 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            statesM = pygame.mouse.get_pressed(num_buttons = 3)
-            posM = pygame.mouse.get_pos()
-            if statesM[0]:
-                if settingsOpen.click(posM):
+            if event.button== 1:
+                if settingsOpen.click(event.pos):
                     selected = ""
                     setOpen = True
-                    buttons = [SettingsButton([60, 65], 1),
-                               SettingsButton([60, 115], 2),
-                               SettingsButton([60, 165], 3)]
+                    buttons = [SettingsButton([60, 65], "controls"),
+                               SettingsButton([60, 115], "store"),
+                               SettingsButton([60, 165], "quit")]
                     popup = []
                     while selected == "" and setOpen == True:
                         for event in pygame.event.get():
@@ -157,11 +156,10 @@ while True:
                                     setOpen = False
                         
                             if event.type == pygame.MOUSEBUTTONDOWN:
-                                stateM = pygame.mouse.get_pressed(num_buttons = 3)
-                                if stateM[0]:
+                                if event.button == 1:
                                     buttonClicked = False
                                     for button in buttons:
-                                        if button.click(pygame.mouse.get_pos()):
+                                        if button.click(event.pos):
                                             buttonClicked = True
                                             selected = button.kind
                                     if not buttonClicked:
@@ -183,46 +181,46 @@ while True:
                         clock.tick(60)
                         
                 elif player.inventory["wand"] != None:
-                    spells += [player.shoot(spellType, posM)]
+                    spells += [player.shoot(spellType, event.pos)]
                 if selected == 2:
-                    popup = [Popup([size[0]/2, size[1]/2], 1)]
-                    close = [SettingsButton([770, 125], 4)]
-                    options = [SettingsButton([900/2, 225], 5),
-                                SettingsButton([900/2, 325], 6),
-                                SettingsButton([900/2, 425], 7),
-                                SettingsButton([900/2, 525], 8)]
-                    if statesM[0]:
-                        if close[0].click(pygame.mouse.get_pos()):
+                    popup = [Popup("store", [size[0]/2, size[1]/2])]
+                    close = [SettingsButton([770, 125], "close")]
+                    options = [SettingsButton([900/2, 225], "pets"),
+                                SettingsButton([900/2, 325], "spells"),
+                                SettingsButton([900/2, 425], "potions"),
+                                SettingsButton([900/2, 525], "clothes")]
+                    if event.button == 1:
+                        if close[0].click(event.pos):
                             selected = ""
                             popup = []
                             close = []
                         for option in options:
-                            if option.click(pygame.mouse.get_pos()):
-                                if option.kind == 5:
+                            if option.click(event.pos):
+                                if option.kind == "pets":
                                     options = []
-                                    options = [StoreChoice([900/3, 225], option.kind, 1),
-                                               StoreChoice([2*900/3, 225], option.kind, 2),
-                                               StoreChoice([900/3, 450], option.kind, 3),
-                                               StoreChoice([2*900/3, 450], option.kind, 4)]
-                                    if statesM[0]:
+                                    options = [StoreChoice([900/3, 225], option.kind, "blackCat"),
+                                               StoreChoice([2*900/3, 225], option.kind, "calicoCat"),
+                                               StoreChoice([900/3, 450], option.kind, "owl"),
+                                               StoreChoice([2*900/3, 450], option.kind, "frog")]
+                                    if event.button == 1:
                                         for option in options:
-                                            if option.click(pygame.mouse.get_pos()):
+                                            if option.click(event.pos):
                                                 if player.purchase(option.kind, "pet"):
                                                     pets += [Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], option.kind)]
-                                elif option.kind == 6:
+                                elif option.kind == "spells":
                                     print("Spells chosen")
-                                elif option.kind == 7:
+                                elif option.kind == "potions":
                                     options = []
-                                    options = [StoreChoice([900/3, 225], option.kind, 1),
-                                               StoreChoice([2*900/3, 225], option.kind, 2),
-                                               StoreChoice([900/4, 450], option.kind, 3),
-                                               StoreChoice([900/2, 450], option.kind, 4),
-                                               StoreChoice([3*900/4, 450], option.kind, 5)]
-                                    if statesM[0]:
+                                    options = [StoreChoice([900/3, 225], option.kind, "fullHeal"),
+                                               StoreChoice([2*900/3, 225], option.kind, "halfHeal"),
+                                               StoreChoice([900/4, 450], option.kind, "health"),
+                                               StoreChoice([900/2, 450], option.kind, "revive"),
+                                               StoreChoice([3*900/4, 450], option.kind, "speed")]
+                                    if event.button == 1:
                                         for option in options:
-                                            if option.click(pygame.mouse.get_pos()):
+                                            if option.click(event.pos):
                                                 player.purchase(option.kind, "potion")
-                                elif option.kind == 8:
+                                elif option.kind == "clothes":
                                     print("Clothes chosen")
                                 else:
                                     print("Error")
@@ -237,11 +235,11 @@ while True:
         if player.itemCollide(item):
             if item.kind == "wand":
                 selected = ""
-                popup = Popup([size[0]/2, size[1]/2], 0)
-                buttons = [WandButton([(size[0]/2)/2 + 40, (size[1]/2)], 1),
-                           WandButton([(size[0]/2) - 60, (size[1]/2)], 2),
-                           WandButton([(size[0]/2) + 60, (size[1]/2)], 3),
-                           WandButton([3*(size[0]/2)/2 - 40, (size[1]/2)], 4)]
+                popup = Popup("wandChoice", [size[0]/2, size[1]/2])
+                buttons = [WandButton("basic", [(size[0]/2)/2 + 40, (size[1]/2)]),
+                           WandButton("colorful", [(size[0]/2) - 60, (size[1]/2)]),
+                           WandButton("swirl", [(size[0]/2) + 60, (size[1]/2)]),
+                           WandButton("candyCane", [3*(size[0]/2)/2 - 40, (size[1]/2)])]
                 while selected == "":
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
@@ -274,10 +272,9 @@ while True:
                                 player.sprinting = False
                             
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        stateM = pygame.mouse.get_pressed(num_buttons = 3)
-                        if stateM[0]:
+                        if event.type == 1:
                             for button in buttons:
-                                if button.click(pygame.mouse.get_pos()):
+                                if button.click(event.pos):
                                     selected = button.kind
                     print(selected)
                     
@@ -287,9 +284,7 @@ while True:
                         screen.blit(button.image, button.rect)
                     pygame.display.flip()
                     clock.tick(60)
-                player.wandFrame = selected
-                player.frame = player.wandFrame
-                        
+                player.kind = selected                        
             items.remove(item)
             
     for enemy in enemies:

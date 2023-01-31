@@ -2,32 +2,29 @@ import pygame, sys, math, random
 
 class StoreChoice():
 
-    def __init__(self, pos, kind, num = 1):
-        self.kind = num
+    def __init__(self, pos, kind, option):
+        self.kind = option
         scale = [150, 150]
-        self.petImages = [pygame.transform.scale(pygame.image.load("Images/Black Cat Choice.png"), scale),
-                          pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
-                          pygame.transform.scale(pygame.image.load("Images/Owl Choice.png"), scale),
-                          pygame.transform.scale(pygame.image.load("Images/Frog Choice.png"), scale)]
-        self.potionImages = [pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
-                             pygame.transform.scale(pygame.image.load("Images/Health Choice.png"), scale),
-                             pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
-                             pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
-                             pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)]
-        self.clothesImages = []
-        self.spellImages = []
+        self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Black Cat Choice.png"), scale),
+                          "calcioCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
+                          "owl": pygame.transform.scale(pygame.image.load("Images/Owl Choice.png"), scale),
+                          "frog": pygame.transform.scale(pygame.image.load("Images/Frog Choice.png"), scale)}
+        self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
+                             "health": pygame.transform.scale(pygame.image.load("Images/Health Choice.png"), scale),
+                             "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
+                             "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
+                             "revive": pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)}
+        self.clothesImages = {}
+        self.spellImages = {}
         
-        if kind == 5:
-            self.images = self.petImages
-        elif kind == 6:
-            self.images = self.spellImages
-        elif kind == 7:
-            self.images = self.potionImages
-        else:
-            self.images = self.clothesImages
-        
-        self.image = self.images[num - 1]
-        
+        if kind == "pet":
+            self.image = self.petImages[option]
+        elif kind == "potion":
+            self.image = self.potionImages[option]
+        elif kind == "clothing":
+            self.image = self.clothesImages[option]
+        elif kind == "spell":
+            self.image = self.spellImages[option]
         
         self.rect = self.image.get_rect(center = pos)
         

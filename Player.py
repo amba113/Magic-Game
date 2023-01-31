@@ -3,22 +3,17 @@ from Spells import *
 
 class Player():
    
-    def __init__(self, speed = 4, startPos = [0,0]):
-        
+    def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
+        self.kind = kind
         scale = [60, 60]
-        self.images = [pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/PersonWand3.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/PersonWand4.png"), scale),
-                       pygame.transform.scale(pygame.image.load("Images/Dead Person.png"), scale)]
+        self.images = {"start": pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
+                       "basicWand": pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
+                       "colorfulWand": pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale),
+                       "swirlWand": pygame.transform.scale(pygame.image.load("Images/PersonWand3.png"), scale),
+                       "candyCaneWand": pygame.transform.scale(pygame.image.load("Images/PersonWand4.png"), scale),
+                       "dead": pygame.transform.scale(pygame.image.load("Images/Dead Person.png"), scale)}
 
-        self.frame = 0
-        self.frameMax = len(self.images)-1
-        self.image = self.images[self.frame]
-        
-        self.wandFrame = 1
-        
+        self.image = self.images[self.kind]
         self.rect = self.image.get_rect(center = startPos)
         
         self.sprinting = False
@@ -92,9 +87,7 @@ class Player():
         
         self.didHitX = False
         self.didHitY = False
-        
-        self.image = self.images[self.frame]
-        
+                
         if self.counter < 300:
             self.counter += 1
         else:
@@ -107,13 +100,15 @@ class Player():
         if self.hp == 0:
             print("You dead")
             self.speed = [0, 0]
-            self.frame = len(self.images) - 1
+            self.kind = "dead"
             self.inventory["speedPotion"] = 0
             self.inventory["halfHealPotion"] = 0
             self.inventory["fullHealPotion"] = 0
             self.inventory["healthPotion"] = 0
             self.hpMax = 100
             self.dead = True
+        
+        self.image = self.images[self.kind]
     
     def wallCollide(self, size):
         width = size[0]
@@ -216,10 +211,10 @@ class Player():
                         elif other.kind == "portal2":
                             self.coord = [3, 0]
                             self.prevCoord = [0, 2]
-                        elif other.kind == "tutent":
+                        elif other.kind == "tutorialEntrance":
                             self.coord = [.5, -1]
                             self.prevCoord = [1, 0]
-                        elif other.kind == "tutext":
+                        elif other.kind == "tutorialExit":
                             self.coord = [0, 0]
                             self.prevCoord = [.5, -1]
                         elif other.kind == "top":
@@ -250,11 +245,9 @@ class Player():
                         if self.dead == False:
                             if other.kind == "wand":
                                 self.inventory["wand"] = other
-                                self.wandFrame = other.num + 1
-                                self.frame = self.wandFrame
-                            elif other.kind == "halfPotion":
+                            elif other.kind == "halfHealPotion":
                                 self.inventory["halfHealPotion"] += 1
-                            elif other.kind == "fullPotion":
+                            elif other.kind == "fullHea'Potion":
                                 self.inventory["fullHealPotion"] += 1
                             elif other.kind == "speedPotion":
                                 self.inventory["speedPotion"] += 1
@@ -262,9 +255,9 @@ class Player():
                                 self.inventory["revivePotion"] += 1
                             elif other.kind == "healthPotion":
                                 self.inventory["healthPotion"] += 1
-                            elif other.kind == "Spell2":
+                            elif other.kind == "basic2Spell":
                                 self.spells += ["basic2"]
-                            elif other.kind == "coin":
+                            elif other.kind == "singleCoin":
                                 self.inventory["coins"] += 1
                                 print("Bank balance: ", self.inventory["coins"])
                             else:
@@ -321,11 +314,11 @@ class Player():
                     if self.rect.top < other.rect.bottom:
                         if self.dead == False:
                             if self.counter % 20 == 0:
-                                if other.kind == 1:
+                                if other.kind == "basic":
                                     self.hp -= 5
-                                if other.kind == 2:
+                                if other.kind == "strong":
                                     self.hp -= 10
-                                if other.kind == 3:
+                                if other.kind == "bee":
                                     self.hp -= 3
     def hideCollide(self, other):
         if self.rect.right > other.rect.left:
@@ -336,9 +329,9 @@ class Player():
         else:
             self.hidden = False
             
-    def purchase(self, num, kind):
+    def purchase(self, selection, kind):
         if kind.lower() == "pet":
-            if num == 1:
+            if selection == "blackCat":
                 if self.inventory["coins"] >= 3:
                     self.inventory["coins"] -= 3
                     print("Black cat acquired")
@@ -346,7 +339,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 2:
+            elif selection == "calicoCat":
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     print("Calico cat acquired")
@@ -354,7 +347,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 3:
+            elif selection == "owl":
                 if self.inventory["coins"] >= 2:
                     self.inventory["coins"] -= 2
                     print("Owl acquired")
@@ -362,7 +355,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 4:
+            elif selection == "frog":
                 if self.inventory["coins"] >= 5:
                     self.inventory["coins"] -= 5
                     print("Frog acquired")
@@ -373,7 +366,7 @@ class Player():
         elif kind.lower() == "spell":
             pass
         elif kind.lower() == "potion":
-            if num == 1:
+            if selection == "speed":
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     self.inventory["speedPotion"] += 1
@@ -382,7 +375,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 2:
+            elif selection == "health":
                 if self.inventory["coins"] >= 2:
                     self.inventory["coins"] -= 2
                     self.inventory["healthPotion"] += 1
@@ -391,7 +384,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 3:
+            elif selection == "fullHeal":
                 if self.inventory["coins"] >= 3:
                     self.inventory["coins"] -= 3
                     self.inventory["fullHealPotion"] += 1
@@ -400,7 +393,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 4:
+            elif selection == "halfHeal":
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     self.inventory["halfHealPotion"] += 1
@@ -409,7 +402,7 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-            elif num == 5:
+            elif selection == "revive":
                 if self.inventory["coins"] >= 10:
                     self.inventory["coins"] -= 10
                     self.inventory["revivePotion"] += 1

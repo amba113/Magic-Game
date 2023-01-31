@@ -1,17 +1,17 @@
 import pygame, sys, math, random
 
 class Enemy():
-    def __init__(self, startPos = [0, 0], kind = 1, char = "1", speed = [0,0]):
+    def __init__(self, startPos = [0, 0], kind = "basic", char = "1", speed = [0,0]):
         
         scale = [23*2, 31*2]
-        self.images = [pygame.image.load("Images/Enemy1.png"),
-                       pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale),
-                       pygame.image.load("Images/Enemy3.png")]
+        self.images = {"basic": pygame.image.load("Images/Enemy1.png"),
+                       "strong": pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale),
+                       "bee": pygame.image.load("Images/Enemy3.png")}
         
         self.kind = kind
         self.char = char
         
-        self.image = self.images[self.kind - 1]
+        self.image = self.images[self.kind]
         self.rect = self.image.get_rect(center = startPos)
         
         self.speedx = speed[0]
@@ -20,7 +20,8 @@ class Enemy():
         self.counter = 0
         self.stop = 30
         
-        if self.kind == 1:
+
+        if self.kind == "basic":
             self.hp = 100
             self.speedx = 3
             self.speedy = 0
@@ -28,8 +29,8 @@ class Enemy():
             self.spdy = 0
             self.vel = 3
             self.stop = 200
-            self.rad = 100
-        if self.kind == 2:
+            self.radius = 100
+        if self.kind == "strong":
             self.hp = 200
             self.speedx = 0
             self.speedy = 1.5
@@ -37,8 +38,8 @@ class Enemy():
             self.spdy = 1.5
             self.vel = 1.5
             self.stop = 350
-            self.rad = 100
-        if self.kind == 3:
+            self.radius = 100
+        if self.kind == "bee":
             self.randN1 = random.randrange(-1, 1)
             self.randN2 = random.randrange(-1, 1)
             print("was: ", self.randN1, self.randN2)
@@ -53,7 +54,7 @@ class Enemy():
             self.spdy = 3*self.randN2
             self.vel = 3
             self.stop = 250
-            self.rad = 75
+            self.radius = 75
 
         self.didHitX = False
         self.didHitY = False
@@ -79,10 +80,10 @@ class Enemy():
         return False
     
     def playerSense(self, other):
-        if self.rect.right + self.rad > other.rect.left:
-            if self.rect.left - self.rad < other.rect.right:
-                if self.rect.bottom + self.rad > other.rect.top:
-                    if self.rect.top - self.rad < other.rect.bottom:
+        if self.rect.right + self.radius > other.rect.left:
+            if self.rect.left - self.radius < other.rect.right:
+                if self.rect.bottom + self.radius > other.rect.top:
+                    if self.rect.top - self.radius < other.rect.bottom:
                         self.angry = True
                         self.counter = 0
                         return True

@@ -2,16 +2,14 @@ import pygame, sys, math
 
 class Spell():
     def __init__(self, spell, startPos, target):
-        self.images = [pygame.image.load("Images/SpellTest.png"), 
-                       pygame.image.load("Images/SpellTest2.png")]
+        self.images = {"basic": pygame.image.load("Images/SpellTest.png"), 
+                       "basic2": pygame.image.load("Images/SpellTest2.png")}
         
         self.kind = spell
         
         if self.kind == "basic":
-            self.num = 0
             self.vel = 2
         if self.kind == "basic2":
-            self.num = 1
             self.vel = 4
         
         self.x = target[0] - startPos[0]
@@ -21,7 +19,7 @@ class Spell():
         self.xspeed = self.vel * math.cos(self.angle)
         self.yspeed = self.vel * math.sin(self.angle)
         
-        self.image = self.images[self.num]
+        self.image = self.images[self.kind]
         
         self.rect = self.image.get_rect(center = startPos)
         self.xpos = startPos[0]

@@ -2,16 +2,16 @@ import pygame, sys, math, random
 from Spells import*
 
 class Pet():
-    def __init__(self, startPos, kind = 1, vel = 2, speed = [0,0]):
+    def __init__(self, startPos, kind, vel = 2, speed = [0,0]):
         
-        self.images = [pygame.image.load("Images/BlackCat.png"),
-                       pygame.image.load("Images/CalicoCat.png"),
-                       pygame.image.load("Images/Owl.png"),
-                       pygame.image.load("Images/Frog.png")]
+        self.images = {"blackCat": pygame.image.load("Images/BlackCat.png"),
+                       "calicoCat": pygame.image.load("Images/CalicoCat.png"),
+                       "owl": pygame.image.load("Images/Owl.png"),
+                       "frog": pygame.image.load("Images/Frog.png")}
         
         self.kind = kind
         
-        self.image = self.images[self.kind - 1]
+        self.image = self.images[self.kind]
         self.rect = self.image.get_rect(center = startPos)
         
         self.speedx = speed[0]

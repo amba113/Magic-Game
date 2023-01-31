@@ -82,16 +82,16 @@ def loadMap(coord = [1, 1], enter = "def"):
             if c == "O":
                 doors += [Obstacle([x*size + offset, y*size + 2*offset], "portal2")]
             if c == "X":
-                doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutent")]
+                doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutorialEntrance")]
             if c == "x":
-                doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutext")]
+                doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutorialExit")]
             if c == "=":
                 hides += [Obstacle([x*size + .5*offset, y*size + 2*offset], "bush")]
             if c == "$" and enter == "def":
                 playerLoc = [x*size + offset, y*size + offset]
-            elif c == "%" and (enter == "bottom" or enter == "tutext"):
+            elif c == "%" and (enter == "bottom" or enter == "tutorialExit"):
                 playerLoc = [x*size + 2*offset, y*size + offset]
-            elif c == "&" and(enter == "top" or enter == "tutent"):
+            elif c == "&" and(enter == "top" or enter == "tutorialEntrance"):
                 playerLoc = [x*size + 2*offset, y*size + offset]
             elif c == "(" and (enter == "right" or enter == "portal1"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
@@ -118,9 +118,9 @@ def loadMap(coord = [1, 1], enter = "def"):
                 if c == "!":
                     items += [Item([x*size + offset, y*size + offset], "wand", '!')]
                 if c == ";":
-                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                    items += [Item([x*size + offset, y*size + offset], "halfHealPotion", ';')]
                 if c == ":":
-                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                    items += [Item([x*size + offset, y*size + offset], "fullHealPotion", ':')]
                 if c == "~":
                     items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
                 if c == "^":
@@ -128,15 +128,15 @@ def loadMap(coord = [1, 1], enter = "def"):
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "S":
-                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
+                    items += [Item([x*size + offset, y*size + offset], "basic2Spell", 'S')]
                 if c == "$":
-                    items += [Item([x*size + offset, y*size + offset], "coin", '$')]
+                    items += [Item([x*size + offset, y*size + offset], "singleCoin", '$')]
                 if c == "1":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "basic")]
                 if c == "2":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "strong", "2")]
                 if c == "3":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "bee", "3")]
     
     elif os.path.isfile("Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"):
         direct2 = "Rooms/Itm/" + str(coord[1]) + str(coord[0]) + ".itm"
@@ -158,9 +158,9 @@ def loadMap(coord = [1, 1], enter = "def"):
                 if c == "!":
                     items += [Item([x*size + offset, y*size + offset], "wand", '!')]
                 if c == ";":
-                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                    items += [Item([x*size + offset, y*size + offset], "halfHealPotion", ';')]
                 if c == ":":
-                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                    items += [Item([x*size + offset, y*size + offset], "fullHealPotion", ':')]
                 if c == "~":
                     items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
                 if c == "^":
@@ -168,24 +168,24 @@ def loadMap(coord = [1, 1], enter = "def"):
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "S":
-                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
+                    items += [Item([x*size + offset, y*size + offset], "basic2Spell", 'S')]
                 if c == "$":
-                    items += [Item([x*size + offset, y*size + offset], "coin", '$')]
+                    items += [Item([x*size + offset, y*size + offset], "singleCoin", '$')]
                 if c == "1":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "basic")]
                 if c == "2":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "strong", "2")]
                 if c == "3":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "bee", "3")]
     else:
         for y, line in enumerate(lines):
             for x, c in enumerate(line):
                 if c == "!":
                     items += [Item([x*size + offset, y*size + offset], "wand", '!')]
                 if c == ";":
-                    items += [Item([x*size + offset, y*size + offset], "halfPotion", ';')]
+                    items += [Item([x*size + offset, y*size + offset], "halfHealPotion", ';')]
                 if c == ":":
-                    items += [Item([x*size + offset, y*size + offset], "fullPotion", ':')]
+                    items += [Item([x*size + offset, y*size + offset], "fullHealPotion", ':')]
                 if c == "~":
                     items += [Item([x*size + offset, y*size + offset], "speedPotion", '~')]
                 if c == "^":
@@ -193,15 +193,15 @@ def loadMap(coord = [1, 1], enter = "def"):
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "S":
-                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
+                    items += [Item([x*size + offset, y*size + offset], "basic2Spell", 'S')]
                 if c == "$":
-                    items += [Item([x*size + offset, y*size + offset], "coin", '$')]
+                    items += [Item([x*size + offset, y*size + offset], "singleCoin", '$')]
                 if c == "1":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 1)]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "basic")]
                 if c == "2":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 2, "2")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "strong", "2")]
                 if c == "3":
-                    enemies += [Enemy([x*size + offset, y*size + offset], 3, "3")]
+                    enemies += [Enemy([x*size + offset, y*size + offset], "bee", "3")]
             
     tiles = [walls,
              doors,
