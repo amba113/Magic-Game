@@ -59,10 +59,8 @@ class Pet():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
-        print("0000000000000000000000000000000000000000000000000000000000000000000")
         
     def defend(self, target):
-        # ~ if status == True:
         self.vel = 4
         self.xpos = self.rect.centerx
         self.ypos = self.rect.centery
@@ -78,8 +76,3 @@ class Pet():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
-        print("-------------------------------------------------------------------")
-        # ~ else:
-            # ~ self.move()
-        
-        # ~ return Spell(spell, self.rect.center, posM)

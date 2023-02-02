@@ -51,6 +51,7 @@ class Player():
         self.counter = 0
         self.stop = 30
         self.dead = False
+        self.roam = False
         
         self.hidden = False
         
@@ -93,7 +94,9 @@ class Player():
         else:
             self.counter = 0
             self.zoom = False
-            
+        if self.hp > 0:
+            self.roam = False
+        
         if self.hp < 0:
             self.hp = 0
         

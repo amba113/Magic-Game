@@ -34,8 +34,9 @@ healthPotions = Text("Health Potions: ", [900-170, 700-35], 24)
 position = Text("X,Y: ", [5, 700-20], 24)
 
 money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
-deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2], 36)
-deathNote2 = Text2("Press V to revive", [900/2, 700/2], 36)
+deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2 - 50], 36)
+deathNote2 = Text2("Press V to revive", [900/2, 700/2 - 50], 36)
+deathNote3 = Text2("Press R to roam as a ghost", [900/2, 700/2 + 50], 36)
 settingsOpen = SettingsOpen([25, 25])
 
 tiles = loadMap()
@@ -75,6 +76,10 @@ while True:
                         
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
+            if player.dead:
+                if event.key == pygame.K_r:
+                    player.roam = True
+                
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                 player.goKey("left")
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
@@ -334,6 +339,7 @@ while True:
     
     deathNote1.update("")
     deathNote2.update("")
+    deathNote3.update("")
     
     for door in doors:
         if player.doorCollide(door):
@@ -362,11 +368,30 @@ while True:
             enemies.remove(enemy)
 
 
-    if player.dead:
+    if player.dead and not player.roam:
         if player.inventory["revivePotion"] > 0:
             screen.blit(deathNote2.image, deathNote2.rect)
+            screen.blit(deathNote3.image, deathNote3.rect)
         elif player.inventory["revivePotion"] == 0:
             screen.blit(deathNote1.image, deathNote1.rect)
+            screen.blit(deathNote3.image, deathNote3.rect)
+    elif player.dead and player.roam:
+        for wall in walls:
+            screen.blit(wall.image, wall.rect)
+        if selected == "store":
+            screen.blit(popup[0].image, popup[0].rect)
+            screen.blit(close[0].image, close[0].rect)
+            for option in options:
+                screen.blit(option.image, option.rect)
+            screen.blit(money.image, money.rect)
+        else:
+            for pet in pets:
+                screen.blit(pet.image, pet.rect)
+            for door in doors:
+                screen.blit(door.image, door.rect)
+            screen.blit(player.image, player.rect)
+            for hide in hides:
+                screen.blit(hide.image, hide.rect)
     else:
         for wall in walls:
             screen.blit(wall.image, wall.rect)
