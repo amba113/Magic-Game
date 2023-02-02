@@ -414,3 +414,5 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
+        elif kind.lower() == "clothing":
+            pass

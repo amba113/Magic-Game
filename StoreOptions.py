@@ -14,8 +14,8 @@ class StoreChoice():
                              "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
                              "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
                              "revive": pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)}
-        self.clothesImages = {}
-        self.spellImages = {}
+        self.clothesImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
+        self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         print(kind)
         if kind == "pets":
             self.image = self.petImages[option]
