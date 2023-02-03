@@ -13,6 +13,7 @@ from SettingsButtons import *
 from SettingsOpen import *
 from StoreOptions import *
 from Pets import *
+from Stack import *
 
 pygame.init()
 pygame.mixer.init()
@@ -57,14 +58,14 @@ options = []
 pets = []
 
 closeButton = SettingsButton([770, 125], "close")
-backButton = SettingsButton([600, 400], "back")
+backButton = SettingsButton([135, 565], "back")
 
 loc = ""
-views = ["game"]
+views = Stack("game")
 viewChanged = False
  
 while True:
-    if views.top == "game":
+    if views.top() == "game":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 direct = "Rooms/Sav/"
@@ -202,7 +203,7 @@ while True:
         for item in items:
             if player.itemCollide(item):
                 if item.kind == "wand":
-                    view.push("wandChoice")
+                    views.push("wandChoice")
                     viewChanged = True
                 items.remove(item)
                 
@@ -232,10 +233,8 @@ while True:
         for pet in pets:
             for enemy in enemies:
                 if enemy.angry == True:
-                    print("pet defend")
                     pet.update(player.rect.center, True, enemy.rect.center)
                 else:
-                    print("pet follow")
                     pet.update(player.rect.center)
                 enemy.petCollide(pet)
             pet.update(player.rect.center)
@@ -260,10 +259,8 @@ while True:
         for door in doors:
             if player.doorCollide(door):
                 saveMap(items, enemies, player.prevCoord)
-                print("prev:", player.prevCoord, door.kind)
                 loc = door.kind
                 tiles = loadMap(player.coord, loc)
-                print("now", player.coord)
                 walls = tiles[0]
                 doors = tiles[1]
                 items = tiles[3]
@@ -331,7 +328,7 @@ while True:
         pygame.display.flip()
         clock.tick(60)
         
-    if views.top == "wandChoice":
+    if views.top() == "wandChoice":
         while viewChanged:
             choice = ""
             popup = [Popup("wandChoice", [size[0]/2, size[1]/2])]
@@ -378,10 +375,10 @@ while True:
                 screen.blit(button.image, button.rect)
             pygame.display.flip()
         
-        views = ["game"]
+        views = Stack("game")
         player.kind = choice + "Wand"                     
 
-    if views.top == "store":
+    if views.top() == "store":
         if viewChanged:
             popup = [Popup("store", [size[0]/2, size[1]/2])]
             options = [SettingsButton([900/2, 225], "pets"),
@@ -401,29 +398,30 @@ while True:
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if buttons[0].click(event.pos):
+                    if closeButton.click(event.pos):
                         selected = ""
-                        views = ["game"]
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
                     for option in options:
                         if option.click(event.pos):
                             options = []
-                            view.push(option.kind)
+                            views.push(option.kind)
                             viewChanged = True
                             
         screen.blit(popup[0].image, popup[0].rect)
-        for button in buttons:
-            screen.blit(button.image, button.rect)
+        screen.blit(closeButton.image, closeButton.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
 
-    if views.top == "pets":
+    if views.top() == "pets":
         if viewChanged:
-            options = [StoreChoice([900/3, 225], view, "blackCat"),
-                       StoreChoice([2*900/3, 225], view, "calicoCat"),
-                       StoreChoice([900/3, 450], view, "owl"),
-                       StoreChoice([2*900/3, 450], view, "frog")]
+            options = [StoreChoice([900/3, 275], views.top(), "blackCat"),
+                       StoreChoice([2*900/3, 275], views.top(), "calicoCat"),
+                       StoreChoice([900/3, 450], views.top(), "owl"),
+                       StoreChoice([2*900/3, 450], views.top(), "frog")]
             viewChanged = False
             
         for event in pygame.event.get():
@@ -432,15 +430,16 @@ while True:
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if close[0].click(event.pos):
-                        views = ["game"]
+                    if closeButton.click(event.pos):
                         selected = ""
-                        
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
                     for option in options:
                         if option.click(event.pos):
                             if player.purchase(option.kind, "pet"):
@@ -448,16 +447,16 @@ while True:
         money.update(player.inventory["coins"])
         
         screen.blit(popup[0].image, popup[0].rect)
-        for button in buttons:
-            screen.blit(button.image, button.rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
 
-    if views.top == "spells":
+    if views.top() == "spells":
         if viewChanged:
-            options = [StoreChoice([900/2, 700/2], view, "simple")]
+            options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -471,11 +470,12 @@ while True:
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if close[0].click(event.pos):
+                    if closeButton.click(event.pos):
                         selected = ""
-                        popup = []
-                        close = []
-                        views = ["game"]
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "spell")
@@ -483,19 +483,20 @@ while True:
         money.update(player.inventory["coins"])
         
         screen.blit(popup[0].image, popup[0].rect)
-        screen.blit(close[0].image, close[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
         
-    if views.top == "potions":
+    if views.top() == "potions":
         if viewChanged:
-            options = [StoreChoice([900/3, 225], view, "fullHeal"),
-                       StoreChoice([2*900/3, 225], view, "halfHeal"),
-                       StoreChoice([900/4, 450], view, "health"),
-                       StoreChoice([900/2, 450], view, "revive"),
-                       StoreChoice([3*900/4, 450], view, "speed")]
+            options = [StoreChoice([900/3, 275], views.top(), "fullHeal"),
+                       StoreChoice([2*900/3, 275], views.top(), "halfHeal"),
+                       StoreChoice([900/4, 450], views.top(), "health"),
+                       StoreChoice([900/2, 450], views.top(), "revive"),
+                       StoreChoice([3*900/4, 450], views.top(), "speed")]
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -509,9 +510,12 @@ while True:
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if close[0].click(event.pos):
+                    if closeButton.click(event.pos):
                         selected = ""
-                        views = ["game"]
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "potion")
@@ -519,15 +523,16 @@ while True:
         money.update(player.inventory["coins"])
                                 
         screen.blit(popup[0].image, popup[0].rect)
-        screen.blit(close[0].image, close[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
                                 
-    if views.top == "clothes":
+    if views.top() == "clothes":
         if viewChanged:
-            options = [StoreChoice([900/2, 700/2], view, "simple")]
+            options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -541,11 +546,12 @@ while True:
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if close[0].click(event.pos):
+                    if closeButton.click(event.pos):
                         selected = ""
-                        popup = []
-                        close = []
-                        views = ["game"]
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "clothing")
@@ -553,7 +559,8 @@ while True:
         money.update(player.inventory["coins"])
   
         screen.blit(popup[0].image, popup[0].rect)
-        screen.blit(close[0].image, close[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)

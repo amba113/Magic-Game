@@ -4,12 +4,13 @@ class SettingsButton():
 
     def __init__(self, pos, kind):
         self.kind = kind
+        self.scale = [50, 50]
         
         self.images = {"controls": pygame.image.load("Images/Control Set Button.png"),
                        "store": pygame.image.load("Images/Store Button.png"),
                        "quit": pygame.image.load("Images/Quit Button.png"),
                        "close": pygame.image.load("Images/Store Close.png"),
-                       "back": pygame.image.load("Images/BackButton.png"),
+                       "back": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale),
                        "pets": pygame.image.load("Images/Pets Option.png"),
                        "spells": pygame.image.load("Images/Spells Option.png"),
                        "potions": pygame.image.load("Images/Potions Option.png"),
