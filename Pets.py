@@ -76,3 +76,6 @@ class Pet():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
+        
+    def goto(self, pos):
+        self.rect.center = pos

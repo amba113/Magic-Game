@@ -235,6 +235,7 @@ while True:
                     print("pet follow")
                     pet.update(player.rect.center)
                 enemy.petCollide(pet)
+            pet.update(player.rect.center)
 
         for spell in spells:
             spell.update()
@@ -268,6 +269,8 @@ while True:
                 spells = []
                 
                 player.goto(tiles[2])
+                for pet in pets:
+                    pet.goto(tiles[2])
 
         screen.fill((250, 175, 225))    
                 
