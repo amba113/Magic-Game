@@ -439,6 +439,7 @@ while True:
                         if option.click(event.pos):
                             if player.purchase(option.kind, "pet"):
                                 pets += [Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], option.kind)]
+        money.update(player.inventory["coins"])
         
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(close[0].image, close[0].rect)
@@ -471,7 +472,9 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "spell")
-                                
+        
+        money.update(player.inventory["coins"])
+        
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(close[0].image, close[0].rect)
         for option in options:
@@ -501,12 +504,12 @@ while True:
                 if event.button == 1:
                     if close[0].click(event.pos):
                         selected = ""
-                        popup = []
-                        close = []
                         view = "game"
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "potion")
+                 
+        money.update(player.inventory["coins"])
                                 
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(close[0].image, close[0].rect)
@@ -539,7 +542,9 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "clothing")
-                                
+        
+        money.update(player.inventory["coins"])
+  
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(close[0].image, close[0].rect)
         for option in options:
