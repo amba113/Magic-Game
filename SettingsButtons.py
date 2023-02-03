@@ -9,6 +9,7 @@ class SettingsButton():
                        "store": pygame.image.load("Images/Store Button.png"),
                        "quit": pygame.image.load("Images/Quit Button.png"),
                        "close": pygame.image.load("Images/Store Close.png"),
+                       "back": pygame.image.load("Images/BackButton.png"),
                        "pets": pygame.image.load("Images/Pets Option.png"),
                        "spells": pygame.image.load("Images/Spells Option.png"),
                        "potions": pygame.image.load("Images/Potions Option.png"),
