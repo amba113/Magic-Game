@@ -56,6 +56,9 @@ buttons = []
 options = []
 pets = []
 
+closeButton = SettingsButton([770, 125], "close")
+backButton = SettingsButton([600, 400], "back")
+
 loc = ""
 views = ["game"]
 viewChanged = False
@@ -375,15 +378,12 @@ while True:
                 screen.blit(button.image, button.rect)
             pygame.display.flip()
         
-        buttons = []
         views = ["game"]
         player.kind = choice + "Wand"                     
 
     if views.top == "store":
         if viewChanged:
             popup = [Popup("store", [size[0]/2, size[1]/2])]
-            buttons = [SettingsButton([770, 125], "close"),
-                       SettingsButton([600, 400], "back")]
             options = [SettingsButton([900/2, 225], "pets"),
                         SettingsButton([900/2, 325], "spells"),
                         SettingsButton([900/2, 425], "potions"),
@@ -558,3 +558,4 @@ while True:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
+        
