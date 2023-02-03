@@ -341,7 +341,6 @@ while True:
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
-                            
                             os.remove("Rooms/Sav/" + f)
                     sys.exit();
                 elif event.type == pygame.KEYDOWN:
@@ -363,12 +362,10 @@ while True:
                         player.goKey("sdown")
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.type == 1:
+                if event.button == 1:
                     for button in buttons:
                         if button.click(event.pos):
-                            choice = button.kind
-            print(choice)
-            
+                            choice = button.kind            
 
             screen.blit(popup[0].image, popup[0].rect)
             for button in buttons:
@@ -376,7 +373,7 @@ while True:
             pygame.display.flip()
         
         view = "game"
-        player.kind = selected                        
+        player.kind = choice + "Wand"                     
 
     if view == "store":
         if viewChanged:
