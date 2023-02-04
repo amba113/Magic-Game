@@ -36,7 +36,7 @@ position = Text("X,Y: ", [5, 700-20], 24)
 
 money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
 deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2 - 50], 36)
-deathNote2 = Text2("Press V to revive", [900/2, 700/2 - 50], 36)
+deathNote2 = Text2("Pres s V to revive", [900/2, 700/2 - 50], 36)
 deathNote3 = Text2("Press R to roam as a ghost", [900/2, 700/2 + 50], 36)
 settingsOpen = SettingsOpen([25, 25])
 
@@ -403,6 +403,7 @@ while True:
             color = [0, 255, 245]
             color2 = [230, 230, 230]
             popup = [Popup("controls", [size[0]/2, size[1]/2])]
+            reset = SettingsButton([900/2, 500 + offsety], "reset")   
             options = [SettingsButton([600/3 + offsetx, 400/3 + offsety], "controlsBox"),
                        SettingsButton([2*600/3 + offsetx, 400/3 + offsety], "controlsBox"),
                        SettingsButton([600 + offsetx, 400/3 + offsety], "controlsBox"),
@@ -449,6 +450,17 @@ while True:
                     if closeButton.click(event.pos):
                         selected = ""
                         views = Stack("game")
+                    if reset.click(event.pos):
+                        forward = "w"
+                        backward = "s"
+                        left = "a"
+                        right = "d"
+                        speed = "g"
+                        half = "h"
+                        full = "f"
+                        health = "t"
+                        inventory = "e"
+                        
                     for i, option in enumerate(options):
                         if option.click(event.pos):
                             index = i
@@ -491,6 +503,7 @@ while True:
             screen.blit(text.image, text.rect)
         for text in dynamicTexts:
             screen.blit(text.image, text.rect)
+        screen.blit(reset.image, reset.rect)
         pygame.display.flip()
         
     if views.top() == "store":
