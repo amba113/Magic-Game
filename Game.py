@@ -26,7 +26,7 @@ screen = pygame.display.set_mode(size)
 
 counter = 0
 
-health = Text("HP: ", [55,10])
+hp = Text2("HP: ", [150, 25])
 speedPotions = Text("Speed Potions: ", [900-170, 2], 24)
 fullPotions = Text("Full Heal Potions: ", [900-170, 17], 24)
 halfPotions = Text("Half Heal Potions: ", [900-170, 32], 24)
@@ -260,7 +260,7 @@ while True:
         for spell in spells:
             spell.update()
         
-        health.update(str(player.hp) + "/" + str(player.hpMax))
+        hp.update(str(player.hp) + "/" + str(player.hpMax))
         position.update(str(player.coord[0]) + "," + str(player.coord[1]))
         
         speedPotions.update(player.inventory["speedPotion"])
@@ -335,7 +335,7 @@ while True:
             for hide in hides:
                 screen.blit(hide.image, hide.rect)
             screen.blit(settingsOpen.image, settingsOpen.rect)
-            screen.blit(health.image, health.rect)
+            screen.blit(hp.image, hp.rect)
             screen.blit(speedPotions.image, speedPotions.rect)
             screen.blit(fullPotions.image, fullPotions.rect)
             screen.blit(halfPotions.image, halfPotions.rect)
