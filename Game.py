@@ -63,6 +63,16 @@ backButton = SettingsButton([135, 565], "back")
 loc = ""
 views = Stack("game")
 viewChanged = False
+
+forward = "w"
+backward = "s"
+left = "a"
+right = "d"
+speed = "g"
+half = "h"
+full = "f"
+health = "t"
+inventory = "e"
  
 while True:
     if views.top() == "game":
@@ -76,6 +86,7 @@ while True:
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
             if event.type == pygame.KEYDOWN:
+
                 if event.key == pygame.K_ESCAPE:
                     direct = "Rooms/Sav/"
                     files = os.listdir(direct)
@@ -87,23 +98,23 @@ while True:
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
                     
-                elif event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                elif event.key == pygame.key.key_code(left) or event.key == pygame.K_LEFT:
                     player.goKey("left")
-                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
                     player.goKey("right")
-                elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
                     player.goKey("up")
-                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
                     player.goKey("down")
                 
                 elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                     player.sprinting = True
                     
-                elif event.key == pygame.K_f:
+                elif event.key == pygame.key.key_code(full):
                     player.useItem("f")
-                elif event.key == pygame.K_h:
+                elif event.key == pygame.key.key_code(half):
                     player.useItem("h")
-                elif event.key == pygame.K_g:
+                elif event.key == pygame.key.key_code(speed):
                     player.useItem("g")
                 elif event.key == pygame.K_v:
                     if player.dead:
@@ -111,8 +122,12 @@ while True:
                     player.useItem("v")
                     for enemy in enemies:
                         enemy.angry = False
-                elif event.key == pygame.K_t:
+                elif event.key == pygame.key.key_code(health):
                     player.useItem("t")
+                    
+                elif event.key == pygame.key.key_code(inventory):
+                    views.push("inventory")
+                    viewChanged = True
 
                 elif event.key == pygame.K_1:
                     spellType = "basic"
@@ -121,13 +136,13 @@ while True:
                         spellType = "basic2"
                         
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                if event.key == pygame.key.key_code(left) or event.key == pygame.K_LEFT:
                     player.goKey("sleft")
-                elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
                     player.goKey("sright")
-                elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
                     player.goKey("sup")
-                elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
                     player.goKey("sdown")
                 elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                     player.sprinting = False
@@ -153,13 +168,13 @@ while True:
                                     sys.exit();
                                 
                                 elif event.type == pygame.KEYUP:
-                                    if event.key == pygame.K_a or event.key == pygame.K_LEFT:
+                                    if event.key == pygame.pygame.key.key_code(left) or event.key == pygame.K_LEFT:
                                         player.goKey("sleft")
-                                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
+                                    elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
                                         player.goKey("sright")
-                                    elif event.key == pygame.K_w or event.key == pygame.K_UP:
+                                    elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
                                         player.goKey("sup")
-                                    elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
+                                    elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
                                         player.goKey("sdown")
                                     if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                                         player.sprinting = False
@@ -177,6 +192,7 @@ while True:
                                                 selected = button.kind
                                         if not buttonClicked:
                                             setOpen = False
+                                            
                             if selected == "quit":
                                 direct = "Rooms/Sav/"
                                 files = os.listdir(direct)
@@ -184,9 +200,11 @@ while True:
                                     if f[-4:] == ".sav":
                                         os.remove("Rooms/Sav/" + f)
                                 sys.exit()
-                            
-                            if selected == "store":
+                            elif selected == "store":
                                 views.push("store")
+                                viewChanged = True
+                            elif selected == "controls":
+                                views.push("controls")
                                 viewChanged = True
                                 
                             for button in buttons:
@@ -242,7 +260,7 @@ while True:
         for spell in spells:
             spell.update()
         
-        health.update(str(player.hp) + "/" + str(player.hpMax))
+        # ~ health.update(str(player.hp) + "/" + str(player.hpMax))
         position.update(str(player.coord[0]) + "," + str(player.coord[1]))
         
         speedPotions.update(player.inventory["speedPotion"])
@@ -317,7 +335,7 @@ while True:
             for hide in hides:
                 screen.blit(hide.image, hide.rect)
             screen.blit(settingsOpen.image, settingsOpen.rect)
-            screen.blit(health.image, health.rect)
+            # ~ screen.blit(health.image, health.rect)
             screen.blit(speedPotions.image, speedPotions.rect)
             screen.blit(fullPotions.image, fullPotions.rect)
             screen.blit(halfPotions.image, halfPotions.rect)
@@ -378,6 +396,103 @@ while True:
         views = Stack("game")
         player.kind = choice + "Wand"                     
 
+    if views.top() == "controls":
+        if viewChanged:
+            offsety = 125
+            offsetx = 50
+            color = [0, 255, 245]
+            color2 = [230, 230, 230]
+            popup = [Popup("controls", [size[0]/2, size[1]/2])]
+            options = [SettingsButton([600/3 + offsetx, 400/3 + offsety], "controlsBox"),
+                       SettingsButton([2*600/3 + offsetx, 400/3 + offsety], "controlsBox"),
+                       SettingsButton([600 + offsetx, 400/3 + offsety], "controlsBox"),
+                       SettingsButton([600/3 + offsetx, 2*400/3 + offsety], "controlsBox"),
+                       SettingsButton([2*600/3 + offsetx, 2*400/3 + offsety], "controlsBox"),
+                       SettingsButton([600 + offsetx, 2*400/3 + offsety], "controlsBox"),
+                       SettingsButton([600/3 + offsetx, 400 + offsety], "controlsBox"),
+                       SettingsButton([2*600/3 + offsetx, 400 + offsety], "controlsBox"),
+                       SettingsButton([600 + offsetx, 400 + offsety], "controlsBox")]
+            staticTexts = [Text2("Forward", [600/3 + offsetx, 400/3 - 35 + offsety], 36, color),
+                           Text2("Backward", [2*600/3 + offsetx, 400/3 - 35 + offsety], 36, color),
+                           Text2("Left", [600 + offsetx, 400/3 - 35 + offsety], 36, color),
+                           Text2("Right", [600/3 + offsetx, 2*400/3 - 35 + offsety], 36, color),
+                           Text2("Speed Potion", [2*600/3 + offsetx, 2*400/3 - 35 + offsety], 36, color),
+                           Text2("Half Heal Potion", [600 + offsetx, 2*400/3 - 35 + offsety], 36, color),
+                           Text2("Full Heal Potion", [600/3 + offsetx, 400 - 35 + offsety], 36, color),
+                           Text2("Health Potion", [2*600/3 + offsetx, 400 - 35 + offsety], 36, color),
+                           Text2("Inventory", [600 + offsetx, 400 - 35 + offsety], 36, color)]
+            dynamicTexts = [Text2(forward.upper(), [600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(backward.upper(), [2*600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(left.upper(), [600 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(right.upper(), [600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(speed.upper(), [2*600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(half.upper(), [600 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(full.upper(), [600/3 + offsetx, 400 + 2 + offsety], 36, color2),
+                            Text2(health.upper(), [2*600/3 + offsetx, 400 + 2 + offsety], 36, color2),
+                            Text2(inventory.upper(), [600 + offsetx, 400 + 2 + offsety], 36, color2)]
+            key = ""
+            tempKey = False
+            index = 0
+            viewChanged = False
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                direct = "Rooms/Sav/"
+                files = os.listdir(direct)
+                for f in files:
+                    if f[-4:] == ".sav":
+                        
+                        os.remove("Rooms/Sav/" + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    for i, option in enumerate(options):
+                        if option.click(event.pos):
+                            index = i
+                            tempKey = True
+            
+            if tempKey == True and event.type == pygame.KEYDOWN:
+                opt = event.unicode
+                if staticTexts[index].baseText.lower() == "forward":
+                    forward = opt
+                elif staticTexts[index].baseText.lower() == "backward":
+                    backward = opt
+                elif staticTexts[index].baseText.lower() == "left":
+                    left = opt
+                elif staticTexts[index].baseText.lower() == "right":
+                    right = opt
+                elif staticTexts[index].baseText.lower() == "speed potion":
+                    speed = opt
+                elif staticTexts[index].baseText.lower() == "full heal potion":
+                    full = opt
+                elif staticTexts[index].baseText.lower() == "half heal potion":
+                    half = opt
+                elif staticTexts[index].baseText.lower() == "health potion":
+                    health = opt
+                elif staticTexts[index].baseText.lower() == "inventory":
+                    inventory = opt
+                
+                dynamicTexts[index].baseText = event.unicode.upper()
+                tempKey = False
+                            
+        for text in staticTexts:
+            text.update("")
+        for text in dynamicTexts:
+            text.update("")
+        
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        for text in staticTexts:
+            screen.blit(text.image, text.rect)
+        for text in dynamicTexts:
+            screen.blit(text.image, text.rect)
+        pygame.display.flip()
+        
     if views.top() == "store":
         if viewChanged:
             popup = [Popup("store", [size[0]/2, size[1]/2])]
@@ -401,8 +516,6 @@ while True:
                     if closeButton.click(event.pos):
                         selected = ""
                         views = Stack("game")
-                    if backButton.click(event.pos):
-                        views.pop()
                     for option in options:
                         if option.click(event.pos):
                             options = []
@@ -566,3 +679,26 @@ while True:
         screen.blit(money.image, money.rect)
         pygame.display.flip()
         
+    if views.top() == "inventory":
+        if viewChanged:
+            popup = [Popup("inventory", [900/2, 700/2])]
+            
+            viewChanged = False
+            
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                direct = "Rooms/Sav/"
+                files = os.listdir(direct)
+                for f in files:
+                    if f[-4:] == ".sav":
+                        os.remove("Rooms/Sav/" + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        pygame.display.flip()
