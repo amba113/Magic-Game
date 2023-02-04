@@ -442,7 +442,6 @@ while True:
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -460,6 +459,16 @@ while True:
                         full = "f"
                         health = "t"
                         inventory = "e"
+                        
+                        dynamicTexts[0] = forward.upper()
+                        dynamicTexts[1] = backward.upper()
+                        dynamicTexts[2] = left.upper()
+                        dynamicTexts[3] = right.upper()
+                        dynamicTexts[4] = speed.upper()
+                        dynamicTexts[5] = half.upper()
+                        dynamicTexts[6] = full.upper()
+                        dynamicTexts[7] = health.upper()
+                        dynamicTexts[8] = inventory.upper()
                         
                     for i, option in enumerate(options):
                         if option.click(event.pos):
