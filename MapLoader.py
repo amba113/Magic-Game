@@ -87,7 +87,7 @@ def loadMap(coord = [1, 1], enter = "def"):
                 doors += [Obstacle([x*size + 2*offset, y*size + offset], "tutorialExit")]
             if c == "=":
                 hides += [Obstacle([x*size + .5*offset, y*size + 2*offset], "bush")]
-            if c == "$" and enter == "def":
+            if c == "D" and enter == "def":
                 playerLoc = [x*size + offset, y*size + offset]
             elif c == "%" and (enter == "bottom" or enter == "tutorialExit"):
                 playerLoc = [x*size + 2*offset, y*size + offset]

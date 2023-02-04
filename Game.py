@@ -260,7 +260,7 @@ while True:
         for spell in spells:
             spell.update()
         
-        # ~ health.update(str(player.hp) + "/" + str(player.hpMax))
+        health.update(str(player.hp) + "/" + str(player.hpMax))
         position.update(str(player.coord[0]) + "," + str(player.coord[1]))
         
         speedPotions.update(player.inventory["speedPotion"])
@@ -335,7 +335,7 @@ while True:
             for hide in hides:
                 screen.blit(hide.image, hide.rect)
             screen.blit(settingsOpen.image, settingsOpen.rect)
-            # ~ screen.blit(health.image, health.rect)
+            screen.blit(health.image, health.rect)
             screen.blit(speedPotions.image, speedPotions.rect)
             screen.blit(fullPotions.image, fullPotions.rect)
             screen.blit(halfPotions.image, halfPotions.rect)
