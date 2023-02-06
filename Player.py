@@ -44,8 +44,8 @@ class Player():
                           "speedPotion": 0,
                           "revivePotion": 0,
                           "healthPotion": 0,
-                          "coins": 0
-        }
+                          "coins": 0,
+                          "pets": []}
         self.spells = ["basic"]
         
         self.counter = 0
@@ -337,7 +337,8 @@ class Player():
             if selection == "blackCat":
                 if self.inventory["coins"] >= 3:
                     self.inventory["coins"] -= 3
-                    print("Black cat acquired")
+                    self.inventory["pets"] += ["blackCat"]
+                    print("Black cat acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -345,7 +346,8 @@ class Player():
             elif selection == "calicoCat":
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
-                    print("Calico cat acquired")
+                    self.inventory["pets"] += ["calicoCat"]
+                    print("Calico cat acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -353,7 +355,8 @@ class Player():
             elif selection == "owl":
                 if self.inventory["coins"] >= 2:
                     self.inventory["coins"] -= 2
-                    print("Owl acquired")
+                    self.inventory["pets"] += ["owl"]
+                    print("Owl acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -361,7 +364,8 @@ class Player():
             elif selection == "frog":
                 if self.inventory["coins"] >= 5:
                     self.inventory["coins"] -= 5
-                    print("Frog acquired")
+                    self.inventory["pets"] += ["frog"]
+                    print("Frog acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")

@@ -64,16 +64,16 @@ loc = ""
 views = Stack("game")
 viewChanged = False
 
-forward = "w"
-backward = "s"
-left = "a"
-right = "d"
-speed = "g"
-half = "h"
-full = "f"
-health = "t"
-inventory = "e"
- 
+controls = {"forward": "w",
+            "backward": "s",
+            "left": "a",
+            "right": "d",
+            "speed": "g",
+            "half": "h",
+            "full": "f",
+            "health": "t",
+            "inventory": "e"}
+            
 while True:
     if views.top() == "game":
         for event in pygame.event.get():
@@ -86,7 +86,6 @@ while True:
                         os.remove("Rooms/Sav/" + f)
                 sys.exit();
             if event.type == pygame.KEYDOWN:
-
                 if event.key == pygame.K_ESCAPE:
                     direct = "Rooms/Sav/"
                     files = os.listdir(direct)
@@ -98,23 +97,23 @@ while True:
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
                     
-                elif event.key == pygame.key.key_code(left) or event.key == pygame.K_LEFT:
+                elif event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                     player.goKey("left")
-                elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
+                elif event.key == pygame.key.key_code(controls["right"]) or event.key == pygame.K_RIGHT:
                     player.goKey("right")
-                elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
+                elif event.key == pygame.key.key_code(controls["forward"]) or event.key == pygame.K_UP:
                     player.goKey("up")
-                elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
+                elif event.key == pygame.key.key_code(controls["backward"]) or event.key == pygame.K_DOWN:
                     player.goKey("down")
                 
                 elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                     player.sprinting = True
                     
-                elif event.key == pygame.key.key_code(full):
+                elif event.key == pygame.key.key_code(controls["full"]):
                     player.useItem("f")
-                elif event.key == pygame.key.key_code(half):
+                elif event.key == pygame.key.key_code(controls["half"]):
                     player.useItem("h")
-                elif event.key == pygame.key.key_code(speed):
+                elif event.key == pygame.key.key_code(controls["speed"]):
                     player.useItem("g")
                 elif event.key == pygame.K_v:
                     if player.dead:
@@ -122,10 +121,10 @@ while True:
                     player.useItem("v")
                     for enemy in enemies:
                         enemy.angry = False
-                elif event.key == pygame.key.key_code(health):
+                elif event.key == pygame.key.key_code(controls["health"]):
                     player.useItem("t")
                     
-                elif event.key == pygame.key.key_code(inventory):
+                elif event.key == pygame.key.key_code(controls["inventory"]):
                     views.push("inventory")
                     viewChanged = True
 
@@ -398,12 +397,14 @@ while True:
 
     if views.top() == "controls":
         if viewChanged:
+            goodInput = True
             offsety = 125
             offsetx = 50
             color = [0, 255, 245]
             color2 = [230, 230, 230]
             popup = [Popup("controls", [size[0]/2, size[1]/2])]
-            reset = SettingsButton([900/2, 500 + offsety], "reset")   
+            reset = SettingsButton([900/2, 500 + offsety], "reset")
+            error = Text2("Error, this control key is already in use", [900/2, 55 + offsety], 48, "Red")   
             options = [SettingsButton([600/3 + offsetx, 400/3 + offsety], "controlsBox"),
                        SettingsButton([2*600/3 + offsetx, 400/3 + offsety], "controlsBox"),
                        SettingsButton([600 + offsetx, 400/3 + offsety], "controlsBox"),
@@ -422,15 +423,15 @@ while True:
                            Text2("Full Heal Potion", [600/3 + offsetx, 400 - 35 + offsety], 36, color),
                            Text2("Health Potion", [2*600/3 + offsetx, 400 - 35 + offsety], 36, color),
                            Text2("Inventory", [600 + offsetx, 400 - 35 + offsety], 36, color)]
-            dynamicTexts = [Text2(forward.upper(), [600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
-                            Text2(backward.upper(), [2*600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
-                            Text2(left.upper(), [600 + offsetx, 400/3 + 2 + offsety], 36, color2),
-                            Text2(right.upper(), [600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
-                            Text2(speed.upper(), [2*600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
-                            Text2(half.upper(), [600 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
-                            Text2(full.upper(), [600/3 + offsetx, 400 + 2 + offsety], 36, color2),
-                            Text2(health.upper(), [2*600/3 + offsetx, 400 + 2 + offsety], 36, color2),
-                            Text2(inventory.upper(), [600 + offsetx, 400 + 2 + offsety], 36, color2)]
+            dynamicTexts = [Text2(controls["forward"].upper(), [600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["backward"].upper(), [2*600/3 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["left"].upper(), [600 + offsetx, 400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["right"].upper(), [600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["speed"].upper(), [2*600/3 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["half"].upper(), [600 + offsetx, 2*400/3 + 2 + offsety], 36, color2),
+                            Text2(controls["full"].upper(), [600/3 + offsetx, 400 + 2 + offsety], 36, color2),
+                            Text2(controls["health"].upper(), [2*600/3 + offsetx, 400 + 2 + offsety], 36, color2),
+                            Text2(controls["inventory"].upper(), [600 + offsetx, 400 + 2 + offsety], 36, color2)]
             key = ""
             tempKey = False
             index = 0
@@ -446,29 +447,30 @@ while True:
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    if closeButton.click(event.pos):
-                        selected = ""
-                        views = Stack("game")
+                    if goodInput:
+                        if closeButton.click(event.pos):
+                            selected = ""
+                            views = Stack("game")
                     if reset.click(event.pos):
-                        forward = "w"
-                        backward = "s"
-                        left = "a"
-                        right = "d"
-                        speed = "g"
-                        half = "h"
-                        full = "f"
-                        health = "t"
-                        inventory = "e"
+                        controls["forward"] = "w"
+                        controls["backward"] = "s"
+                        controls["left"] = "a"
+                        controls["right"] = "d"
+                        controls["speed"] = "g"
+                        controls["half"] = "h"
+                        controls["full"] = "f"
+                        controls["health"] = "t"
+                        controls["inventory"] = "e"
                         
-                        dynamicTexts[0].baseText = forward.upper()
-                        dynamicTexts[1].baseText = backward.upper()
-                        dynamicTexts[2].baseText = left.upper()
-                        dynamicTexts[3].baseText = right.upper()
-                        dynamicTexts[4].baseText = speed.upper()
-                        dynamicTexts[5].baseText = half.upper()
-                        dynamicTexts[6].baseText = full.upper()
-                        dynamicTexts[7].baseText = health.upper()
-                        dynamicTexts[8].baseText = inventory.upper()
+                        dynamicTexts[0].baseText = controls["forward"].upper()
+                        dynamicTexts[1].baseText = controls["backward"].upper()
+                        dynamicTexts[2].baseText = controls["left"].upper()
+                        dynamicTexts[3].baseText = controls["right"].upper()
+                        dynamicTexts[4].baseText = controls["speed"].upper()
+                        dynamicTexts[5].baseText = controls["half"].upper()
+                        dynamicTexts[6].baseText = controls["full"].upper()
+                        dynamicTexts[7].baseText = controls["health"].upper()
+                        dynamicTexts[8].baseText = controls["inventory"].upper()
                         
                     for i, option in enumerate(options):
                         if option.click(event.pos):
@@ -478,34 +480,44 @@ while True:
             if tempKey == True and event.type == pygame.KEYDOWN:
                 opt = event.unicode
                 if staticTexts[index].baseText.lower() == "forward":
-                    forward = opt
+                    controls["forward"] = opt
                 elif staticTexts[index].baseText.lower() == "backward":
-                    backward = opt
+                    controls["backward"] = opt
                 elif staticTexts[index].baseText.lower() == "left":
-                    left = opt
+                    controls["left"] = opt
                 elif staticTexts[index].baseText.lower() == "right":
-                    right = opt
+                    controls["right"] = opt
                 elif staticTexts[index].baseText.lower() == "speed potion":
-                    speed = opt
+                    controls["speed"] = opt
                 elif staticTexts[index].baseText.lower() == "full heal potion":
-                    full = opt
+                    controls["full"] = opt
                 elif staticTexts[index].baseText.lower() == "half heal potion":
-                    half = opt
+                    controls["half"] = opt
                 elif staticTexts[index].baseText.lower() == "health potion":
-                    health = opt
+                    controls["health"] = opt
                 elif staticTexts[index].baseText.lower() == "inventory":
-                    inventory = opt
+                    controls["inventory"] = opt
                 
                 dynamicTexts[index].baseText = event.unicode.upper()
                 tempKey = False
-                            
+       
+        goodInput = True
+        for i in controls.keys():
+            for x in controls.keys():
+                if i != x and controls[i] == controls[x]:
+                    goodInput = False
+            
         for text in staticTexts:
             text.update("")
         for text in dynamicTexts:
             text.update("")
+        error.update("")
         
         screen.blit(popup[0].image, popup[0].rect)
-        screen.blit(closeButton.image, closeButton.rect)
+        if goodInput == True:
+            screen.blit(closeButton.image, closeButton.rect)
+        else:
+            screen.blit(error.image, error.rect)
         for option in options:
             screen.blit(option.image, option.rect)
         for text in staticTexts:
