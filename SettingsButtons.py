@@ -13,10 +13,14 @@ class SettingsButton():
                        "back": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale),
                        "controlsBox": pygame.image.load("Images/Control Box.png"),
                        "reset": pygame.image.load("Images/Reset Button.png"),
-                       "pets": pygame.image.load("Images/Pets Option.png"),
-                       "spells": pygame.image.load("Images/Spells Option.png"),
-                       "potions": pygame.image.load("Images/Potions Option.png"),
-                       "clothes": pygame.image.load("Images/Clothes Option.png")}
+                       "petsSt": pygame.image.load("Images/Pets Option.png"),
+                       "spellsSt": pygame.image.load("Images/Spells Option.png"),
+                       "potionsSt": pygame.image.load("Images/Potions Option.png"),
+                       "clothesSt": pygame.image.load("Images/Clothes Option.png"),
+                       "petsIn": pygame.image.load("Images/Pets Choice.png"),
+                       "spellsIn": pygame.image.load("Images/Spells Choice.png"),
+                       "potionsIn": pygame.image.load("Images/Potions Choice.png"),
+                       "clothesIn": pygame.image.load("Images/Clothes Choice.png")}
         
         self.image = self.images[kind]
         

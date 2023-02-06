@@ -17,13 +17,13 @@ class StoreChoice():
         self.clothesImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         
-        if kind == "pets":
+        if kind == "petsSt":
             self.image = self.petImages[option]
-        elif kind == "potions":
+        elif kind == "potionsSt":
             self.image = self.potionImages[option]
-        elif kind == "clothes":
+        elif kind == "clothesSt":
             self.image = self.clothesImages[option]
-        elif kind == "spells":
+        elif kind == "spellsSt":
             self.image = self.spellImages[option]
         
         self.rect = self.image.get_rect(center = pos)

@@ -344,7 +344,6 @@ while True:
             for enemy in enemies:
                 screen.blit(enemy.image, enemy.rect)
             if petEquip != "":
-                print("Showing pet")
                 screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
@@ -548,10 +547,10 @@ while True:
     if views.top() == "store":
         if viewChanged:
             popup = [Popup("store", [size[0]/2, size[1]/2])]
-            options = [SettingsButton([900/2, 225], "pets"),
-                        SettingsButton([900/2, 325], "spells"),
-                        SettingsButton([900/2, 425], "potions"),
-                        SettingsButton([900/2, 525], "clothes")]
+            options = [SettingsButton([900/2, 225], "petsSt"),
+                        SettingsButton([900/2, 325], "spellsSt"),
+                        SettingsButton([900/2, 425], "potionsSt"),
+                        SettingsButton([900/2, 525], "clothesSt")]
             viewChanged = False
             
         for event in pygame.event.get():
@@ -581,7 +580,7 @@ while True:
         screen.blit(money.image, money.rect)
         pygame.display.flip()
 
-    if views.top() == "pets":
+    if views.top() == "petsSt":
         if viewChanged:
             options = [StoreChoice([900/3, 275], views.top(), "blackCat"),
                        StoreChoice([2*900/3, 275], views.top(), "calicoCat"),
@@ -619,7 +618,7 @@ while True:
         screen.blit(money.image, money.rect)
         pygame.display.flip()
 
-    if views.top() == "spells":
+    if views.top() == "spellsSt":
         if viewChanged:
             options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
             viewChanged = False
@@ -655,7 +654,7 @@ while True:
         screen.blit(money.image, money.rect)
         pygame.display.flip()
         
-    if views.top() == "potions":
+    if views.top() == "potionsSt":
         if viewChanged:
             options = [StoreChoice([900/3, 275], views.top(), "fullHeal"),
                        StoreChoice([2*900/3, 275], views.top(), "halfHeal"),
@@ -695,7 +694,7 @@ while True:
         screen.blit(money.image, money.rect)
         pygame.display.flip()
                                 
-    if views.top() == "clothes":
+    if views.top() == "clothesSt":
         if viewChanged:
             options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
             viewChanged = False
@@ -734,7 +733,10 @@ while True:
     if views.top() == "inventory":
         if viewChanged:
             popup = [Popup("inventory", [900/2, 700/2])]
-            
+            options = [SettingsButton([900/2, 225], "petsIn"),
+                        SettingsButton([900/2, 325], "spellsIn"),
+                        SettingsButton([900/2, 425], "potionsIn"),
+                        SettingsButton([900/2, 525], "clothesIn")]
             viewChanged = False
             
         for event in pygame.event.get():
@@ -750,7 +752,146 @@ while True:
                     if closeButton.click(event.pos):
                         selected = ""
                         views = Stack("game")
+                    for option in options:
+                        if option.click(event.pos):
+                            options = []
+                            views.push(option.kind)
+                            viewChanged = True
 
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        pygame.display.flip()
+
+    if views.top() == "petsIn":
+            if viewChanged:
+                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+                viewChanged = False
+                           
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    direct = "Rooms/Sav/"
+                    files = os.listdir(direct)
+                    for f in files:
+                        if f[-4:] == ".sav":
+                            os.remove("Rooms/Sav/" + f)
+                    sys.exit();
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        if closeButton.click(event.pos):
+                            selected = ""
+                            views = Stack("game")
+                        if backButton.click(event.pos):
+                            views.pop()
+                            viewChanged = True
+                        for option in options:
+                            if option.click(event.pos):
+                                pass
+                                #Equip or delete, depending on category
+                                    
+            screen.blit(popup[0].image, popup[0].rect)
+            screen.blit(closeButton.image, closeButton.rect)
+            screen.blit(backButton.image, backButton.rect)
+            for option in options:
+                screen.blit(option.image, option.rect)
+            pygame.display.flip()
+
+    if views.top() == "spellsIn":
+            if viewChanged:
+                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+                viewChanged = False
+                           
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    direct = "Rooms/Sav/"
+                    files = os.listdir(direct)
+                    for f in files:
+                        if f[-4:] == ".sav":
+                            os.remove("Rooms/Sav/" + f)
+                    sys.exit();
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        if closeButton.click(event.pos):
+                            selected = ""
+                            views = Stack("game")
+                        if backButton.click(event.pos):
+                            views.pop()
+                            viewChanged = True
+                        for option in options:
+                            if option.click(event.pos):
+                                pass
+                                #Equip or delete, depending on category
+                                    
+            screen.blit(popup[0].image, popup[0].rect)
+            screen.blit(closeButton.image, closeButton.rect)
+            screen.blit(backButton.image, backButton.rect)
+            for option in options:
+                screen.blit(option.image, option.rect)
+            pygame.display.flip()
+            
+    if views.top() == "potionsIn":
+            if viewChanged:
+                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+                viewChanged = False
+                           
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    direct = "Rooms/Sav/"
+                    files = os.listdir(direct)
+                    for f in files:
+                        if f[-4:] == ".sav":
+                            os.remove("Rooms/Sav/" + f)
+                    sys.exit();
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        if closeButton.click(event.pos):
+                            selected = ""
+                            views = Stack("game")
+                        if backButton.click(event.pos):
+                            views.pop()
+                            viewChanged = True
+                        for option in options:
+                            if option.click(event.pos):
+                                pass
+                                #Equip or delete, depending on category
+                                    
+            screen.blit(popup[0].image, popup[0].rect)
+            screen.blit(closeButton.image, closeButton.rect)
+            screen.blit(backButton.image, backButton.rect)
+            for option in options:
+                screen.blit(option.image, option.rect)
+            pygame.display.flip()
+            
+    if views.top() == "clothesIn":
+        if viewChanged:
+            options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                direct = "Rooms/Sav/"
+                files = os.listdir(direct)
+                for f in files:
+                    if f[-4:] == ".sav":
+                        os.remove("Rooms/Sav/" + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            pass
+                            #Equip or delete, depending on category
+                                
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
         pygame.display.flip()
