@@ -55,7 +55,8 @@ choice = ""
 popup = []
 buttons = []
 options = []
-pets = []
+pet = ""
+petEquip = ""
 
 closeButton = SettingsButton([770, 125], "close")
 backButton = SettingsButton([135, 565], "back")
@@ -134,14 +135,18 @@ while True:
                     if "basic2" in player.spells:
                         spellType = "basic2"
                         
+                elif event.key == pygame.K_c:
+                    if "calicoCat" in player.inventory["pets"]:
+                        petEquip = "calicoCat"
+                        
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.key.key_code(left) or event.key == pygame.K_LEFT:
+                if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                     player.goKey("sleft")
-                elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
+                elif event.key == pygame.key.key_code(controls["right"]) or event.key == pygame.K_RIGHT:
                     player.goKey("sright")
-                elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
+                elif event.key == pygame.key.key_code(controls["forward"]) or event.key == pygame.K_UP:
                     player.goKey("sup")
-                elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
+                elif event.key == pygame.key.key_code(controls["backward"]) or event.key == pygame.K_DOWN:
                     player.goKey("sdown")
                 elif event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                     player.sprinting = False
@@ -167,13 +172,13 @@ while True:
                                     sys.exit();
                                 
                                 elif event.type == pygame.KEYUP:
-                                    if event.key == pygame.pygame.key.key_code(left) or event.key == pygame.K_LEFT:
+                                    if event.key == pygame.pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                                         player.goKey("sleft")
-                                    elif event.key == pygame.key.key_code(right) or event.key == pygame.K_RIGHT:
+                                    elif event.key == pygame.key.key_code(controls["right"]) or event.key == pygame.K_RIGHT:
                                         player.goKey("sright")
-                                    elif event.key == pygame.key.key_code(forward) or event.key == pygame.K_UP:
+                                    elif event.key == pygame.key.key_code(controls["forward"]) or event.key == pygame.K_UP:
                                         player.goKey("sup")
-                                    elif event.key == pygame.key.key_code(backward) or event.key == pygame.K_DOWN:
+                                    elif event.key == pygame.key.key_code(controls["backward"]) or event.key == pygame.K_DOWN:
                                         player.goKey("sdown")
                                     if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                                         player.sprinting = False
@@ -247,7 +252,9 @@ while True:
 
         player.update(size)
         
-        for pet in pets:
+        if petEquip != "":
+            pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
+        
             for enemy in enemies:
                 if enemy.angry == True:
                     pet.update(player.rect.center, True, enemy.rect.center)
@@ -286,7 +293,7 @@ while True:
                 spells = []
                 
                 player.goto(tiles[2])
-                for pet in pets:
+                if petEquip != "":
                     pet.goto(tiles[2])
 
         screen.fill((250, 175, 225))    
@@ -310,8 +317,7 @@ while True:
         elif player.dead and player.roam:
             for wall in walls:
                 screen.blit(wall.image, wall.rect)
-            for pet in pets:
-                screen.blit(pet.image, pet.rect)
+            screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
             screen.blit(player.image, player.rect)
@@ -326,7 +332,7 @@ while True:
                 screen.blit(spell.image, spell.rect)
             for enemy in enemies:
                 screen.blit(enemy.image, enemy.rect)
-            for pet in pets:
+            if petEquip != "":
                 screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
@@ -589,8 +595,8 @@ while True:
                         viewChanged = True
                     for option in options:
                         if option.click(event.pos):
-                            if player.purchase(option.kind, "pet"):
-                                pets += [Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], option.kind)]
+                            player.purchase(option.kind, "pet")
+        
         money.update(player.inventory["coins"])
         
         screen.blit(popup[0].image, popup[0].rect)
