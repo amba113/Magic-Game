@@ -139,6 +139,18 @@ while True:
                     if "calicoCat" in player.inventory["pets"]:
                         petEquip = "calicoCat"
                         pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
+                elif event.key == pygame.K_b:
+                    if "blackCat" in player.inventory["pets"]:
+                        petEquip = "blackCat"
+                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
+                elif event.key == pygame.K_o:
+                    if "owl" in player.inventory["pets"]:
+                        petEquip = "owl"
+                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
+                elif event.key == pygame.K_k:
+                    if "frog" in player.inventory["pets"]:
+                        petEquip = "frog"
+                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
                         
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
