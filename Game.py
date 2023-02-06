@@ -138,6 +138,7 @@ while True:
                 elif event.key == pygame.K_c:
                     if "calicoCat" in player.inventory["pets"]:
                         petEquip = "calicoCat"
+                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
                         
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
@@ -252,9 +253,7 @@ while True:
 
         player.update(size)
         
-        if petEquip != "":
-            pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
-        
+        if petEquip != "":        
             for enemy in enemies:
                 if enemy.angry == True:
                     pet.update(player.rect.center, True, enemy.rect.center)
@@ -333,6 +332,7 @@ while True:
             for enemy in enemies:
                 screen.blit(enemy.image, enemy.rect)
             if petEquip != "":
+                print("Showing pet")
                 screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
