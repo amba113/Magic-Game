@@ -250,7 +250,7 @@ class Player():
                                 self.inventory["wand"] = other
                             elif other.kind == "halfHealPotion":
                                 self.inventory["halfHealPotion"] += 1
-                            elif other.kind == "fullHea'Potion":
+                            elif other.kind == "fullHealPotion":
                                 self.inventory["fullHealPotion"] += 1
                             elif other.kind == "speedPotion":
                                 self.inventory["speedPotion"] += 1

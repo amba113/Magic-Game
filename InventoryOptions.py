@@ -9,11 +9,11 @@ class InventoryChoice():
                           "calicoCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Item.png"), scale),
                           "owl": pygame.transform.scale(pygame.image.load("Images/Owl Item.png"), scale),
                           "frog": pygame.transform.scale(pygame.image.load("Images/Frog Item.png"), scale)}
-        self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
-                             "health": pygame.transform.scale(pygame.image.load("Images/Health Choice.png"), scale),
-                             "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
-                             "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
-                             "revive": pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)}
+        self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Item.png"), scale),
+                             "health": pygame.transform.scale(pygame.image.load("Images/Health Item.png"), scale),
+                             "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Item.png"), scale),
+                             "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Item.png"), scale),
+                             "revive": pygame.transform.scale(pygame.image.load("Images/Revive Item.png"), scale)}
         self.clothesImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         

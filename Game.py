@@ -28,11 +28,6 @@ screen = pygame.display.set_mode(size)
 counter = 0
 
 hp = Text2("HP: ", [150, 25])
-speedPotions = Text("Speed Potions: ", [900-170, 2], 24)
-fullPotions = Text("Full Heal Potions: ", [900-170, 17], 24)
-halfPotions = Text("Half Heal Potions: ", [900-170, 32], 24)
-revivePotions = Text("Revive Potions: ", [900-170, 700-20], 24)
-healthPotions = Text("Health Potions: ", [900-170, 700-35], 24)
 position = Text("X,Y: ", [5, 700-20], 24)
 
 money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
@@ -264,11 +259,6 @@ while True:
         hp.update(str(player.hp) + "/" + str(player.hpMax))
         position.update(str(player.coord[0]) + "," + str(player.coord[1]))
         
-        speedPotions.update(player.inventory["speedPotion"])
-        fullPotions.update(player.inventory["fullHealPotion"])
-        halfPotions.update(player.inventory["halfHealPotion"])
-        revivePotions.update(player.inventory["revivePotion"])
-        healthPotions.update(player.inventory["healthPotion"])
         money.update(player.inventory["coins"])
         
         deathNote1.update("")
@@ -336,11 +326,6 @@ while True:
                 screen.blit(hide.image, hide.rect)
             screen.blit(settingsOpen.image, settingsOpen.rect)
             screen.blit(hp.image, hp.rect)
-            screen.blit(speedPotions.image, speedPotions.rect)
-            screen.blit(fullPotions.image, fullPotions.rect)
-            screen.blit(halfPotions.image, halfPotions.rect)
-            screen.blit(revivePotions.image, revivePotions.rect)
-            screen.blit(healthPotions.image, healthPotions.rect)
             screen.blit(position.image, position.rect)
             
         pygame.display.flip()
@@ -750,13 +735,13 @@ while True:
 
     if views.top() == "petsIn":
             if viewChanged:
-                options = [InventoryChoice([900/3, 700/3], views.top(), "blackCat"),
+                options = [InventoryChoice([900/3, 700/3 + 25], views.top(), "blackCat"),
                            InventoryChoice([900/3, 2*700/3], views.top(), "calicoCat"),
-                           InventoryChoice([2*900/3, 700/3], views.top(), "frog"),
+                           InventoryChoice([2*900/3, 700/3 + 25], views.top(), "frog"),
                            InventoryChoice([2*900/3, 2*700/3], views.top(), "owl")]
-                locked = [SettingsButton([900/3, 700/3], "locked"),
+                locked = [SettingsButton([900/3, 700/3 + 25], "locked"),
                           SettingsButton([900/3, 2*700/3], "locked"),
-                          SettingsButton([2*900/3, 700/3], "locked"),
+                          SettingsButton([2*900/3, 700/3 + 25], "locked"),
                           SettingsButton([2*900/3, 2*700/3], "locked")]
 
                 viewChanged = False
@@ -828,7 +813,18 @@ while True:
             
     if views.top() == "potionsIn":
             if viewChanged:
-                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+                offsetx = 35
+                offsety = -60
+                options = [InventoryChoice([900/3, 275], views.top(), "fullHeal"),
+                           InventoryChoice([2*900/3, 275], views.top(), "halfHeal"),
+                           InventoryChoice([900/4, 450], views.top(), "health"),
+                           InventoryChoice([900/2, 450], views.top(), "revive"),
+                           InventoryChoice([3*900/4, 450], views.top(), "speed")]
+                amounts = [Text2("", [900/3 + offsetx, 275 + offsety], 24, "Black"),
+                           Text2("", [2*900/3 + offsetx, 275 + offsety], 24, "Black"),
+                           Text2("", [900/4 + offsetx, 450 + offsety], 24, "Black"),
+                           Text2("", [900/2 + offsetx, 450 + offsety], 24, "Black"),
+                           Text2("", [3*900/4 + offsetx, 450 + offsety], 24, "Black")]
                 viewChanged = False
                            
             for event in pygame.event.get():
@@ -847,16 +843,16 @@ while True:
                         if backButton.click(event.pos):
                             views.pop()
                             viewChanged = True
-                        for option in options:
-                            if option.click(event.pos):
-                                pass
-                                #Equip or delete, depending on category
+            for i, option in enumerate(options):
+                amounts[i].update(player.inventory[option.kind + "Potion"])
                                     
             screen.blit(popup[0].image, popup[0].rect)
             screen.blit(closeButton.image, closeButton.rect)
             screen.blit(backButton.image, backButton.rect)
             for option in options:
                 screen.blit(option.image, option.rect)
+            for amount in amounts:
+                screen.blit(amount.image, amount.rect)
             pygame.display.flip()
             
     if views.top() == "clothesIn":
