@@ -13,6 +13,7 @@ class SettingsButton():
                        "back": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale),
                        "controlsBox": pygame.image.load("Images/Control Box.png"),
                        "reset": pygame.image.load("Images/Reset Button.png"),
+                       "locked": pygame.image.load("Images/Item Locked.png"),
                        "petsSt": pygame.image.load("Images/Pets Option.png"),
                        "spellsSt": pygame.image.load("Images/Spells Option.png"),
                        "potionsSt": pygame.image.load("Images/Potions Option.png"),

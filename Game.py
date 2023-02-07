@@ -12,6 +12,7 @@ from WandButton import *
 from SettingsButtons import *
 from SettingsOpen import *
 from StoreOptions import *
+from InventoryOptions import *
 from Pets import *
 from Stack import *
 
@@ -134,23 +135,6 @@ while True:
                 elif event.key == pygame.K_2:
                     if "basic2" in player.spells:
                         spellType = "basic2"
-                        
-                elif event.key == pygame.K_c:
-                    if "calicoCat" in player.inventory["pets"]:
-                        petEquip = "calicoCat"
-                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
-                elif event.key == pygame.K_b:
-                    if "blackCat" in player.inventory["pets"]:
-                        petEquip = "blackCat"
-                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
-                elif event.key == pygame.K_o:
-                    if "owl" in player.inventory["pets"]:
-                        petEquip = "owl"
-                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
-                elif event.key == pygame.K_k:
-                    if "frog" in player.inventory["pets"]:
-                        petEquip = "frog"
-                        pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
                         
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
@@ -766,7 +750,15 @@ while True:
 
     if views.top() == "petsIn":
             if viewChanged:
-                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+                options = [InventoryChoice([900/3, 700/3], views.top(), "blackCat"),
+                           InventoryChoice([900/3, 2*700/3], views.top(), "calicoCat"),
+                           InventoryChoice([2*900/3, 700/3], views.top(), "frog"),
+                           InventoryChoice([2*900/3, 2*700/3], views.top(), "owl")]
+                locked = [SettingsButton([900/3, 700/3], "locked"),
+                          SettingsButton([900/3, 2*700/3], "locked"),
+                          SettingsButton([2*900/3, 700/3], "locked"),
+                          SettingsButton([2*900/3, 2*700/3], "locked")]
+
                 viewChanged = False
                            
             for event in pygame.event.get():
@@ -787,14 +779,18 @@ while True:
                             viewChanged = True
                         for option in options:
                             if option.click(event.pos):
-                                pass
-                                #Equip or delete, depending on category
-                                    
+                                if option.kind in player.inventory["pets"]:
+                                    petEquip = option.kind
+                                    pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
+            
+            
             screen.blit(popup[0].image, popup[0].rect)
             screen.blit(closeButton.image, closeButton.rect)
             screen.blit(backButton.image, backButton.rect)
-            for option in options:
+            for i, option in enumerate(options):
                 screen.blit(option.image, option.rect)
+                if option.kind not in player.inventory["pets"]:
+                    screen.blit(locked[i].image, locked[i].rect)
             pygame.display.flip()
 
     if views.top() == "spellsIn":

@@ -338,7 +338,6 @@ class Player():
                 if self.inventory["coins"] >= 3:
                     self.inventory["coins"] -= 3
                     self.inventory["pets"] += ["blackCat"]
-                    print("Black cat acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -347,7 +346,6 @@ class Player():
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     self.inventory["pets"] += ["calicoCat"]
-                    print("Calico cat acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -356,7 +354,6 @@ class Player():
                 if self.inventory["coins"] >= 2:
                     self.inventory["coins"] -= 2
                     self.inventory["pets"] += ["owl"]
-                    print("Owl acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -365,7 +362,6 @@ class Player():
                 if self.inventory["coins"] >= 5:
                     self.inventory["coins"] -= 5
                     self.inventory["pets"] += ["frog"]
-                    print("Frog acquired", self.inventory["pets"])
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -377,7 +373,6 @@ class Player():
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     self.inventory["speedPotion"] += 1
-                    print("Speed acquired")
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -386,7 +381,6 @@ class Player():
                 if self.inventory["coins"] >= 2:
                     self.inventory["coins"] -= 2
                     self.inventory["healthPotion"] += 1
-                    print("Health acquired")
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -395,7 +389,6 @@ class Player():
                 if self.inventory["coins"] >= 3:
                     self.inventory["coins"] -= 3
                     self.inventory["fullHealPotion"] += 1
-                    print("Full Heal acquired")
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -404,7 +397,6 @@ class Player():
                 if self.inventory["coins"] >= 1:
                     self.inventory["coins"] -= 1
                     self.inventory["halfHealPotion"] += 1
-                    print("Half Heal acquired")
                     return True
                 else:
                     print("You are too poor to afford this")
@@ -413,7 +405,6 @@ class Player():
                 if self.inventory["coins"] >= 10:
                     self.inventory["coins"] -= 10
                     self.inventory["revivePotion"] += 1
-                    print("Revive acquired")
                     return True
                 else:
                     print("You are too poor to afford this")
