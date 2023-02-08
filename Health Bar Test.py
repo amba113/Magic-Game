@@ -9,7 +9,7 @@ clock = pygame.time.Clock()
 color = (0, 255, 0)
 size = [900, 700]
 cRad = 5
-height = 25
+height = 50
 lengthMax = 500
 length = lengthMax
 if cRad < height:
@@ -33,6 +33,8 @@ while True:
                     go = False
                 if event.key == pygame.K_a:
                     hurt = True
+                if event.key == pygame.K_r:
+                    length = lengthMax
                     
         screen.fill((0,0,0))
         pygame.draw.rect(screen, color, rect2, 0, cRad)
