@@ -101,7 +101,6 @@ class Player():
             self.hp = 0
         
         if self.hp == 0:
-            print("You dead")
             self.speed = [0, 0]
             self.kind = "dead"
             self.inventory["speedPotion"] = 0

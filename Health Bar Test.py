@@ -38,7 +38,7 @@ while True:
                     
         screen.fill((0,0,0))
         pygame.draw.rect(screen, color, rect2, 0, cRad)
-        pygame.draw.rect(screen, (255,255,255), rect1, 3, cRad)
+        pygame.draw.rect(screen, (255, 255, 255), rect1, 3, cRad)
 
         if length <= lengthMin:
             inc = True
@@ -48,7 +48,7 @@ while True:
         
         if length > lengthMin and length <= lengthMax and inc == False and hurt == True:
             length -= step
-        elif length >= lengthMin and length <= lengthMax and inc == True and hurt == True:
+        elif length == lengthMin:
             length = lengthMin
             print("Death")
                     

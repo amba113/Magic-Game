@@ -15,6 +15,7 @@ from StoreOptions import *
 from InventoryOptions import *
 from Pets import *
 from Stack import *
+from HealthBar import *
 
 pygame.init()
 pygame.mixer.init()
@@ -27,7 +28,6 @@ screen = pygame.display.set_mode(size)
 
 counter = 0
 
-hp = Text2("HP: ", [150, 25])
 position = Text("X,Y: ", [5, 700-20], 24)
 
 money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
@@ -53,6 +53,8 @@ buttons = []
 options = []
 pet = ""
 petEquip = ""
+
+hp = Health(player.coord, [10, 60], 3)
 
 closeButton = SettingsButton([770, 125], "close")
 backButton = SettingsButton([135, 565], "back")
@@ -255,8 +257,6 @@ while True:
 
         for spell in spells:
             spell.update()
-        
-        hp.update(str(player.hp) + "/" + str(player.hpMax))
         position.update(str(player.coord[0]) + "," + str(player.coord[1]))
         
         money.update(player.inventory["coins"])
@@ -282,7 +282,7 @@ while True:
                     pet.goto(tiles[2])
 
         screen.fill((250, 175, 225))    
-                
+        
         for spell in spells:
             if not spell.living:
                 spells.remove(spell)
@@ -302,7 +302,8 @@ while True:
         elif player.dead and player.roam:
             for wall in walls:
                 screen.blit(wall.image, wall.rect)
-            screen.blit(pet.image, pet.rect)
+            if petEquip != "":
+                screen.blit(pet.image, pet.rect)
             for door in doors:
                 screen.blit(door.image, door.rect)
             screen.blit(player.image, player.rect)
@@ -322,10 +323,10 @@ while True:
             for door in doors:
                 screen.blit(door.image, door.rect)
             screen.blit(player.image, player.rect)
+            hp.update(player.rect.center, player.hp, player.hpMax, screen)
             for hide in hides:
                 screen.blit(hide.image, hide.rect)
             screen.blit(settingsOpen.image, settingsOpen.rect)
-            screen.blit(hp.image, hp.rect)
             screen.blit(position.image, position.rect)
             
         pygame.display.flip()
