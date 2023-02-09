@@ -58,9 +58,12 @@ hp = Health(player.coord, [10, 60], 3)
 
 closeButton = SettingsButton([770, 125], "close")
 backButton = SettingsButton([135, 565], "back")
+playButton = SettingsButton([900/2, 500], "play")
+
+titleText = Text2("[Insert Game Name]", [900/2, 200], 100)
 
 loc = ""
-views = Stack("game")
+views = Stack("title")
 viewChanged = False
 
 controls = {"forward": "w",
@@ -74,6 +77,27 @@ controls = {"forward": "w",
             "inventory": "e"}
             
 while True:
+    if views.top() == "title":
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit();
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if playButton.click(event.pos):
+                        views = Stack("game")
+        
+        titleText.update("")
+        
+        screen.fill((250, 175, 225))
+        screen.blit(titleText.image, titleText.rect)
+        screen.blit(playButton.image, playButton.rect)
+        
+        pygame.display.flip()
+        clock.tick(60)
+    
     if views.top() == "game":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
