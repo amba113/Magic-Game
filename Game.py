@@ -821,11 +821,11 @@ while True:
                            InventoryChoice([900/4, 450], views.top(), "health"),
                            InventoryChoice([900/2, 450], views.top(), "revive"),
                            InventoryChoice([3*900/4, 450], views.top(), "speed")]
-                amounts = [Text2("", [900/3 + offsetx, 275 + offsety], 24, "Black"),
-                           Text2("", [2*900/3 + offsetx, 275 + offsety], 24, "Black"),
-                           Text2("", [900/4 + offsetx, 450 + offsety], 24, "Black"),
-                           Text2("", [900/2 + offsetx, 450 + offsety], 24, "Black"),
-                           Text2("", [3*900/4 + offsetx, 450 + offsety], 24, "Black")]
+                amounts = [Text2("", [900/3 + offsetx + 25, 275 + offsety], 24, "Black"),
+                           Text2("", [2*900/3 + offsetx + 25, 275 + offsety], 24, "Black"),
+                           Text2("", [900/4 + offsetx + 25, 450 + offsety], 24, "Black"),
+                           Text2("", [900/2 + offsetx + 25, 450 + offsety], 24, "Black"),
+                           Text2("", [3*900/4 + offsetx + 25, 450 + offsety], 24, "Black")]
                 viewChanged = False
                            
             for event in pygame.event.get():
