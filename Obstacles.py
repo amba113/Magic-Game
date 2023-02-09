@@ -27,19 +27,19 @@ class Obstacle():
         self.rect = self.image.get_rect(center = pos)
         
     def playerCollide(self, other):
-        if self.rect.right > other.rect.left - 10:
-            if self.rect.left < other.rect.right + 10:
-                if self.rect.bottom > other.rect.top + 10:
-                    if self.rect.top < other.rect.bottom - 10:
+        if self.rect.right > other.rect.left:
+            if self.rect.left < other.rect.right:
+                if self.rect.bottom > other.rect.top:
+                    if self.rect.top < other.rect.bottom:
                         if self.kind == "bush":
                             self.kind = "bushClear"
-                    elif self.kind == "bush":
+                    elif self.kind == "bushClear":
                         self.kind = "bush"
-                elif self.kind == "bush":
+                elif self.kind == "bushClear":
                     self.kind = "bush"
-            elif self.kind == "bush":
+            elif self.kind == "bushClear":
                 self.kind = "bush"
-        elif self.kind == "bush":
+        elif self.kind == "bushClear":
             self.kind = "bush"
         self.image = self.images[self.kind]
     def update(self):
