@@ -29,52 +29,39 @@ add = False
 agree = False
 
 def doSignin(name, pwd):
-    print(name, pwd)
-    direct1 = "logins.txt"
-    f1 = open(direct1, 'r')
-    lines1 = f1.readlines()
-    f1.close()
-    
-    direct2 = "usernames.txt"
-    f2 = open(direct2, 'r')
-    lines2 = f2.readlines()
-    f2.close()
+    direct = "logins.txt"
+    f = open(direct, 'r')
+    lines = f.readlines()
+    f.close()
     
     user = None
     username = None
-    newLines1 = []
-    newLines2 = []
+    newLines = []
     good = False
     new = False
     
-    for l in lines1:
-        newLine1 = l.split(" ")
-        newLines1 += [newLine1]
-        
-    for l in lines2:
-        newLine2 = l.split(" ")
-        newLines2 += [newLine2]
+    for l in lines:
+        newLine = l.split(" ")
+        newLines += [newLine]
     z = 0
-    for i, line1 in enumerate(newLines1):
-        for x, line2 in enumerate(newLines2):
-            if name == line1[0]:
-                if pwd == line1[1]:
-                    z = i
-                    good = True
-                else:
-                    good = False
-                    print("no match")
-                new = False
+    for i, line in enumerate(newLines):
+        if name == line[0]:
+            if pwd == line[1]:
+                z = i
+                good = True
             else:
-                new = True
-                
-            if good == True:
-                temp = newLines2[z]
-                user = temp[0]
-                username = temp[1]
+                good = False
+                print("no match")
+            new = False
+        else:
+            new = True
+            
+        if good == True:
+            temp = newLines[z]
+            user = temp[0]
+            username = temp[2]
 
-    f1.close()
-    f2.close()
+    f.close()
     return user, username, new
     
 while True:
@@ -111,18 +98,14 @@ while True:
                     userText3 = userText3[:-1]
             elif event.key == pygame.K_RETURN:
                 user, username, new = doSignin(userText1, userText2)
+                print(user, username)
                 if name:
-                    add1 = userText1 + " " + userText2 + "\n"
-                    add2 = userText1 + " " + userText3 + "\n"
+                    add = userText1 + " " + userText2 + " " + userText3 + "\n"
                     
-                    direct1 = "logins.txt"
-                    direct2 = "usernames.txt"
-                    a1 = open(direct1, 'a')
-                    a2 = open(direct2, 'a')
-                    a1.write(add1)
-                    a2.write(add2)
-                    a1.close()
-                    a2.close()
+                    direct = "logins.txt"
+                    a = open(direct, 'a')
+                    a.write(add)
+                    a.close()
                     name = False
                     
                 elif user == None or username == None:
