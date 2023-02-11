@@ -1,4 +1,3 @@
 test bob
 name larry
 a13 blob
-pow Hi

@@ -58,7 +58,7 @@ def doSignin(name, pwd):
     for i, line1 in enumerate(newLines1):
         for x, line2 in enumerate(newLines2):
             if name == line1[0]:
-                if pwd + "\n" == line1[1]:
+                if pwd == line1[1]:
                     z = i
                     good = True
                 else:
@@ -111,10 +111,9 @@ while True:
                     userText3 = userText3[:-1]
             elif event.key == pygame.K_RETURN:
                 user, username, new = doSignin(userText1, userText2)
-                print(user, username, new)
                 if name:
-                    add1 = userText1 + " " + userText2
-                    add2 = userText1 + " " + userText3
+                    add1 = userText1 + " " + userText2 + "\n"
+                    add2 = userText1 + " " + userText3 + "\n"
                     
                     direct1 = "logins.txt"
                     direct2 = "usernames.txt"
@@ -130,7 +129,6 @@ while True:
                     if new:
                         add = new
                     else:
-                        print(user, username)
                         box1 = False
                         box2 = False
                         box3 = False
