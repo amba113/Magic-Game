@@ -4,7 +4,7 @@ from Player import *
 from Items import *
 from Enemy import *
 
-def saveMap(items, enemies, coord):
+def saveMap(user, items, enemies, coord):
     outList = []
     for row in range(14):
         outRow = []
@@ -29,12 +29,12 @@ def saveMap(items, enemies, coord):
             out += outList[row][col]
         out += '\n'
     
-    direct = "Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"
+    direct = "Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"
     f = open(direct, 'w')
     f.write(out)
     f.close()
 
-def loadMap(coord = [1, 1], enter = "def"):
+def loadMap(user, coord = [1, 1], enter = "def"):
     size = 50
     offset = size/2
     tiles = []
@@ -98,8 +98,8 @@ def loadMap(coord = [1, 1], enter = "def"):
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
     
-    if os.path.isfile("Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"):
-        direct2 = "Rooms/Sav/" + str(coord[1]) + str(coord[0]) + ".sav"
+    if os.path.isfile("Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"):
+        direct2 = "Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"
         g = open(direct2, 'r')
         lines2 = g.readlines()
         g.close()

@@ -36,7 +36,7 @@ deathNote2 = Text2("Pres s V to revive", [900/2, 700/2 - 50], 36)
 deathNote3 = Text2("Press R to roam as a ghost", [900/2, 700/2 + 50], 36)
 settingsOpen = SettingsOpen([25, 25])
 
-tiles = loadMap()
+tiles = loadMap("test")
 walls = tiles[0]
 doors = tiles[1]
 hides = tiles[5]
@@ -89,9 +89,10 @@ baseFont = pygame.font.Font(None, 40)
 userText1 = ''
 userText2 = ''
 userText3 = ''
+user = ''
 inputRect1 = pygame.Rect(size[0]/2, size[1]/4, 150, 50)
 inputRect2 = pygame.Rect(size[0]/2, size[1]/2, 150, 50)
-inputRect3 = pygame.Rect(size[0]/2, 5*size[1]/8, 150, 50)
+inputRect3 = pygame.Rect(size[0]/2, 3*size[1]/8, 150, 50)
 agreeRect = pygame.Rect(size[0]/2, size[1]/3, 150, 50)
 disagreeRect = pygame.Rect(size[0]/2, 2*size[1]/3, 150, 50)            
 
@@ -153,7 +154,7 @@ while True:
         pygame.display.flip()
         clock.tick(60)
     
-    if views.top() == ("signin"):
+    if views.top() == "signin":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -189,6 +190,25 @@ while True:
                                 a.write(add)
                                 a.close()
                                 name = False
+                                path = "Rooms/Sav/" + userText1
+                                isdir = os.path.isdir(path)
+
+                                if isdir:
+                                    print("exists")
+                                else:
+                                    os.mkdir(path)
+                                    isdir = os.path.isdir(path)
+                                    print("made")
+                                user = userText1
+                                tiles = loadMap(user)
+                                walls = tiles[0]
+                                doors = tiles[1]
+                                hides = tiles[5]
+                                player = Player(4, tiles[2])
+                                players = [player]
+                                items = tiles[3]
+                                enemies = tiles[4]
+                                spells = []
                                 views = Stack("game")
                             else:
                                 print("no input", userText3)
@@ -204,8 +224,27 @@ while True:
                                 userText2 = ""
                                 userText3 = ""
                         else:
+                            path = "Rooms/Sav/" + user
+                            isdir = os.path.isdir(path)
+
+                            if isdir:
+                                print("exists")
+                            else:
+                                os.mkdir(path)
+                                isdir = os.path.isdir(path)
+                                print("made")
+                            user = userText1
+                            tiles = loadMap(user)
+                            walls = tiles[0]
+                            doors = tiles[1]
+                            hides = tiles[5]
+                            player = Player(4, tiles[2])
+                            players = [player]
+                            items = tiles[3]
+                            enemies = tiles[4]
+                            spells = []
                             views = Stack("game")
-      
+                            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     if box1:
@@ -226,6 +265,25 @@ while True:
                             a.write(add)
                             a.close()
                             name = False
+                            path = "Rooms/Sav/" + userText1
+                            isdir = os.path.isdir(path)
+
+                            if isdir:
+                                print("exists")
+                            else:
+                                os.mkdir(path)
+                                isdir = os.path.isdir(path)
+                                print("made")
+                            user = userText1
+                            tiles = loadMap(user)
+                            walls = tiles[0]
+                            doors = tiles[1]
+                            hides = tiles[5]
+                            player = Player(4, tiles[2])
+                            players = [player]
+                            items = tiles[3]
+                            enemies = tiles[4]
+                            spells = []
                             views = Stack("game")
                         else:
                             print("no input", userText3)
@@ -241,6 +299,25 @@ while True:
                             userText2 = ""
                             userText3 = ""
                     else:
+                        path = "Rooms/Sav/" + user
+                        isdir = os.path.isdir(path)
+
+                        if isdir:
+                            print("exists")
+                        else:
+                            os.mkdir(path)
+                            isdir = os.path.isdir(path)
+                            print("made")
+                        user = userText1
+                        tiles = loadMap(user)
+                        walls = tiles[0]
+                        doors = tiles[1]
+                        hides = tiles[5]
+                        player = Player(4, tiles[2])
+                        players = [player]
+                        items = tiles[3]
+                        enemies = tiles[4]
+                        spells = []
                         views = Stack("game")
                                                     
                 elif event.key == pygame.K_TAB:
@@ -296,26 +373,25 @@ while True:
         
         pygame.display.flip()
         clock.tick(60)
-
     
     if views.top() == "game":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
                         
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    direct = "Rooms/Sav/"
+                    direct = "Rooms/Sav/" + user + "/"
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
                             
-                            os.remove("Rooms/Sav/" + f)
+                            os.remove("Rooms/Sav/" + user + "/" + f)
                     sys.exit();
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
@@ -491,9 +567,9 @@ while True:
         
         for door in doors:
             if player.doorCollide(door):
-                saveMap(items, enemies, player.prevCoord)
+                saveMap(user, items, enemies, player.prevCoord)
                 loc = door.kind
-                tiles = loadMap(player.coord, loc)
+                tiles = loadMap(user, player.coord, loc)
                 walls = tiles[0]
                 doors = tiles[1]
                 items = tiles[3]
@@ -568,19 +644,19 @@ while True:
         while choice == "":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    direct = "Rooms/Sav/"
+                    direct = "Rooms/Sav/" + user + "/"
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
-                            os.remove("Rooms/Sav/" + f)
+                            os.remove("Rooms/Sav/" + user + "/" + f)
                     sys.exit();
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        direct = "Rooms/Sav/"
+                        direct = "Rooms/Sav/" + user + "/"
                         files = os.listdir(direct)
                         for f in files:
                             if f[-4:] == ".sav":
-                                os.remove("Rooms/Sav/" + f)
+                                os.remove("Rooms/Sav/" + user + "/" + f)
                         sys.exit();
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -650,11 +726,11 @@ while True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -749,12 +825,12 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
                         
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -784,11 +860,11 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -819,12 +895,12 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
                         
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -859,12 +935,12 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
                         
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -895,12 +971,12 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
                         
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -935,11 +1011,11 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -973,11 +1049,11 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    direct = "Rooms/Sav/"
+                    direct = "Rooms/Sav/" + user + "/"
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
-                            os.remove("Rooms/Sav/" + f)
+                            os.remove("Rooms/Sav/" + user + "/" + f)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1010,11 +1086,11 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    direct = "Rooms/Sav/"
+                    direct = "Rooms/Sav/" + user + "/"
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
-                            os.remove("Rooms/Sav/" + f)
+                            os.remove("Rooms/Sav/" + user + "/" + f)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1054,11 +1130,11 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    direct = "Rooms/Sav/"
+                    direct = "Rooms/Sav/" + user + "/"
                     files = os.listdir(direct)
                     for f in files:
                         if f[-4:] == ".sav":
-                            os.remove("Rooms/Sav/" + f)
+                            os.remove("Rooms/Sav/" + user + "/" + f)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1087,11 +1163,11 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                direct = "Rooms/Sav/"
+                direct = "Rooms/Sav/" + user + "/"
                 files = os.listdir(direct)
                 for f in files:
                     if f[-4:] == ".sav":
-                        os.remove("Rooms/Sav/" + f)
+                        os.remove("Rooms/Sav/" + user + "/" + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
