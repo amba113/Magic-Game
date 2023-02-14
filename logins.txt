@@ -1,4 +1,2 @@
 test boom yay
-name pwd user
-a13 @#/B blah
-pow wow bob
+pow wow test

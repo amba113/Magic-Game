@@ -1,4 +1,5 @@
 import pygame, sys, math, random, os
+from SettingsButtons import *
 
 pygame.init()
 pygame.mixer.init()
@@ -14,11 +15,11 @@ userText1 = ''
 userText2 = ''
 userText3 = ''
 inputRect1 = pygame.Rect(size[0]/2, size[1]/4, 150, 50)
-inputRect2 = pygame.Rect(size[0]/2, 2*size[1]/4, 150, 50)
-inputRect3 = pygame.Rect(size[0]/2, 3*size[1]/4, 150, 50)
+inputRect2 = pygame.Rect(size[0]/2, size[1]/2, 150, 50)
+inputRect3 = pygame.Rect(size[0]/2, 5*size[1]/8, 150, 50)
 agreeRect = pygame.Rect(size[0]/2, size[1]/3, 150, 50)
 disagreeRect = pygame.Rect(size[0]/2, 2*size[1]/3, 150, 50)
-
+playButton = SettingsButton([900/2, 600], "play")
 
 color = (255, 255, 255)
 box1 = False
@@ -87,6 +88,35 @@ while True:
                 agree = True
             elif disagreeRect.collidepoint(event.pos):
                 agree = False
+            elif event.button == 1:
+                if playButton.click(event.pos):
+                    user, username, new = doSignin(userText1, userText2)
+                    print(user, username)
+                    if name:
+                        if userText3 != "":
+                            add = userText1 + " " + userText2 + " " + userText3 + "\n"
+                            
+                            direct = "logins.txt"
+                            a = open(direct, 'a')
+                            a.write(add)
+                            a.close()
+                            name = False
+                            print("Opening game")
+                        else:
+                            print("no input", userText3)
+                        
+                    elif user == None or username == None:
+                        if new:
+                            add = new
+                        else:
+                            box1 = False
+                            box2 = False
+                            box3 = False
+                            userText1 = ""
+                            userText2 = ""
+                            userText3 = ""
+                    else:
+                        print("Opening game")
   
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
@@ -100,13 +130,17 @@ while True:
                 user, username, new = doSignin(userText1, userText2)
                 print(user, username)
                 if name:
-                    add = userText1 + " " + userText2 + " " + userText3 + "\n"
-                    
-                    direct = "logins.txt"
-                    a = open(direct, 'a')
-                    a.write(add)
-                    a.close()
-                    name = False
+                    if userText3 != "":
+                        add = userText1 + " " + userText2 + " " + userText3 + "\n"
+                        
+                        direct = "logins.txt"
+                        a = open(direct, 'a')
+                        a.write(add)
+                        a.close()
+                        name = False
+                        print("Opening game")
+                    else:
+                        print("no input", userText3)
                     
                 elif user == None or username == None:
                     if new:
@@ -118,20 +152,17 @@ while True:
                         userText1 = ""
                         userText2 = ""
                         userText3 = ""
+                else:
+                    print("Opening game")
                                                 
             elif event.key == pygame.K_TAB:
                 if box1:
                     box1 = False
                     box2 = True
-                    box3 = False
                 elif box2:
-                    box1 = False
-                    box2 = False
-                    box3 = True
-                elif box3:
                     box1 = True
                     box2 = False
-                    box3 = False
+
             else:
                 if box1:
                     userText1 += event.unicode
@@ -142,12 +173,15 @@ while True:
                     
     screen.fill(color)
     if add and agree:
+        screen.blit(playButton.image, playButton.rect)
+        
         label3 = baseFont.render("Screen Name:", True, (0,0,0))
         textSurface3 = baseFont.render(userText3, True, color)
         pygame.draw.rect(screen, (0, 0, 0), inputRect3)
         screen.blit(textSurface3, (inputRect3.x+5, inputRect3.y+5))
         screen.blit(label3, (inputRect3.x, inputRect3.y - 30))
         name = True
+        
     elif add and not agree:
         yes = baseFont.render("Yes", True, color)
         no = baseFont.render("No", True, color)
@@ -169,6 +203,8 @@ while True:
         pygame.draw.rect(screen, (0, 0, 0), inputRect2)
         screen.blit(textSurface2, (inputRect2.x+5, inputRect2.y+5))
         screen.blit(label2, (inputRect2.x, inputRect2.y - 30))
+        
+        screen.blit(playButton.image, playButton.rect)
     
     pygame.display.flip()
     clock.tick(60)
