@@ -134,13 +134,23 @@ def doSignin(name, pwd):
             
 while True:
     if views.top() == "title":
+        if viewChanged:
+            box1 = False
+            box2 = False
+            box3 = False
+            name = False
+            add = False
+            agree = False
+            userText1 = ''
+            userText2 = ''
+            userText3 = ''
+            user = ''
+            viewChanged = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
                 sys.exit();
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    saveMap(user, items, enemies, player.coord)
                     sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -159,7 +169,6 @@ while True:
     if views.top() == "signin":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if inputRect1.collidepoint(event.pos):
@@ -176,12 +185,13 @@ while True:
                     box3 = True
                 elif agreeRect.collidepoint(event.pos):
                     agree = True
+                    disagree = False
                 elif disagreeRect.collidepoint(event.pos):
-                    agree = False
+                    views.pop()
+                    viewChanged = True
                 elif event.button == 1:
                     if playButton.click(event.pos):
                         user, username, new = doSignin(userText1, userText2)
-                        print(user, username)
                         if name:
                             if userText3 != "":
                                 add = userText1 + " " + userText2 + " " + userText3 + "\n"
@@ -225,7 +235,7 @@ while True:
                                 userText2 = ""
                                 userText3 = ""
                         else:
-                            path = "Rooms/Sav/" + user
+                            path = "Rooms/Sav/" + userText1
                             isdir = os.path.isdir(path)
 
                             if isdir:
@@ -300,7 +310,7 @@ while True:
                             userText2 = ""
                             userText3 = ""
                     else:
-                        path = "Rooms/Sav/" + user
+                        path = "Rooms/Sav/" + userText1
                         isdir = os.path.isdir(path)
 
                         if isdir:
@@ -338,6 +348,7 @@ while True:
                         userText3 += event.unicode
                         
         screen.fill(color1)
+        
         if add and agree:
             screen.blit(playButton.image, playButton.rect)
             
@@ -443,7 +454,8 @@ while True:
                         setOpen = True
                         buttons = [SettingsButton([60, 65], "controls"),
                                    SettingsButton([60, 115], "store"),
-                                   SettingsButton([60, 165], "quit")]
+                                   SettingsButton([60, 165], "signout"),
+                                   SettingsButton([60, 215], "quit")]
                         popup = []
                         while selected == "" and setOpen == True:
                             for event in pygame.event.get():
@@ -482,6 +494,9 @@ while True:
                                 sys.exit()
                             elif selected == "store":
                                 views.push("store")
+                                viewChanged = True
+                            elif selected == "signout":
+                                views = Stack("title")
                                 viewChanged = True
                             elif selected == "controls":
                                 views.push("controls")

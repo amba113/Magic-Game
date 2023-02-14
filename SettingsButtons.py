@@ -9,6 +9,7 @@ class SettingsButton():
         
         self.images = {"controls": pygame.image.load("Images/Control Set Button.png"),
                        "store": pygame.image.load("Images/Store Button.png"),
+                       "signout": pygame.image.load("Images/Signout Button.png"),
                        "quit": pygame.image.load("Images/Quit Button.png"),
                        "play": pygame.transform.scale(pygame.image.load("Images/Play Button.png"), self.scale2),
                        "sign": pygame.transform.scale(pygame.image.load("Images/Signin Button.png"), self.scale2),
