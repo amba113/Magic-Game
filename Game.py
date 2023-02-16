@@ -1,4 +1,4 @@
-import pygame, sys, math, random, os
+import pygame, sys, math, random, os, pickle
 from Player import *
 from MapLoader import *
 from Obstacles import *
@@ -41,7 +41,6 @@ walls = tiles[0]
 doors = tiles[1]
 hides = tiles[5]
 player = Player(4, tiles[2])
-players = [player]
 items = tiles[3]
 enemies = tiles[4]
 spells = []
@@ -222,10 +221,10 @@ while True:
                                 doors = tiles[1]
                                 hides = tiles[5]
                                 player = Player(4, tiles[2])
-                                players = [player]
                                 items = tiles[3]
                                 enemies = tiles[4]
                                 spells = []
+                                player.inventory = tiles[6]
                                 views = Stack("game")
                             else:
                                 print("no input", userText3)
@@ -256,10 +255,10 @@ while True:
                             doors = tiles[1]
                             hides = tiles[5]
                             player = Player(4, tiles[2])
-                            players = [player]
                             items = tiles[3]
                             enemies = tiles[4]
                             spells = []
+                            player.inventory = tiles[6]
                             views = Stack("game")
                     
                     elif see and passSee.click(event.pos):
@@ -302,10 +301,10 @@ while True:
                             doors = tiles[1]
                             hides = tiles[5]
                             player = Player(4, tiles[2])
-                            players = [player]
                             items = tiles[3]
                             enemies = tiles[4]
                             spells = []
+                            player.inventory = tiles[6]
                             views = Stack("game")
                         else:
                             print("no input", userText3)
@@ -336,10 +335,10 @@ while True:
                         doors = tiles[1]
                         hides = tiles[5]
                         player = Player(4, tiles[2])
-                        players = [player]
                         items = tiles[3]
                         enemies = tiles[4]
                         spells = []
+                        player.inventory = tiles[6]
                         views = Stack("game")
                                                     
                 elif event.key == pygame.K_TAB:
@@ -406,13 +405,14 @@ while True:
         clock.tick(60)
     
     if views.top() == "game":
+        print(player.inventory)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    saveMap(user, items, enemies, player.coord)
+                    saveMap(user, items, enemies, player)
                     sys.exit();
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
@@ -479,7 +479,7 @@ while True:
                         while selected == "" and setOpen == True:
                             for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
-                                    saveMap(user, items, enemies, player.coord)
+                                    saveMap(user, items, enemies, player)
                                     sys.exit();
                                 
                                 elif event.type == pygame.KEYUP:
@@ -509,13 +509,13 @@ while True:
                                             setOpen = False
                                             
                             if selected == "quit":
-                                saveMap(user, items, enemies, player.coord)
+                                saveMap(user, items, enemies, player)
                                 sys.exit()
                             elif selected == "store":
                                 views.push("store")
                                 viewChanged = True
                             elif selected == "signout":
-                                saveMap(user, items, enemies, player.coord)
+                                saveMap(user, items, enemies, player)
                                 views = Stack("title")
                                 viewChanged = True
                             elif selected == "controls":
@@ -584,7 +584,7 @@ while True:
         
         for door in doors:
             if player.doorCollide(door):
-                saveMap(user, items, enemies, player.prevCoord)
+                saveMap(user, items, enemies, player, True)
                 loc = door.kind
                 tiles = loadMap(user, player.coord, loc)
                 walls = tiles[0]
@@ -661,11 +661,11 @@ while True:
         while choice == "":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    saveMap(user, items, enemies, player.coord)
+                    saveMap(user, items, enemies, player)
                     sys.exit();
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        saveMap(user, items, enemies, player.coord)
+                        saveMap(user, items, enemies, player)
                         sys.exit();
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
@@ -735,7 +735,7 @@ while True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -830,7 +830,7 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -860,7 +860,7 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -891,7 +891,7 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -926,7 +926,7 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -957,7 +957,7 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -992,7 +992,7 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1026,7 +1026,7 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    saveMap(user, items, enemies, player.coord)
+                    saveMap(user, items, enemies, player)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1059,7 +1059,7 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    saveMap(user, items, enemies, player.coord)
+                    saveMap(user, items, enemies, player)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1099,7 +1099,7 @@ while True:
                            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    saveMap(user, items, enemies, player.coord)
+                    saveMap(user, items, enemies, player)
                     sys.exit();
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1128,7 +1128,7 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player.coord)
+                saveMap(user, items, enemies, player)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:

@@ -1,10 +1,10 @@
-import pygame, sys, math, os
+import pygame, sys, math, os, pickle
 from Obstacles import *
 from Player import *
 from Items import *
 from Enemy import *
 
-def saveMap(user, items, enemies, coord):
+def saveMap(user, items, enemies, player, door = False):
     outList = []
     for row in range(14):
         outRow = []
@@ -29,7 +29,12 @@ def saveMap(user, items, enemies, coord):
             out += outList[row][col]
         out += '\n'
     
-    direct = "Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"
+    pickle.Pickler(user + ".inv").dump(player.inventory)
+    
+    if door:
+        direct = "Rooms/Sav/" + user + "/" + str(player.prevCoord[1]) + str(player.prevCoord[0]) + ".sav"
+    elif not door:
+        direct = "Rooms/Sav/" + user + "/" + str(player.coord[1]) + str(player.coord[0]) + ".sav"
     f = open(direct, 'w')
     f.write(out)
     f.close()
@@ -202,13 +207,16 @@ def loadMap(user, coord = [1, 1], enter = "def"):
                     enemies += [Enemy([x*size + offset, y*size + offset], "strong", "2")]
                 if c == "3":
                     enemies += [Enemy([x*size + offset, y*size + offset], "bee", "3")]
-            
+    
+    inventory = pickle.Unpickler(user + ".inv").load()
+    
     tiles = [walls,
              doors,
              playerLoc,
              items,
              enemies,
-             hides]
+             hides,
+             inventory]
 
     return tiles
     
