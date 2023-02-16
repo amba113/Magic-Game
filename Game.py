@@ -149,6 +149,8 @@ while True:
             userText2 = ''
             userText3 = ''
             user = ''
+            stars = ''
+            see = False
             viewChanged = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -513,6 +515,7 @@ while True:
                                 views.push("store")
                                 viewChanged = True
                             elif selected == "signout":
+                                saveMap(user, items, enemies, player.coord)
                                 views = Stack("title")
                                 viewChanged = True
                             elif selected == "controls":
