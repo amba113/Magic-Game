@@ -60,6 +60,8 @@ closeButton = SettingsButton([770, 125], "close")
 backButton = SettingsButton([135, 565], "back")
 playButton = SettingsButton([900/2, 500], "play")
 signButton = SettingsButton([900/2, 500], "sign")
+passSee = SettingsButton([900/2 + 125, 375], "passSee")
+passHide = SettingsButton([900/2 + 125, 375], "passHide")
 
 titleText = Text2("[Insert Game Name]", [900/2, 200], 100)
 
@@ -90,11 +92,13 @@ userText1 = ''
 userText2 = ''
 userText3 = ''
 user = ''
-inputRect1 = pygame.Rect(size[0]/2, size[1]/4, 150, 50)
-inputRect2 = pygame.Rect(size[0]/2, size[1]/2, 150, 50)
-inputRect3 = pygame.Rect(size[0]/2, 3*size[1]/8, 150, 50)
-agreeRect = pygame.Rect(size[0]/2, size[1]/3, 150, 50)
-disagreeRect = pygame.Rect(size[0]/2, 2*size[1]/3, 150, 50)            
+stars = ''
+see = False
+inputRect1 = pygame.Rect(size[0]/2 - 200/2, size[1]/4, 200, 50)
+inputRect2 = pygame.Rect(size[0]/2 - 200/2, size[1]/2, 200, 50)
+inputRect3 = pygame.Rect(size[0]/2 - 200/2, 3*size[1]/8, 200, 50)
+agreeRect = pygame.Rect(size[0]/2 - 150/2, size[1]/3, 150, 50)
+disagreeRect = pygame.Rect(size[0]/2 - 150/2, 2*size[1]/3, 150, 50)            
 
 def doSignin(name, pwd):
     direct = "logins.txt"
@@ -133,7 +137,6 @@ def doSignin(name, pwd):
     return user, username, new
             
 while True:
-    print(player.coord)
     if views.top() == "title":
         if viewChanged:
             box1 = False
@@ -256,13 +259,18 @@ while True:
                             enemies = tiles[4]
                             spells = []
                             views = Stack("game")
-                            
+                    
+                    elif see and passSee.click(event.pos):
+                        see = False        
+                    elif not see and passHide.click(event.pos):
+                        see = True        
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_BACKSPACE:
                     if box1:
                         userText1 = userText1[:-1]
                     elif box2:
                         userText2 = userText2[:-1]
+                        stars = stars[:-1]
                     elif box3:
                         userText3 = userText3[:-1]
                 elif event.key == pygame.K_RETURN:
@@ -345,9 +353,11 @@ while True:
                         userText1 += event.unicode
                     elif box2:
                         userText2 += event.unicode
+                        stars += "*"
                     elif box3:
                         userText3 += event.unicode
-                        
+        
+        
         screen.fill(color1)
         
         if add and agree:
@@ -370,6 +380,7 @@ while True:
             screen.blit(no, (disagreeRect.x+5, disagreeRect.y+5))
             screen.blit(warn, (100, 100))
         elif not add and not agree:
+            
             label1 = baseFont.render("Username:", True, color2)
             textSurface1 = baseFont.render(userText1, True, color1)
             pygame.draw.rect(screen, color2, inputRect1)
@@ -377,7 +388,12 @@ while True:
             screen.blit(label1, (inputRect1.x, inputRect1.y - 30))
             
             label2 = baseFont.render("Password:", True, color2)
-            textSurface2 = baseFont.render(userText2, True, color1)
+            if see:
+                screen.blit(passSee.image, passSee.rect)
+                textSurface2 = baseFont.render(userText2, True, color1)
+            elif not see:
+                screen.blit(passHide.image, passHide.rect)
+                textSurface2 = baseFont.render(stars, True, color1)
             pygame.draw.rect(screen, color2, inputRect2)
             screen.blit(textSurface2, (inputRect2.x+5, inputRect2.y+5))
             screen.blit(label2, (inputRect2.x, inputRect2.y - 30))

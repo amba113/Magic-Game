@@ -25,7 +25,9 @@ class SettingsButton():
                        "petsIn": pygame.image.load("Images/Pets Choice.png"),
                        "spellsIn": pygame.image.load("Images/Spells Choice.png"),
                        "potionsIn": pygame.image.load("Images/Potions Choice.png"),
-                       "clothesIn": pygame.image.load("Images/Clothes Choice.png")}
+                       "clothesIn": pygame.image.load("Images/Clothes Choice.png"),
+                       "passSee": pygame.image.load("Images/Pass See.png"),
+                       "passHide": pygame.image.load("Images/Pass Hide.png")}
         
         self.image = self.images[kind]
         
