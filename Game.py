@@ -133,6 +133,7 @@ def doSignin(name, pwd):
     return user, username, new
             
 while True:
+    print(player.coord)
     if views.top() == "title":
         if viewChanged:
             box1 = False
@@ -669,7 +670,7 @@ while True:
             pygame.display.flip()
         
         views = Stack("game")
-        player.kind = choice + "Wand"                     
+        player.inventory["wand"] = choice                     
 
     if views.top() == "controls":
         if viewChanged:

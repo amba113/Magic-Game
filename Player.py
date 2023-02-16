@@ -110,6 +110,9 @@ class Player():
             self.hpMax = 100
             self.dead = True
         
+        if self.inventory["wand"] != None and self.dead == False:
+            self.kind = str(self.inventory["wand"]) + "Wand"
+        
         self.image = self.images[self.kind]
     
     def wallCollide(self, size):
@@ -246,7 +249,7 @@ class Player():
                     if self.rect.top < other.rect.bottom:
                         if self.dead == False:
                             if other.kind == "wand":
-                                self.inventory["wand"] = other
+                                print("wand acquired")
                             elif other.kind == "halfHealPotion":
                                 self.inventory["halfHealPotion"] += 1
                             elif other.kind == "fullHealPotion":
