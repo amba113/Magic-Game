@@ -409,7 +409,6 @@ while True:
         clock.tick(60)
     
     if views.top() == "game":
-        print(player.inventory)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 saveMap(user, items, enemies, player)
