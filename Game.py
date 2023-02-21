@@ -224,7 +224,8 @@ while True:
                                 items = tiles[3]
                                 enemies = tiles[4]
                                 spells = []
-                                player.inventory = tiles[6]
+                                if tiles[6] != None:
+                                    player.inventory = tiles[6]
                                 views = Stack("game")
                             else:
                                 print("no input", userText3)
@@ -258,7 +259,8 @@ while True:
                             items = tiles[3]
                             enemies = tiles[4]
                             spells = []
-                            player.inventory = tiles[6]
+                            if tiles[6] != None:
+                                player.inventory = tiles[6]
                             views = Stack("game")
                     
                     elif see and passSee.click(event.pos):
@@ -304,7 +306,8 @@ while True:
                             items = tiles[3]
                             enemies = tiles[4]
                             spells = []
-                            player.inventory = tiles[6]
+                            if tiles[6] != None:
+                                player.inventory = tiles[6]
                             views = Stack("game")
                         else:
                             print("no input", userText3)
@@ -338,7 +341,8 @@ while True:
                         items = tiles[3]
                         enemies = tiles[4]
                         spells = []
-                        player.inventory = tiles[6]
+                        if tiles[6] != None:
+                            player.inventory = tiles[6]
                         views = Stack("game")
                                                     
                 elif event.key == pygame.K_TAB:
@@ -593,7 +597,6 @@ while True:
                 enemies = tiles[4]
                 hides = tiles[5]
                 spells = []
-                
                 player.goto(tiles[2])
                 if petEquip != "":
                     pet.goto(tiles[2])
