@@ -45,8 +45,8 @@ class Player():
                           "revivePotion": 0,
                           "healthPotion": 0,
                           "coins": 0,
-                          "pets": []}
-        self.spells = ["basic"]
+                          "pets": [],
+                          "spells" = ["basic"]}
         
         self.counter = 0
         self.stop = 30
@@ -261,7 +261,7 @@ class Player():
                             elif other.kind == "healthPotion":
                                 self.inventory["healthPotion"] += 1
                             elif other.kind == "basic2Spell":
-                                self.spells += ["basic2"]
+                                self.inventory["spells"] += ["basic2"]
                             elif other.kind == "singleCoin":
                                 self.inventory["coins"] += 1
                                 print("Bank balance: ", self.inventory["coins"])

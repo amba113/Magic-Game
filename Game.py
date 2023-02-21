@@ -455,7 +455,7 @@ while True:
                 elif event.key == pygame.K_1:
                     spellType = "basic"
                 elif event.key == pygame.K_2:
-                    if "basic2" in player.spells:
+                    if "basic2" in player.inventory["spells"]:
                         spellType = "basic2"
                         
             elif event.type == pygame.KEYUP:
