@@ -46,7 +46,7 @@ class Player():
                           "healthPotion": 0,
                           "coins": 0,
                           "pets": [],
-                          "spells" = ["basic"]}
+                          "spells": ["basic"]}
         
         self.counter = 0
         self.stop = 30

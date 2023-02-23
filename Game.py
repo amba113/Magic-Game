@@ -104,7 +104,6 @@ def doSignin(name, pwd):
     f = open(direct, 'r')
     lines = f.readlines()
     f.close()
-    
     user = None
     username = None
     newLines = []
@@ -176,28 +175,36 @@ while True:
             if event.type == pygame.QUIT:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if inputRect1.collidepoint(event.pos):
-                    box1 = True
-                    box2 = False
-                    box3 = False
-                elif inputRect2.collidepoint(event.pos):
-                    box1 = False
-                    box2 = True
-                    box3 = False
-                elif inputRect3.collidepoint(event.pos):
-                    box1 = False
-                    box2 = False
-                    box3 = True
-                elif agreeRect.collidepoint(event.pos):
-                    agree = True
-                    disagree = False
-                elif disagreeRect.collidepoint(event.pos):
-                    views.pop()
-                    viewChanged = True
-                elif event.button == 1:
-                    if playButton.click(event.pos):
+                if event.button == 1:
+                    print("Left Click")
+                    if inputRect1.collidepoint(event.pos):
+                        print("Box 1")
+                        box1 = True
+                        box2 = False
+                        box3 = False
+                    elif inputRect2.collidepoint(event.pos):
+                        print("Box 2")
+                        box1 = False
+                        box2 = True
+                        box3 = False
+                    elif inputRect3.collidepoint(event.pos):
+                        print("Box 3")
+                        box1 = False
+                        box2 = False
+                        box3 = True
+                    elif agreeRect.collidepoint(event.pos):
+                        print("Agree")
+                        agree = True
+                    elif disagreeRect.collidepoint(event.pos):
+                        print("Disagree")
+                        views.pop()
+                        viewChanged = True
+                    elif playButton.click(event.pos):
+                        print("Play")
                         user, username, new = doSignin(userText1, userText2)
+                        print(user, username)
                         if name:
+                            print("NEW")
                             if userText3 != "":
                                 add = userText1 + " " + userText2 + " " + userText3 + "\n"
                                 
@@ -232,8 +239,10 @@ while True:
                             
                         elif user == None or username == None:
                             if new:
+                                print("new")
                                 add = new
                             else:
+                                print("Clear")
                                 box1 = False
                                 box2 = False
                                 box3 = False
