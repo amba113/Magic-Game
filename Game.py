@@ -97,7 +97,13 @@ inputRect1 = pygame.Rect(size[0]/2 - 200/2, size[1]/4, 200, 50)
 inputRect2 = pygame.Rect(size[0]/2 - 200/2, size[1]/2, 200, 50)
 inputRect3 = pygame.Rect(size[0]/2 - 200/2, 3*size[1]/8, 200, 50)
 agreeRect = pygame.Rect(size[0]/2 - 150/2, size[1]/3, 150, 50)
-disagreeRect = pygame.Rect(size[0]/2 - 150/2, 2*size[1]/3, 150, 50)            
+disagreeRect = pygame.Rect(size[0]/2 - 150/2, 2*size[1]/3, 150, 50)
+r1 = False
+r2 = False
+r3 = False
+rA = False
+rD = False
+rP = False            
 
 def doSignin(name, pwd):
     direct = "logins.txt"
@@ -177,29 +183,29 @@ while True:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     print("Left Click")
-                    if inputRect1.collidepoint(event.pos):
+                    if inputRect1.collidepoint(event.pos) and r1:
                         print("Box 1")
                         box1 = True
                         box2 = False
                         box3 = False
-                    elif inputRect2.collidepoint(event.pos):
+                    elif inputRect2.collidepoint(event.pos) and r2:
                         print("Box 2")
                         box1 = False
                         box2 = True
                         box3 = False
-                    elif inputRect3.collidepoint(event.pos):
+                    elif inputRect3.collidepoint(event.pos) and r3:
                         print("Box 3")
                         box1 = False
                         box2 = False
                         box3 = True
-                    elif agreeRect.collidepoint(event.pos):
+                    elif agreeRect.collidepoint(event.pos) and rA:
                         print("Agree")
                         agree = True
-                    elif disagreeRect.collidepoint(event.pos):
+                    elif disagreeRect.collidepoint(event.pos) and rD:
                         print("Disagree")
                         views.pop()
                         viewChanged = True
-                    elif playButton.click(event.pos):
+                    elif playButton.click(event.pos) and rP:
                         print("Play")
                         user, username, new = doSignin(userText1, userText2)
                         print(user, username)
@@ -375,6 +381,12 @@ while True:
         screen.fill(color1)
         
         if add and agree:
+            r1 = False
+            r2 = False
+            r3 = True
+            rA = False
+            rD = False
+            rP = True
             screen.blit(playButton.image, playButton.rect)
             
             label3 = baseFont.render("Screen Name:", True, color2)
@@ -385,6 +397,13 @@ while True:
             name = True
             
         elif add and not agree:
+            r1 = False
+            r2 = False
+            r3 = False
+            rA = True
+            rD = True
+            rP = False
+            
             yes = baseFont.render("Yes", True, color1)
             no = baseFont.render("No", True, color1)
             warn = baseFont.render("This account does not exist, make a new one?", True, color2)
@@ -394,6 +413,12 @@ while True:
             screen.blit(no, (disagreeRect.x+5, disagreeRect.y+5))
             screen.blit(warn, (100, 100))
         elif not add and not agree:
+            r1 = True
+            r2 = True
+            r3 = False
+            rA = False
+            rD = False
+            rP = True            
             
             label1 = baseFont.render("Username:", True, color2)
             textSurface1 = baseFont.render(userText1, True, color1)
