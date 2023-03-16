@@ -16,6 +16,7 @@ from InventoryOptions import *
 from Pets import *
 from Stack import *
 from HealthBar import *
+from Sprite import *
 
 pygame.init()
 pygame.mixer.init()

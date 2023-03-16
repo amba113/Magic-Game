@@ -1,11 +1,12 @@
 import pygame, sys, math, random, inspect
 from Spells import *
+from Sprite import *
 
 class Player():
    
     def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
         self.kind = kind
-        scale = [60, 60]
+        scale = [67 * .675, 89 * .675]
         self.images = {"start": pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
                        "basicWand": pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
                        "colorfulWand": pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale),
@@ -13,7 +14,8 @@ class Player():
                        "candyCaneWand": pygame.transform.scale(pygame.image.load("Images/PersonWand4.png"), scale),
                        "dead": pygame.transform.scale(pygame.image.load("Images/Dead Person.png"), scale)}
 
-        self.image = self.images[self.kind]
+        self.sprites = SpriteSheet("Images/Spritesheet Test2.png").load_stripV([0, 0, 45, 60], 4,  (255, 216, 0))
+        self.image = self.sprites[0]
         self.rect = self.image.get_rect(center = startPos)
         
         self.sprinting = False
@@ -76,12 +78,18 @@ class Player():
         
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
+            self.image = self.sprites[3]
         elif self.speedx > 0:
             self.speedx = self.maxSpeed
+            self.image = self.sprites[2]
         if self.speedy < 0:
             self.speedy = -self.maxSpeed
+            self.image = self.sprites[1]
         elif self.speedy > 0:
             self.speedy = self.maxSpeed
+            self.image = self.sprites[0]
+        if self.speedx == 0 and self.speedy == 0:
+            self.image = self.sprites[0]
         
         self.move()
         self.wallCollide(size)
@@ -112,8 +120,6 @@ class Player():
         
         if self.inventory["wand"] != None and self.dead == False:
             self.kind = str(self.inventory["wand"]) + "Wand"
-        
-        self.image = self.images[self.kind]
     
     def wallCollide(self, size):
         width = size[0]
