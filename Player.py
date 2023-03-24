@@ -6,15 +6,8 @@ class Player():
    
     def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
         self.kind = kind
-        scale = [67 * .675, 89 * .675]
-        self.images = {"start": pygame.transform.scale(pygame.image.load("Images/Person 1.png"), scale),
-                       "basicWand": pygame.transform.scale(pygame.image.load("Images/PersonWand1.png"), scale),
-                       "colorfulWand": pygame.transform.scale(pygame.image.load("Images/PersonWand2.png"), scale),
-                       "swirlWand": pygame.transform.scale(pygame.image.load("Images/PersonWand3.png"), scale),
-                       "candyCaneWand": pygame.transform.scale(pygame.image.load("Images/PersonWand4.png"), scale),
-                       "dead": pygame.transform.scale(pygame.image.load("Images/Dead Person.png"), scale)}
 
-        self.sprites = SpriteSheet("Images/Spritesheet Test2.png").load_stripV([0, 0, 45, 60], 4,  (255, 216, 0))
+        self.sprites = SpriteSheet("Images/Bot Spritesheet2.png").load_stripV([0, 0, 27, 60], 4,  (255, 119, 0))
         self.image = self.sprites[0]
         self.rect = self.image.get_rect(center = startPos)
         
