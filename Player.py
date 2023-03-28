@@ -7,7 +7,7 @@ class Player():
     def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
         self.kind = kind
 
-        self.sprites = SpriteSheet("Images/Bot Spritesheet2.png").load_stripV([0, 0, 27, 60], 4,  (255, 119, 0))
+        self.sprites = SpriteSheet("Images/Spritesheet.png").load_stripV([0, 0, 36, 80], 4,  (221, 255, 0))
         self.image = self.sprites[0]
         self.rect = self.image.get_rect(center = startPos)
         
