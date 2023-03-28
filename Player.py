@@ -6,10 +6,18 @@ class Player():
    
     def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
         self.kind = kind
-
-        self.sprites = SpriteSheet("Images/Spritesheet.png").load_stripV([0, 0, 36, 80], 4,  (221, 255, 0))
-        self.image = self.sprites[0]
+        
+        self.sprites = SpriteSheet("Images/Spritesheet.png")
+        
+        self.images = self.sprites.load_stripH([0, 0, 36, 80], 8,  (221, 255, 0))
+        
+        self.frame = 0
+        self.frameMax = len(self.images)-1
+        self.image = self.images[self.frame]
         self.rect = self.image.get_rect(center = startPos)
+        
+        self.Timer = 0
+        self.TimerMax = 60/10
         
         self.sprinting = False
         self.speed = [0,0]
@@ -69,20 +77,22 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
+        
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
-            self.image = self.sprites[3]
+            self.images = self.sprites.load_stripH([0, 80*3, 36, 80], 8,  (221, 255, 0))
         elif self.speedx > 0:
             self.speedx = self.maxSpeed
-            self.image = self.sprites[2]
+            self.images = self.sprites.load_stripH([0, 80*2, 36, 80], 8,  (221, 255, 0))
         if self.speedy < 0:
             self.speedy = -self.maxSpeed
-            self.image = self.sprites[1]
+            self.images = self.sprites.load_stripH([0, 80, 36, 80], 8,  (221, 255, 0))
         elif self.speedy > 0:
             self.speedy = self.maxSpeed
-            self.image = self.sprites[0]
+            self.images = self.sprites.load_stripH([0, 0, 36, 80], 8,  (221, 255, 0))
         if self.speedx == 0 and self.speedy == 0:
-            self.image = self.sprites[0]
+            self.frame = -1
+            self.images = [self.sprites.image_at([0, 0, 36, 80], (221, 255, 0))]
         
         self.move()
         self.wallCollide(size)
@@ -113,6 +123,9 @@ class Player():
         
         if self.inventory["wand"] != None and self.dead == False:
             self.kind = str(self.inventory["wand"]) + "Wand"
+        
+        self.Timer += 1
+        self.animate()
     
     def wallCollide(self, size):
         width = size[0]
@@ -412,3 +425,12 @@ class Player():
                     return False
         elif kind.lower() == "clothing":
             pass
+
+    def animate(self):
+        if self.Timer >= self.TimerMax:
+            self.Timer = 0
+            if self.frame >= self.frameMax:
+                self.frame = 0
+            else:
+                self.frame += 1
+            self.image = self.images[self.frame]
