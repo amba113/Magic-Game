@@ -2,12 +2,13 @@ import pygame, sys, math, random, os, pickle
 
 class SpriteSheet:
 
-    def __init__(self, filename):
+    def __init__(self, direct, basic):
         """Load the sheet."""
         try:
-            self.sheet = pygame.image.load(filename).convert()
+            self.sheet = pygame.image.load(direct + "/" + basic).convert()
+            self.hats = pygame.image.load(direct + "/" + "Hat " + basic).convert()
         except pygame.error as e:
-            print(f"Unable to load spritesheet image: {filename}")
+            print(f"Unable to load spritesheet image: {direct}")
             raise SystemExit(e)
 
 
@@ -15,13 +16,17 @@ class SpriteSheet:
         """Load a specific image from a specific rectangle."""
         # Loads image from x, y, x+offset, y+offset.
         rect = pygame.Rect(rectangle)
-        image = pygame.Surface(rect.size).convert()
-        image.blit(self.sheet, (0, 0), rect)
-        if colorkey is not None:
-            if colorkey is -1:
-                colorkey = image.get_at((0,0))
-            image.set_colorkey(colorkey, pygame.RLEACCEL)
-        return image
+        image1 = pygame.Surface(rect.size).convert()
+        image1.blit(self.sheet, (0, 0), rect)
+        image2 = pygame.Surface(pygame.Rect([36, 0, 36, 90]).size).convert()
+        image2.blit(self.hats, (0, 0), pygame.Rect([36, 0, 36, 90]))
+        if colorkey != None:
+            if colorkey != -1:
+                colorkey = image1.get_at((0,0))
+            image1.set_colorkey(colorkey, pygame.RLEACCEL)
+            image2.set_colorkey(colorkey, pygame.RLEACCEL)
+        image1.blit(image2, (0, 0))
+        return image1
     
     def images_at(self, rects, colorkey = None):
         """Load a whole bunch of images and return them as a list."""

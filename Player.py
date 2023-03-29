@@ -7,9 +7,9 @@ class Player():
     def __init__(self, speed = 4, startPos = [0,0], kind = "start"):
         self.kind = kind
         
-        self.sprites = SpriteSheet("Images/Spritesheet.png")
+        self.sprites = SpriteSheet("Images", "Spritesheet.png")
         
-        self.images = self.sprites.load_stripH([0, 0, 36, 80], 8,  (221, 255, 0))
+        self.images = self.sprites.load_stripH([0, 0, 36, 90], 8,  (221, 255, 0))
         
         self.frame = 0
         self.frameMax = len(self.images)-1
@@ -80,19 +80,19 @@ class Player():
         
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
-            self.images = self.sprites.load_stripH([0, 80*3, 36, 80], 8,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 90*3, 36, 90], 8,  (221, 255, 0))
         elif self.speedx > 0:
             self.speedx = self.maxSpeed
-            self.images = self.sprites.load_stripH([0, 80*2, 36, 80], 8,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 90*2, 36, 90], 8,  (221, 255, 0))
         if self.speedy < 0:
             self.speedy = -self.maxSpeed
-            self.images = self.sprites.load_stripH([0, 80, 36, 80], 8,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 90, 36, 90], 8,  (221, 255, 0))
         elif self.speedy > 0:
             self.speedy = self.maxSpeed
-            self.images = self.sprites.load_stripH([0, 0, 36, 80], 8,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 0, 36, 90], 8,  (221, 255, 0))
         if self.speedx == 0 and self.speedy == 0:
             self.frame = -1
-            self.images = [self.sprites.image_at([0, 0, 36, 80], (221, 255, 0))]
+            self.images = [self.sprites.image_at([0, 0, 36, 90], (221, 255, 0))]
         
         self.move()
         self.wallCollide(size)

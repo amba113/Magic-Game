@@ -229,6 +229,14 @@ while True:
                                     os.mkdir(path)
                                     isdir = os.path.isdir(path)
                                     print("made")
+                                path2 = "Inventories/" + userText1
+                                isdir = os.path.isdir(path2)
+
+                                if isdir:
+                                    pass
+                                else:
+                                    os.mkdir(path2)
+                                    isdir = os.path.isdir(path2)
                                 user = userText1
                                 tiles = loadMap(user)
                                 walls = tiles[0]
@@ -240,6 +248,7 @@ while True:
                                 spells = []
                                 if tiles[6] != None:
                                     player.inventory = tiles[6]
+                                player.hp = tiles[7]
                                 views = Stack("game")
                             else:
                                 print("no input", userText3)
@@ -266,6 +275,14 @@ while True:
                                 os.mkdir(path)
                                 isdir = os.path.isdir(path)
                                 print("made")
+                            path2 = "Inventories/" + userText1
+                            isdir = os.path.isdir(path2)
+
+                            if isdir:
+                                pass
+                            else:
+                                os.mkdir(path2)
+                                isdir = os.path.isdir(path2)
                             user = userText1
                             tiles = loadMap(user)
                             walls = tiles[0]
@@ -277,6 +294,7 @@ while True:
                             spells = []
                             if tiles[6] != None:
                                 player.inventory = tiles[6]
+                            player.hp = tiles[7]
                             views = Stack("game")
                     
                     elif see and passSee.click(event.pos):
@@ -313,6 +331,14 @@ while True:
                                 os.mkdir(path)
                                 isdir = os.path.isdir(path)
                                 print("made")
+                            path2 = "Inventories/" + userText1
+                            isdir = os.path.isdir(path2)
+
+                            if isdir:
+                                pass
+                            else:
+                                os.mkdir(path2)
+                                isdir = os.path.isdir(path2)
                             user = userText1
                             tiles = loadMap(user)
                             walls = tiles[0]
@@ -324,6 +350,7 @@ while True:
                             spells = []
                             if tiles[6] != None:
                                 player.inventory = tiles[6]
+                            player.hp = tiles[7]
                             views = Stack("game")
                         else:
                             print("no input", userText3)
@@ -348,6 +375,14 @@ while True:
                             os.mkdir(path)
                             isdir = os.path.isdir(path)
                             print("made")
+                        path2 = "Inventories/" + userText1
+                        isdir = os.path.isdir(path2)
+
+                        if isdir:
+                            pass
+                        else:
+                            os.mkdir(path2)
+                            isdir = os.path.isdir(path2)
                         user = userText1
                         tiles = loadMap(user)
                         walls = tiles[0]
@@ -359,6 +394,7 @@ while True:
                         spells = []
                         if tiles[6] != None:
                             player.inventory = tiles[6]
+                        player.hp = tiles[7]
                         views = Stack("game")
                                                     
                 elif event.key == pygame.K_TAB:
