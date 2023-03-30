@@ -40,6 +40,8 @@ class Player():
         
         self.hp = 100
         self.hpMax = 100
+        self.hpTimer = 0
+        self.hpHeal = False
         
         self.inventory = {"wand": None,
                           "halfHealPotion": 0,
@@ -107,7 +109,12 @@ class Player():
             self.zoom = False
         if self.hp > 0:
             self.roam = False
-        
+            if self.hpHeal == True and self.hpTimer == (60*3) and self.hp < self.hpMax:
+                self.hp += 5
+                self.hpTimer = 0
+            elif self.hpHeal:
+                self.hpTimer += 1
+
         if self.hp < 0:
             self.hp = 0
         
@@ -186,8 +193,6 @@ class Player():
                             if self.counter % 10 == 0:
                                 self.hp -= 1
                         else:
-                            if self.moveType == "zoomSprint" or self.moveType == "zoom":
-                                input(">")
                             diffx = abs(self.rect.centerx-other.rect.centerx)
                             diffy = abs(self.rect.centery-other.rect.centery)
                             if diffx > diffy:

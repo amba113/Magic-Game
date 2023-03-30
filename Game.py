@@ -626,6 +626,10 @@ while True:
                 spell.collide(enemy)
                 enemy.weaponCollide(spell)
             enemy.update(player.rect.center, size, player.hidden)
+            if enemy.angry:
+                player.hpHeal = False
+            else:
+                player.hpHeal = True
             
         for wall in walls:
             for spell in spells:
