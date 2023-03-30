@@ -528,6 +528,27 @@ while True:
                     if "basic2" in player.inventory["spells"]:
                         spellType = "basic2"
                         
+                elif event.key == pygame.K_RIGHTBRACKET:
+                    if player.hatChoice < len(player.hat) - 1:
+                        player.hatChoice += 1
+                    else:
+                        player.hatChoice = 0
+                elif event.key == pygame.K_LEFTBRACKET:
+                    if player.hatChoice > 0:
+                        player.hatChoice -= 1
+                    else:
+                        player.hatChoice = len(player.hat) - 1
+                elif event.key == pygame.K_RIGHTPAREN:
+                    if player.eyeChoice < len(player.eye) - 1:
+                        player.eyeChoice += 1
+                    else:
+                        player.eyeChoice = 0
+                elif event.key == pygame.K_LEFTPAREN:
+                    if player.eyeChoice > 0:
+                        player.eyeChoice -= 1
+                    else:
+                        player.eyeChoice = len(player.eye) - 1
+                
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                     player.goKey("sleft")

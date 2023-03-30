@@ -2,13 +2,12 @@ import pygame, sys, math, random, os, pickle
 
 class SpriteSheet:
 
-    def __init__(self, direct, basic):
+    def __init__(self, filename):
         """Load the sheet."""
         try:
-            self.sheet = pygame.image.load(direct + "/" + basic).convert()
-            self.hats = pygame.image.load(direct + "/" + "Hat " + basic).convert()
+            self.sheet = pygame.image.load(filename).convert()
         except pygame.error as e:
-            print(f"Unable to load spritesheet image: {direct}")
+            print(f"Unable to load spritesheet image: {filename}")
             raise SystemExit(e)
 
 
@@ -18,14 +17,10 @@ class SpriteSheet:
         rect = pygame.Rect(rectangle)
         image1 = pygame.Surface(rect.size).convert()
         image1.blit(self.sheet, (0, 0), rect)
-        image2 = pygame.Surface(pygame.Rect([36, 0, 36, 90]).size).convert()
-        image2.blit(self.hats, (0, 0), pygame.Rect([36, 0, 36, 90]))
         if colorkey != None:
             if colorkey != -1:
                 colorkey = image1.get_at((0,0))
             image1.set_colorkey(colorkey, pygame.RLEACCEL)
-            image2.set_colorkey(colorkey, pygame.RLEACCEL)
-        image1.blit(image2, (0, 0))
         return image1
     
     def images_at(self, rects, colorkey = None):
