@@ -112,6 +112,9 @@ class Player():
             if self.hpHeal == True and self.hpTimer == (60*3) and self.hp < self.hpMax:
                 self.hp += 5
                 self.hpTimer = 0
+                if self.hp > self.hpMax:
+                    self.hp = self.hpMax
+                print("Healed")
             elif self.hpHeal:
                 self.hpTimer += 1
 
