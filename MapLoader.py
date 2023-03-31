@@ -37,6 +37,10 @@ def saveMap(user, items, enemies, player, door = False):
     pickle.Pickler(f).dump(player.hp)
     f.close()
     
+    f = open("Inventories/" + user + "/" + user + ".ap", 'wb')
+    pickle.Pickler(f).dump([player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice])
+    f.close()
+    
     if door:
         direct = "Rooms/Sav/" + user + "/" + str(player.prevCoord[1]) + str(player.prevCoord[0]) + ".sav"
     elif not door:
@@ -55,6 +59,7 @@ def loadMap(user, coord = [1, 1], enter = "def"):
     items = []
     enemies = []
     hides = []
+    appear = None
     
     newLines = []
     newLines2 = []
@@ -229,6 +234,15 @@ def loadMap(user, coord = [1, 1], enter = "def"):
             f.close()
     else:
         health = 100
+        
+    if os.path.isfile("Inventories/" + user + "/" + user + ".ap"):
+        if os.path.getsize("Inventories/" + user + "/" + user + ".ap") > 0:
+            f = open("Inventories/" + user + "/" + user + ".ap", 'rb')
+            appear = pickle.Unpickler(f).load()
+            f.close()
+    else:
+        appear = None
+        print("nothing")
 
     tiles = [walls,
              doors,
@@ -237,7 +251,8 @@ def loadMap(user, coord = [1, 1], enter = "def"):
              enemies,
              hides,
              inventory,
-             health]
+             health,
+             appear]
 
     return tiles
     

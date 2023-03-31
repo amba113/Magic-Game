@@ -61,6 +61,7 @@ class Enemy():
         
         self.living = True
         self.angry = False
+        self.claimed = False
         
         self.xpos = startPos[0]
         self.ypos = startPos[1]

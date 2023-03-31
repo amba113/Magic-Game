@@ -248,6 +248,8 @@ while True:
                                 spells = []
                                 if tiles[6] != None:
                                     player.inventory = tiles[6]
+                                if tiles[8] != None:
+                                    player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice = tiles[8]
                                 player.hp = tiles[7]
                                 views = Stack("game")
                             else:
@@ -294,6 +296,8 @@ while True:
                             spells = []
                             if tiles[6] != None:
                                 player.inventory = tiles[6]
+                            if tiles[8] != None:
+                                player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice = tiles[8]
                             player.hp = tiles[7]
                             views = Stack("game")
                     
@@ -350,6 +354,8 @@ while True:
                             spells = []
                             if tiles[6] != None:
                                 player.inventory = tiles[6]
+                            if tiles[8] != None:
+                                player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice = tiles[8]
                             player.hp = tiles[7]
                             views = Stack("game")
                         else:
@@ -394,6 +400,8 @@ while True:
                         spells = []
                         if tiles[6] != None:
                             player.inventory = tiles[6]
+                        if tiles[8] != None:
+                            [player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice] = tiles[8]
                         player.hp = tiles[7]
                         views = Stack("game")
                                                     
@@ -538,12 +546,42 @@ while True:
                         player.hatChoice -= 1
                     else:
                         player.hatChoice = len(player.hat) - 1
-                elif event.key == pygame.K_RIGHTPAREN:
+                elif event.key == pygame.K_0:
+                    if player.shirtChoice < len(player.shirt) - 1:
+                        player.shirtChoice += 1
+                    else:
+                        player.shirtChoice = 0
+                elif event.key == pygame.K_9:
+                    if player.shirtChoice > 0:
+                        player.shirtChoice -= 1
+                    else:
+                        player.shirtChoice = len(player.shirt) - 1
+                elif event.key == pygame.K_8:
+                    if player.glassesChoice < len(player.glass) - 1:
+                        player.glassesChoice += 1
+                    else:
+                        player.glassesChoice = 0
+                elif event.key == pygame.K_7:
+                    if player.glassesChoice > 0:
+                        player.glassesChoice -= 1
+                    else:
+                        player.glassesChoice = len(player.glass) - 1
+                elif event.key == pygame.K_6:
+                    if player.mouthChoice < len(player.mouth) - 1:
+                        player.mouthChoice += 1
+                    else:
+                        player.mouthChoice = 0
+                elif event.key == pygame.K_5:
+                    if player.mouthChoice > 0:
+                        player.mouthChoice -= 1
+                    else:
+                        player.mouthChoice = len(player.mouth) - 1
+                elif event.key == pygame.K_4:
                     if player.eyeChoice < len(player.eye) - 1:
                         player.eyeChoice += 1
                     else:
                         player.eyeChoice = 0
-                elif event.key == pygame.K_LEFTPAREN:
+                elif event.key == pygame.K_3:
                     if player.eyeChoice > 0:
                         player.eyeChoice -= 1
                     else:
@@ -651,6 +689,13 @@ while True:
                 player.hpHeal = False
             else:
                 player.hpHeal = True
+            if enemy.living == False and enemy.claimed == False:
+                if enemy.kind == "basic":
+                    player.inventory["coins"] += 3
+                elif enemy.kind == "strong":
+                    player.inventory["coins"] += 5
+                else:
+                    player.inventory["coins"] += 1
             
         for wall in walls:
             for spell in spells:
