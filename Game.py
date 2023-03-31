@@ -586,6 +586,16 @@ while True:
                         player.eyeChoice -= 1
                     else:
                         player.eyeChoice = len(player.eye) - 1
+                elif event.key == pygame.K_MINUS:
+                    if player.colorChoice < len(player.colors) - 1:
+                        player.colorChoice += 1
+                    else:
+                        player.colorChoice = 0
+                elif event.key == pygame.K_EQUALS:
+                    if player.colorChoice > 0:
+                        player.colorChoice -= 1
+                    else:
+                        player.colorChoice = len(player.colors) - 1
                 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:

@@ -13,7 +13,9 @@ class Player():
         self.glassesChoice = 0
         self.shirtChoice = 0
         
-        self.sprites = SpriteSheet("Images/Spritesheet.png")
+        self.colors = ["Cyan", "Pink"]
+        
+        self.sprites = SpriteSheet("Images/" + self.colors[self.colorChoice] + " Spritesheet.png")
         self.hats = SpriteSheet("Images/Hat Spritesheet.png")
         self.eyes = SpriteSheet("Images/Eye Spritesheet.png")
         self.mouths = SpriteSheet("Images/Mouth Spritesheet.png")
@@ -102,6 +104,7 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
+        self.sprites = SpriteSheet("Images/" + self.colors[self.colorChoice] + " Spritesheet.png")
         
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
