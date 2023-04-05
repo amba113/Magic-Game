@@ -13,7 +13,7 @@ class Player():
         self.glassesChoice = 0
         self.shirtChoice = 0
         
-        self.colors = ["Cyan", "Pink"]
+        self.colors = ["Cyan", "Magenta", "Green", "Peach"]
         
         self.sprites = SpriteSheet("Images/" + self.colors[self.colorChoice] + " Spritesheet.png")
         self.hats = SpriteSheet("Images/Hat Spritesheet.png")

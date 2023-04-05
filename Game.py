@@ -1174,6 +1174,10 @@ while True:
                           SettingsButton([900/3, 2*700/3], "locked"),
                           SettingsButton([2*900/3, 700/3 + 25], "locked"),
                           SettingsButton([2*900/3, 2*700/3], "locked")]
+                equipped = [SettingsButton([900/3, 700/3 + 25], "equipped"),
+                            SettingsButton([900/3, 2*700/3], "equipped"),
+                            SettingsButton([2*900/3, 700/3 + 25], "equipped"),
+                            SettingsButton([2*900/3, 2*700/3], "equipped")]
 
                 viewChanged = False
                            
