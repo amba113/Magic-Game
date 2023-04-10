@@ -12,15 +12,17 @@ class Player():
         self.mouthChoice = 0
         self.glassesChoice = 0
         self.shirtChoice = 0
+        self.bodChoice = 0
         
         self.colors = ["Cyan", "Magenta", "Green", "Peach"]
+        self.bodies = ["Bot", "Ball"]
         
-        self.sprites = SpriteSheet("Images/" + self.colors[self.colorChoice] + " Spritesheet.png")
-        self.hats = SpriteSheet("Images/Hat Spritesheet.png")
-        self.eyes = SpriteSheet("Images/Eye Spritesheet.png")
-        self.mouths = SpriteSheet("Images/Mouth Spritesheet.png")
-        self.glasses = SpriteSheet("Images/Glass Spritesheet.png")
-        self.shirts = SpriteSheet("Images/Shirt Spritesheet.png")
+        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png")
+        self.hats = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Hat Spritesheet.png")
+        self.eyes = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Eye Spritesheet.png")
+        self.mouths = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Mouth Spritesheet.png")
+        self.glasses = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Glass Spritesheet.png")
+        self.shirts = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Shirt Spritesheet.png")
         
         self.images = self.sprites.load_stripH([0, 0, 36, 90], 8,  (221, 255, 0))
         self.hat = self.hats.load_stripH([0, 0, 36, 90], 5,  (221, 255, 0))
@@ -104,7 +106,7 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
-        self.sprites = SpriteSheet("Images/" + self.colors[self.colorChoice] + " Spritesheet.png")
+        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png")
         
         if self.speedx < 0:
             self.speedx = -self.maxSpeed

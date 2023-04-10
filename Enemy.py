@@ -202,5 +202,11 @@ class Enemy():
                 if self.rect.bottom > other.rect.top:
                     if self.rect.top < other.rect.bottom:
                         if self.living:
-                            self.hp -= 10
-                            print("ouch")
+                            if other.kind == "calicoCat":
+                                self.hp -= 1
+                            elif other.kind == "blackCat":
+                                self.hp -= 5
+                            elif other.kind == "owl":
+                                self.hp -= 3
+                            elif other.kind == "frog":
+                                self.hp -= 10

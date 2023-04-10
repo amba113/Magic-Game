@@ -1207,6 +1207,8 @@ while True:
                 screen.blit(option.image, option.rect)
                 if option.kind not in player.inventory["pets"]:
                     screen.blit(locked[i].image, locked[i].rect)
+                elif option.kind == petEquip:
+                    screen.blit(equipped[i].image, equipped[i].rect)
             pygame.display.flip()
 
     if views.top() == "spellsIn":
