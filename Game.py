@@ -1282,7 +1282,50 @@ while True:
             
     if views.top() == "clothesIn":
         if viewChanged:
-            options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
+            amount = 6
+            options = {"eye": StoreChoice([750, 500/amount - 5], "clothesSt", "simple"),
+                     "mouth": StoreChoice([750, 2*500/amount - 5], "clothesSt", "simple"),
+                     "color": StoreChoice([750, 3*500/amount - 5], "clothesSt", "simple"),
+                     "hat": StoreChoice([750, 4*500/amount - 5], "clothesSt", "simple"),
+                     "shirt": StoreChoice([750, 5*500/amount - 5], "clothesSt", "simple"),
+                     "glasses": StoreChoice([750, 6*500/amount - 5], "clothesSt", "simple")}
+            text = [StoreChoice([750, 500/amount - 5], "clothesSt", "simple"),
+                       StoreChoice([750, 2*500/amount - 5], "clothesSt", "simple"),
+                       StoreChoice([750, 3*500/amount - 5], "clothesSt", "simple"),
+                       StoreChoice([750, 4*500/amount - 5], "clothesSt", "simple"),
+                       StoreChoice([750, 5*500/amount - 5], "clothesSt", "simple"),
+                       StoreChoice([750, 6*500/amount - 5], "clothesSt", "simple")]
+            minus = {"eye": SettingsButton([700, 500/amount - 5], "back"),
+                     "mouth": SettingsButton([700, 2*500/amount - 5], "back"),
+                     "color": SettingsButton([700, 3*500/amount - 5], "back"),
+                     "hat": SettingsButton([700, 4*500/amount - 5], "back"),
+                     "shirt": SettingsButton([700, 5*500/amount - 5], "back"),
+                     "glasses": SettingsButton([700, 6*500/amount - 5], "back")}
+            sub = [SettingsButton([700, 500/amount - 5], "back"),
+                     SettingsButton([700, 2*500/amount - 5], "back"),
+                     SettingsButton([700, 3*500/amount - 5], "back"),
+                     SettingsButton([700, 4*500/amount - 5], "back"),
+                     SettingsButton([700, 5*500/amount - 5], "back"),
+                     SettingsButton([700, 6*500/amount - 5], "back")]
+            add = {"eye": SettingsButton([800, 500/amount - 5], "forward"),
+                   "mouth": SettingsButton([800, 2*500/amount - 5], "forward"),
+                   "color": SettingsButton([800, 3*500/amount - 5], "forward"),
+                   "hat": SettingsButton([800, 4*500/amount - 5], "forward"),
+                   "shirt": SettingsButton([800, 5*500/amount - 5], "forward"),
+                   "glasses": SettingsButton([800, 6*500/amount - 5], "forward")}
+            plus = [SettingsButton([800, 500/amount - 5], "forward"),
+                    SettingsButton([800, 2*500/amount - 5], "forward"),
+                    SettingsButton([800, 3*500/amount - 5], "forward"),
+                    SettingsButton([800, 4*500/amount - 5], "forward"),
+                    SettingsButton([800, 5*500/amount - 5], "forward"),
+                    SettingsButton([800, 6*500/amount - 5], "forward")]
+            types = ["eye",
+                     "mouth",
+                     "color",
+                     "hat",
+                     "shirt",
+                     "glasses"]
+            
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -1297,14 +1340,34 @@ while True:
                     if backButton.click(event.pos):
                         views.pop()
                         viewChanged = True
-                    for option in options:
-                        if option.click(event.pos):
-                            pass
-                            #Equip or delete, depending on category
+                    # ~ for m, i in minus:
+                        # ~ if m.click(event.pos):
+                            # ~ print(i, "minus")
+                    # ~ for a, y in add:
+                        # ~ if a.click(event.pos):
+                            # ~ print(y, "add")
+                    for s in sub:
+                        if s.click(event.pos):
+                            print("minus")
+                    for p in plus:
+                        if p.click(event.pos):
+                            print("plus")
+                        
                                 
         screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(pygame.transform.scale(player.image, [36*4, 90*4]), player.image.get_rect(midtop = [200, 200]))
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        for option in options:
-            screen.blit(option.image, option.rect)
+        for t in text:
+            screen.blit(t.image, t.rect)
+        for s in sub:
+            screen.blit(s.image, s.rect)
+        for p in plus:
+            screen.blit(p.image, p.rect)
+        # ~ for t in enumerate(options):
+            # ~ screen.blit(t.image, t.rect)
+        # ~ for m in minus:
+            # ~ screen.blit(m.image, m.rect)
+        # ~ for a in add:
+            # ~ screen.blit(a.image, a.rect)
         pygame.display.flip()

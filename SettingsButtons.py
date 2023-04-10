@@ -15,6 +15,7 @@ class SettingsButton():
                        "sign": pygame.transform.scale(pygame.image.load("Images/Signin Button.png"), self.scale2),
                        "close": pygame.image.load("Images/Store Close.png"),
                        "back": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale1),
+                       "forward": pygame.transform.flip(pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale1), True, False),
                        "controlsBox": pygame.image.load("Images/Control Box.png"),
                        "reset": pygame.image.load("Images/Reset Button.png"),
                        "locked": pygame.image.load("Images/Item Locked.png"),
