@@ -5,6 +5,7 @@ class InventoryChoice():
     def __init__(self, pos, kind, option):
         self.kind = option
         scale = [150, 150]
+        scale2 = [50*4, 25*4]
         self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Black Cat Item.png"), scale),
                           "calicoCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Item.png"), scale),
                           "owl": pygame.transform.scale(pygame.image.load("Images/Owl Item.png"), scale),
@@ -14,7 +15,12 @@ class InventoryChoice():
                              "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Item.png"), scale),
                              "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Item.png"), scale),
                              "revive": pygame.transform.scale(pygame.image.load("Images/Revive Item.png"), scale)}
-        self.clothesImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
+        self.clothesImages = {"eyes": pygame.transform.scale(pygame.image.load("Images/Eyes Text.png"), scale2),
+                              "mouth": pygame.transform.scale(pygame.image.load("Images/Mouth Text.png"), scale2),
+                              "color": pygame.transform.scale(pygame.image.load("Images/Color Text.png"), scale2),
+                              "hat": pygame.transform.scale(pygame.image.load("Images/Hat Text.png"), scale2),
+                              "shirt": pygame.transform.scale(pygame.image.load("Images/Shirt Text.png"), scale2),
+                              "glasses": pygame.transform.scale(pygame.image.load("Images/Glasses Text.png"), scale2)}
         self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
         
         if kind == "petsIn":
