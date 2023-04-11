@@ -107,7 +107,6 @@ class Player():
             self.maxSpeed = self.walkSpeed
         
         self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png")
-        
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
             self.images = self.sprites.load_stripH([0, 90*2, 36, 90], 8,  (221, 255, 0))
