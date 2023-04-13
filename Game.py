@@ -535,103 +535,6 @@ while True:
                 elif event.key == pygame.K_2:
                     if "basic2" in player.inventory["spells"]:
                         spellType = "basic2"
-                        
-                # ~ elif event.key == pygame.K_RIGHTBRACKET:
-                    # ~ if player.hatChoice < len(player.hat) - 1:
-                        # ~ player.hatChoice += 1
-                    # ~ else:
-                        # ~ player.hatChoice = 0
-                # ~ elif event.key == pygame.K_LEFTBRACKET:
-                    # ~ if player.hatChoice > 0:
-                        # ~ player.hatChoice -= 1
-                    # ~ else:
-                        # ~ player.hatChoice = len(player.hat) - 1
-                # ~ elif event.key == pygame.K_0:
-                    # ~ if player.shirtChoice < len(player.shirt) - 1:
-                        # ~ player.shirtChoice += 1
-                    # ~ else:
-                        # ~ player.shirtChoice = 0
-                # ~ elif event.key == pygame.K_9:
-                    # ~ if player.shirtChoice > 0:
-                        # ~ player.shirtChoice -= 1
-                    # ~ else:
-                        # ~ player.shirtChoice = len(player.shirt) - 1
-                # ~ elif event.key == pygame.K_8:
-                    # ~ if player.glassesChoice < len(player.glass) - 1:
-                        # ~ player.glassesChoice += 1
-                    # ~ else:
-                        # ~ player.glassesChoice = 0
-                # ~ elif event.key == pygame.K_7:
-                    # ~ if player.glassesChoice > 0:
-                        # ~ player.glassesChoice -= 1
-                    # ~ else:
-                        # ~ player.glassesChoice = len(player.glass) - 1
-                # ~ elif event.key == pygame.K_6:
-                    # ~ if player.mouthChoice < len(player.mouth) - 1:
-                        # ~ player.mouthChoice += 1
-                    # ~ else:
-                        # ~ player.mouthChoice = 0
-                # ~ elif event.key == pygame.K_5:
-                    # ~ if player.mouthChoice > 0:
-                        # ~ player.mouthChoice -= 1
-                    # ~ else:
-                        # ~ player.mouthChoice = len(player.mouth) - 1
-                # ~ elif event.key == pygame.K_4:
-                    # ~ if player.eyeChoice < len(player.eye) - 1:
-                        # ~ player.eyeChoice += 1
-                    # ~ else:
-                        # ~ player.eyeChoice = 0
-                # ~ elif event.key == pygame.K_3:
-                    # ~ if player.eyeChoice > 0:
-                        # ~ player.eyeChoice -= 1
-                    # ~ else:
-                        # ~ player.eyeChoice = len(player.eye) - 1
-                # ~ elif event.key == pygame.K_MINUS:
-                    # ~ if player.colorChoice < len(player.colors) - 1:
-                        # ~ player.colorChoice += 1
-                    # ~ else:
-                        # ~ player.colorChoice = 0
-                # ~ elif event.key == pygame.K_EQUALS:
-                    # ~ if player.colorChoice > 0:
-                        # ~ player.colorChoice -= 1
-                    # ~ else:
-                        # ~ player.colorChoice = len(player.colors) - 1
-                        # ~ player.glassesChoice = 0
-                # ~ elif event.key == pygame.K_7:
-                    # ~ if player.glassesChoice > 0:
-                        # ~ player.glassesChoice -= 1
-                    # ~ else:
-                        # ~ player.glassesChoice = len(player.glass) - 1
-                # ~ elif event.key == pygame.K_6:
-                    # ~ if player.mouthChoice < len(player.mouth) - 1:
-                        # ~ player.mouthChoice += 1
-                    # ~ else:
-                        # ~ player.mouthChoice = 0
-                # ~ elif event.key == pygame.K_5:
-                    # ~ if player.mouthChoice > 0:
-                        # ~ player.mouthChoice -= 1
-                    # ~ else:
-                        # ~ player.mouthChoice = len(player.mouth) - 1
-                # ~ elif event.key == pygame.K_4:
-                    # ~ if player.eyeChoice < len(player.eye) - 1:
-                        # ~ player.eyeChoice += 1
-                    # ~ else:
-                        # ~ player.eyeChoice = 0
-                # ~ elif event.key == pygame.K_3:
-                    # ~ if player.eyeChoice > 0:
-                        # ~ player.eyeChoice -= 1
-                    # ~ else:
-                        # ~ player.eyeChoice = len(player.eye) - 1
-                # ~ elif event.key == pygame.K_MINUS:
-                    # ~ if player.colorChoice < len(player.colors) - 1:
-                        # ~ player.colorChoice += 1
-                    # ~ else:
-                        # ~ player.colorChoice = 0
-                # ~ elif event.key == pygame.K_EQUALS:
-                    # ~ if player.colorChoice > 0:
-                        # ~ player.colorChoice -= 1
-                    # ~ else:
-                        # ~ player.colorChoice = len(player.colors) - 1
                 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
@@ -1159,6 +1062,21 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "clothing")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    used = False
+                    for i in player.inventory["eyes"]:
+                        if i == 1:
+                            used = True
+                    if used == False:
+                        player.inventory["eyes"] += [1]
+                if event.key == pygame.K_2:
+                    used = False
+                    for i in player.inventory["eyes"]:
+                        if i == 2:
+                            used = True
+                    if used == False:
+                        player.inventory["eyes"] += [2]
         
         money.update(player.inventory["coins"])
   
@@ -1343,12 +1261,12 @@ while True:
                    "hat": SettingsButton([addX, yOffset + 4*yFactor/amount - yOffset2], "forward"),
                    "shirt": SettingsButton([addX, yOffset + 5*yFactor/amount - yOffset2], "forward"),
                    "glasses": SettingsButton([addX, yOffset + 6*yFactor/amount - yOffset2], "forward")}
-            choices = {"eye": [player.eyeChoice, player.eye],
-                       "mouth": [player.mouthChoice, player.mouth],
-                       "color": [player.colorChoice, player.colors],
-                       "hat": [player.hatChoice, player.hat],
-                       "shirt": [player.shirtChoice, player.shirt],
-                       "glasses": [player.glassesChoice, player.glass]}
+            choices = {"eye": [player.eyeChoice, player.inventory["eyes"]],
+                       "mouth": [player.mouthChoice, player.inventory["mouths"]],
+                       "color": [player.colorChoice, player.inventory["colors"]],
+                       "hat": [player.hatChoice, player.inventory["hats"]],
+                       "shirt": [player.shirtChoice, player.inventory["shirts"]],
+                       "glasses": [player.glassesChoice, player.inventory["glasses"]]}
             
             viewChanged = False
                        
@@ -1366,21 +1284,16 @@ while True:
                         viewChanged = True
                     for m in minus.keys():
                         if minus[m].click(event.pos):
-                            
                             if choices[m][0] > 0:
                                 choices[m][0] -= 1
                             else:
                                 choices[m][0] = len(choices[m][1]) - 1
-                            print(choices[m][0])
                     for a in add.keys():
                         if add[a].click(event.pos):
-                            for c in choices.keys():
-                                if a == c:
-                                    print(choices[c][1][choices[c][0]])
-                                    if choices[c][0] < len(choices[c][1]) - 1:
-                                        choices[c][0] += 1
-                                    else:
-                                        choices[c][0] = 0
+                            if choices[a][0] < len(choices[a][1]) - 1:
+                                choices[a][0] += 1
+                            else:
+                                choices[a][0] = 0
                                         
         player.eyeChoice = choices["eye"][0]
         player.mouthChoice = choices["mouth"][0]

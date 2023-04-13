@@ -78,7 +78,13 @@ class Player():
                           "healthPotion": 0,
                           "coins": 0,
                           "pets": [],
-                          "spells": ["basic"]}
+                          "spells": ["basic"],
+                          "colors": [0],
+                          "eyes": [0],
+                          "mouths": [0],
+                          "shirts": [0],
+                          "hats": [0],
+                          "glasses": [0]}
         
         self.counter = 0
         self.stop = 30
