@@ -625,7 +625,6 @@ while True:
         for enemy in enemies:
             player.enemyCollide(enemy)
             enemy.playerSense(player)
-            
             for wall in walls:
                 enemy.wallTileCollide(wall)
             for hide in hides:
@@ -645,6 +644,8 @@ while True:
                     player.inventory["coins"] += 5
                 else:
                     player.inventory["coins"] += 1
+            if not enemy.living:
+                enemies.remove(enemy)
             
         for wall in walls:
             for spell in spells:
@@ -695,10 +696,6 @@ while True:
         for spell in spells:
             if not spell.living:
                 spells.remove(spell)
-                
-        for enemy in enemies:
-            if not enemy.living:
-                enemies.remove(enemy)
 
 
         if player.dead and not player.roam:
@@ -1044,7 +1041,52 @@ while True:
                                 
     if views.top() == "clothesSt":
         if viewChanged:
-            options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyeSt"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouthSt"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colorSt"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hatSt"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirtSt"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glassSt")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            options = []
+                            views.push(option.kind)
+                            viewChanged = True
+          
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+        
+    if views.top() == "eyeSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -1062,21 +1104,7 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "clothing")
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_1:
-                    used = False
-                    for i in player.inventory["eyes"]:
-                        if i == 1:
-                            used = True
-                    if used == False:
-                        player.inventory["eyes"] += [1]
-                if event.key == pygame.K_2:
-                    used = False
-                    for i in player.inventory["eyes"]:
-                        if i == 2:
-                            used = True
-                    if used == False:
-                        player.inventory["eyes"] += [2]
+                        
         
         money.update(player.inventory["coins"])
   
@@ -1087,7 +1115,202 @@ while True:
             screen.blit(option.image, option.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
+    
+    if views.top() == "mouthSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            player.purchase(option.kind, "clothing")
+                        
         
+        money.update(player.inventory["coins"])
+  
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+    
+    if views.top() == "colorSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            player.purchase(option.kind, "clothing")
+                        
+        
+        money.update(player.inventory["coins"])
+  
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+    
+    if views.top() == "hatSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            player.purchase(option.kind, "clothing")
+                        
+        
+        money.update(player.inventory["coins"])
+  
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+    
+    if views.top() == "shirtSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            player.purchase(option.kind, "clothing")
+                        
+        
+        money.update(player.inventory["coins"])
+  
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+    
+    if views.top() == "glassSt":
+        if viewChanged:
+            offset1 = 188
+            offset2 = 74
+            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
+                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
+                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
+                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
+                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
+                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                saveMap(user, items, enemies, player)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            player.purchase(option.kind, "clothing")
+                        
+        
+        money.update(player.inventory["coins"])
+  
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        screen.blit(money.image, money.rect)
+        pygame.display.flip()
+    
     if views.top() == "inventory":
         if viewChanged:
             popup = [Popup("inventory", [900/2, 700/2])]
