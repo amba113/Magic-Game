@@ -1079,14 +1079,11 @@ while True:
         
     if views.top() == "eyeSt":
         if viewChanged:
-            offset1 = 188
-            offset2 = 74
-            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
-                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
-                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
-                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
-                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
-                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            choice = 0
+            add = SettingsButton([200, 700/2], "forward")
+            sub = SettingsButton([700, 700/2], "back")
+            buy = SettingsButton([900/2, 600], "buy")
+            options = SpriteSheet("Images/Eye Images.png").load_stripH([0, 0, 22, 12], 8,  (221, 255, 0))
             viewChanged = False
                        
         for event in pygame.event.get():
@@ -1101,18 +1098,22 @@ while True:
                     if backButton.click(event.pos):
                         views.pop()
                         viewChanged = True
-                    for option in options:
-                        if option.click(event.pos):
-                            player.purchase(option.kind, "clothing")
-                        
+                    if add.click(event.pos):
+                        if 
+                        choice += 1
+                    if sub.click(event.pos):
+                        choice -= 1
+                    if buy.click(event.pos):
         
         money.update(player.inventory["coins"])
   
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        for option in options:
-            screen.blit(option.image, option.rect)
+        screen.blit(options[choice].image, option[choice].rect)
+        screen.blit(add.image, add.rect)
+        screen.blit(sub.image, sub.rect)
+        screen.blit(buy.image, buy.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
     
