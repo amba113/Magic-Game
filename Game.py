@@ -1079,13 +1079,24 @@ while True:
         
     if views.top() == "eyeSt":
         if viewChanged:
-            choice = 0
-            add = SettingsButton([200, 700/2], "forward")
-            sub = SettingsButton([700, 700/2], "back")
-            buy = SettingsButton([900/2, 600], "buy")
-            options = SpriteSheet("Images/Eye Images.png").load_stripH([0, 0, 22, 12], 8,  (221, 255, 0))
+            choices = []
+            index = 0
+            factor = 15
+            sub = SettingsButton([200, 700/2 - 50], "back+")
+            add = SettingsButton([700, 700/2 - 50], "forward+")
+            buy = SettingsButton([900/2, 500], "buy")
+            options = SpriteSheetScale("Images/Eye Images.png", [176*factor, 12*factor]).load_stripH([0, 0, 22*factor, 12*factor], 8,  (221, 255, 0))
             viewChanged = False
-                       
+            temp = 0
+            while temp < len(options):
+                choices += [temp]
+                temp += 1
+        
+        for i in player.inventory["eyes"]:
+            for c in choices:
+                if c == i:
+                    choices.remove(c)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 saveMap(user, items, enemies, player)
@@ -1099,18 +1110,25 @@ while True:
                         views.pop()
                         viewChanged = True
                     if add.click(event.pos):
-                        if 
-                        choice += 1
+                        if index < len(choices) - 1:
+                            index += 1
+                        elif index >= len(choices) - 1:
+                            index = 0
                     if sub.click(event.pos):
-                        choice -= 1
+                        if index > 0:
+                            index -= 1
+                        elif index <= 0:
+                            index = len(choices) - 1
                     if buy.click(event.pos):
-        
+                        player.purchase(choices[index], "eyes")
+                        print(player.inventory["eyes"])
+                        
         money.update(player.inventory["coins"])
   
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        screen.blit(options[choice].image, option[choice].rect)
+        screen.blit(options[choices[index]], [900/2 - (22/2*factor), 200])
         screen.blit(add.image, add.rect)
         screen.blit(sub.image, sub.rect)
         screen.blit(buy.image, buy.rect)
@@ -1119,16 +1137,24 @@ while True:
     
     if views.top() == "mouthSt":
         if viewChanged:
-            offset1 = 188
-            offset2 = 74
-            options = [StoreChoice([900/2, offset1], "clothesSt", "eyes"),
-                       StoreChoice([900/2, offset1 + offset2], "clothesSt", "mouths"),
-                       StoreChoice([900/2, offset1 + offset2*2], "clothesSt", "colors"),
-                       StoreChoice([900/2, offset1 + offset2*3], "clothesSt", "hats"),
-                       StoreChoice([900/2, offset1 + offset2*4], "clothesSt", "shirts"),
-                       StoreChoice([900/2, offset1 + offset2*5], "clothesSt", "glasses")]
+            choices = []
+            index = 0
+            factor = 15
+            sub = SettingsButton([200, 700/2 - 50], "back+")
+            add = SettingsButton([700, 700/2 - 50], "forward+")
+            buy = SettingsButton([900/2, 500], "buy")
+            options = SpriteSheetScale("Images/Mouth Images.png", [176*factor, 12*factor]).load_stripH([0, 0, 22*factor, 12*factor], 8,  (221, 255, 0))
             viewChanged = False
-                       
+            temp = 0
+            while temp < len(options):
+                choices += [temp]
+                temp += 1
+        
+        for i in player.inventory["eyes"]:
+            for c in choices:
+                if c == i:
+                    choices.remove(c)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 saveMap(user, items, enemies, player)
@@ -1141,18 +1167,29 @@ while True:
                     if backButton.click(event.pos):
                         views.pop()
                         viewChanged = True
-                    for option in options:
-                        if option.click(event.pos):
-                            player.purchase(option.kind, "clothing")
+                    if add.click(event.pos):
+                        if index < len(choices) - 1:
+                            index += 1
+                        elif index >= len(choices) - 1:
+                            index = 0
+                    if sub.click(event.pos):
+                        if index > 0:
+                            index -= 1
+                        elif index <= 0:
+                            index = len(choices) - 1
+                    if buy.click(event.pos):
+                        player.purchase(choices[index], "mouths")
+                        print(player.inventory["mouths"])
                         
-        
         money.update(player.inventory["coins"])
   
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        for option in options:
-            screen.blit(option.image, option.rect)
+        screen.blit(options[choices[index]], [900/2 - (22/2*factor), 200])
+        screen.blit(add.image, add.rect)
+        screen.blit(sub.image, sub.rect)
+        screen.blit(buy.image, buy.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
     
@@ -1460,6 +1497,8 @@ while True:
             
     if views.top() == "clothesIn":
         if viewChanged:
+            player.speedx = 0
+            player.speedy = 0
             amount = 6
             minX = 400
             yOffset = 150

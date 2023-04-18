@@ -519,8 +519,91 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
-        elif kind.lower() == "clothing":
-            pass
+        elif kind.lower() == "eyes":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 4:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [4]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 5:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [5]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 6:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [6]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 7:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["eyes"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["eyes"] += [7]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
 
     def animate(self):
         if self.Timer >= self.TimerMax:

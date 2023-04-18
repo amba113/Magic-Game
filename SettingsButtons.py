@@ -6,6 +6,8 @@ class SettingsButton():
         self.kind = kind
         self.scale1 = [50, 50]
         self.scale2 = [700/2, 200/2]
+        self.scale3 = [100, 100]
+        self.scale4 = [100*2.5, 50*2.5]
         
         self.images = {"controls": pygame.image.load("Images/Control Set Button.png"),
                        "store": pygame.image.load("Images/Store Button.png"),
@@ -16,6 +18,8 @@ class SettingsButton():
                        "close": pygame.image.load("Images/Store Close.png"),
                        "back": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale1),
                        "forward": pygame.transform.flip(pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale1), True, False),
+                       "back+": pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale3),
+                       "forward+": pygame.transform.flip(pygame.transform.scale(pygame.image.load("Images/BackButton.png"), self.scale3), True, False),
                        "controlsBox": pygame.image.load("Images/Control Box.png"),
                        "reset": pygame.image.load("Images/Reset Button.png"),
                        "locked": pygame.image.load("Images/Item Locked.png"),
@@ -30,7 +34,7 @@ class SettingsButton():
                        "clothesIn": pygame.image.load("Images/Clothes Choice.png"),
                        "passSee": pygame.image.load("Images/Pass See.png"),
                        "passHide": pygame.image.load("Images/Pass Hide.png"),
-                       "buy": pygame.image.load("Images/Buy Button.png")}
+                       "buy": pygame.transform.scale(pygame.image.load("Images/Buy Button.png"), self.scale4)}
         
         self.image = self.images[kind]
         
