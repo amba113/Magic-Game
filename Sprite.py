@@ -17,10 +17,9 @@ class SpriteSheet:
         rect = pygame.Rect(rectangle)
         image1 = pygame.Surface(rect.size).convert()
         image1.blit(self.sheet, (0, 0), rect)
-        if colorkey != None:
-            if colorkey != -1:
-                colorkey = image1.get_at((0,0))
-            image1.set_colorkey(colorkey, pygame.RLEACCEL)
+        if colorkey == None:
+            colorkey = image1.get_at((0,0))
+        image1.set_colorkey(colorkey, pygame.RLEACCEL)
         return image1
     
     def images_at(self, rects, colorkey = None):
@@ -58,10 +57,9 @@ class SpriteSheetScale:
         rect = pygame.Rect(rectangle)
         image1 = pygame.Surface(rect.size).convert()
         image1.blit(self.sheet, (0, 0), rect)
-        if colorkey != None:
-            if colorkey != -1:
-                colorkey = image1.get_at((0,0))
-            image1.set_colorkey(colorkey, pygame.RLEACCEL)
+        if colorkey == None:
+            colorkey = image1.get_at((0,0))
+        image1.set_colorkey(colorkey, pygame.RLEACCEL)
         return image1
     
     def images_at(self, rects, colorkey = None):

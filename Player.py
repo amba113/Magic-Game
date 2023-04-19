@@ -112,7 +112,7 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
-        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png")
+        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.inventory["colors"][self.colorChoice]] + " Spritesheet.png")
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
             self.images = self.sprites.load_stripH([0, 90*2, 36, 90], 8,  (221, 255, 0))
@@ -122,11 +122,11 @@ class Player():
             self.glass = self.glasses.load_stripH([0, 90*2, 36, 90], 5,  (221, 255, 0))
             self.shirt = self.shirts.load_stripH([0, 90*2, 36, 90], 3,  (221, 255, 0))
             for i in self.images:
-                i.blit(self.eye[self.eyeChoice], (0,0))
-                i.blit(self.mouth[self.mouthChoice], (0,0)) 
-                i.blit(self.glass[self.glassesChoice], (0,0))
-                i.blit(self.hat[self.hatChoice], (0,0))
-                i.blit(self.shirt[self.shirtChoice], (0,0))
+                i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
+                i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
+                i.blit(self.glass[self.inventory["glasses"][self.glassesChoice]], (0,0))
+                i.blit(self.hat[self.inventory["hats"][self.hatChoice]], (0,0))
+                i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         elif self.speedx > 0:
             self.speedx = self.maxSpeed
             self.images = self.sprites.load_stripH([0, 90*3, 36, 90], 8,  (221, 255, 0))
@@ -136,11 +136,11 @@ class Player():
             self.glass = self.glasses.load_stripH([0, 90*3, 36, 90], 5,  (221, 255, 0))
             self.shirt = self.shirts.load_stripH([0, 90*3, 36, 90], 3,  (221, 255, 0))
             for i in self.images:
-                i.blit(self.eye[self.eyeChoice], (0,0))
-                i.blit(self.mouth[self.mouthChoice], (0,0)) 
-                i.blit(self.glass[self.glassesChoice], (0,0))
-                i.blit(self.hat[self.hatChoice], (0,0))
-                i.blit(self.shirt[self.shirtChoice], (0,0))
+                i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
+                i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
+                i.blit(self.glass[self.inventory["glasses"][self.glassesChoice]], (0,0))
+                i.blit(self.hat[self.inventory["hats"][self.hatChoice]], (0,0))
+                i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         if self.speedy < 0:
             self.speedy = -self.maxSpeed
             self.images = self.sprites.load_stripH([0, 90, 36, 90], 8,  (221, 255, 0))
@@ -150,11 +150,11 @@ class Player():
             self.glass = self.glasses.load_stripH([0, 90, 36, 90], 5,  (221, 255, 0))
             self.shirt = self.shirts.load_stripH([0, 90, 36, 90], 3,  (221, 255, 0))
             for i in self.images:
-                i.blit(self.eye[self.eyeChoice], (0,0))
-                i.blit(self.mouth[self.mouthChoice], (0,0)) 
-                i.blit(self.glass[self.glassesChoice], (0,0))
-                i.blit(self.hat[self.hatChoice], (0,0))
-                i.blit(self.shirt[self.shirtChoice], (0,0))
+                i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
+                i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
+                i.blit(self.glass[self.inventory["glasses"][self.glassesChoice]], (0,0))
+                i.blit(self.hat[self.inventory["hats"][self.hatChoice]], (0,0))
+                i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         elif self.speedy > 0:
             self.speedy = self.maxSpeed
             self.images = self.sprites.load_stripH([0, 0, 36, 90], 8,  (221, 255, 0))
@@ -164,11 +164,11 @@ class Player():
             self.glass = self.glasses.load_stripH([0, 0, 36, 90], 5,  (221, 255, 0))
             self.shirt = self.shirts.load_stripH([0, 0, 36, 90], 3,  (221, 255, 0))
             for i in self.images:
-                i.blit(self.eye[self.eyeChoice], (0,0))
-                i.blit(self.mouth[self.mouthChoice], (0,0)) 
-                i.blit(self.glass[self.glassesChoice], (0,0))
-                i.blit(self.hat[self.hatChoice], (0,0))
-                i.blit(self.shirt[self.shirtChoice], (0,0))
+                i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
+                i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
+                i.blit(self.glass[self.inventory["glasses"][self.glassesChoice]], (0,0))
+                i.blit(self.hat[self.inventory["hats"][self.hatChoice]], (0,0))
+                i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         if self.speedx == 0 and self.speedy == 0:
             self.frame = -1
             self.images = self.sprites.load_stripH([0, 0, 36, 90], 1, (221, 255, 0))
@@ -178,11 +178,11 @@ class Player():
             self.glass = self.glasses.load_stripH([0, 0, 36, 90], 5,  (221, 255, 0))
             self.shirt = self.shirts.load_stripH([0, 0, 36, 90], 3,  (221, 255, 0))
             for i in self.images:
-                i.blit(self.eye[self.eyeChoice], (0,0))
-                i.blit(self.mouth[self.mouthChoice], (0,0)) 
-                i.blit(self.glass[self.glassesChoice], (0,0))
-                i.blit(self.hat[self.hatChoice], (0,0))
-                i.blit(self.shirt[self.shirtChoice], (0,0))
+                i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
+                i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
+                i.blit(self.glass[self.inventory["glasses"][self.glassesChoice]], (0,0))
+                i.blit(self.hat[self.inventory["hats"][self.hatChoice]], (0,0))
+                i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         
         self.move()
         self.wallCollide(size)
@@ -833,6 +833,18 @@ class Player():
                             return False
                     self.inventory["coins"] -= 1
                     self.inventory["glasses"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 4:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["glasses"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["glasses"] += [4]
                     return True
                 else:
                     print("You are too poor to afford this")

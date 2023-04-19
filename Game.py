@@ -1122,7 +1122,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index], "eyes")
+                        if player.purchase(choices[index], "eyes"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1153,7 +1157,7 @@ while True:
         
         for i in player.inventory["mouths"]:
             for c in choices:
-                if (c + 1) == i:
+                if c == i:
                     choices.remove(c)
         
         for event in pygame.event.get():
@@ -1179,7 +1183,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index], "mouths")
+                        if player.purchase(choices[index], "mouths"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1237,7 +1245,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index], "colors")
+                        if player.purchase(choices[index], "colors"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1294,7 +1306,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index] + 1, "hats")
+                        if player.purchase(choices[index] + 1, "hats"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1351,7 +1367,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index] + 1, "shirts")
+                        if player.purchase(choices[index] + 1, "shirts"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1408,7 +1428,11 @@ while True:
                         elif index <= 0:
                             index = len(choices) - 1
                     if buy.click(event.pos):
-                        player.purchase(choices[index] + 1, "glasses")
+                        if player.purchase(choices[index] + 1, "glasses"):
+                            if index > 0:
+                                index -= 1
+                            elif index <= 0:
+                                index = len(choices) - 1
                         
         money.update(player.inventory["coins"])
   
@@ -1620,16 +1644,20 @@ while True:
                         viewChanged = True
                     for m in minus.keys():
                         if minus[m].click(event.pos):
+                            print(m, " minus clicked")
                             if choices[m][0] > 0:
                                 choices[m][0] -= 1
                             else:
                                 choices[m][0] = len(choices[m][1]) - 1
+                            print(choices[m])
                     for a in add.keys():
                         if add[a].click(event.pos):
+                            print(a, " add clicked")
                             if choices[a][0] < len(choices[a][1]) - 1:
                                 choices[a][0] += 1
                             else:
                                 choices[a][0] = 0
+                            print(choices[a])
                                         
         player.eyeChoice = choices["eye"][0]
         player.mouthChoice = choices["mouth"][0]
