@@ -604,6 +604,240 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
+        elif kind.lower() == "mouths":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 4:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [4]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 5:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [5]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 6:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [6]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 7:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["mouths"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["mouths"] += [7]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+        elif kind.lower() == "colors":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["colors"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["colors"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["colors"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["colors"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["colors"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["colors"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 4:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["colors"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["colors"] += [4]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+        elif kind.lower() == "hats":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["hats"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["hats"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["hats"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["hats"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["hats"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["hats"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+        elif kind.lower() == "shirts":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["shirts"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["shirts"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["shirts"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["shirts"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+        elif kind.lower() == "glasses":
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["glasses"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["glasses"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["glasses"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["glasses"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["glasses"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["glasses"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            
 
     def animate(self):
         if self.Timer >= self.TimerMax:
