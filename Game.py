@@ -629,6 +629,7 @@ while True:
             enemy.playerSense(player)
             for wall in walls:
                 enemy.wallTileCollide(wall)
+            enemy.wallCollide(size)
             for hide in hides:
                 enemy.hideCollide(hide)
             for spell in spells:
@@ -680,6 +681,9 @@ while True:
         
         for door in doors:
             if player.doorCollide(door):
+                for enemy in enemies:
+                    enemy.angry = False
+                player.hpHeal = True
                 saveMap(user, items, enemies, player, True)
                 loc = door.kind
                 tiles = loadMap(user, player.coord, loc)
@@ -1210,7 +1214,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Color Images.png", [200*factor1, 50*factor2]).load_stripH([0, 0, 50*factor1, 50*factor2], 4)
+            options = SpriteSheetScale("Images/Color Images.png", [200*factor1, 50*factor2]).load_stripH([0, 0, 50*factor1, 50*factor2], 4, (0,0,0))
             viewChanged = False
             temp = 0
             while temp < len(options):

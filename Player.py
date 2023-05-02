@@ -197,8 +197,8 @@ class Player():
             self.zoom = False
         if self.hp > 0:
             self.roam = False
-            if self.hpHeal == True and self.hpTimer == (60*3) and self.hp < self.hpMax:
-                self.hp += 5
+            if self.hpHeal == True and self.hpTimer == (60*1) and self.hp < self.hpMax:
+                self.hp += 2
                 self.hpTimer = 0
                 if self.hp > self.hpMax:
                     self.hp = self.hpMax

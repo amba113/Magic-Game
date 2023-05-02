@@ -164,20 +164,30 @@ class Enemy():
     def wallCollide(self, size):
         width = size[0]
         height = size[1]
-        if not self.didHitY:
-            if self.rect.bottom > height:
-                self.speedy = -self.speedy
-                self.didHitY = True
-            if self.rect.top < 0:
-                self.speedy = -self.speedy
-                self.didHitY = True
-        if not self.didHitX:
-            if self.rect.right > width:
-                self.speedx = -self.speedx
-                self.didHitX = True
-            if self.rect.left < 0:
-                self.speedx = -self.speedx
-                self.didHitX = True
+        if self.rect.bottom > height - 45:
+            self.speedy = -self.speedy
+            self.speedx = -self.speedx
+            self.spdy = self.speedy
+            self.spdx = self.speedx
+            self.move()
+        if self.rect.top < 45:
+            self.speedy = -self.speedy
+            self.speedx = -self.speedx
+            self.spdy = self.speedy
+            self.spdx = self.speedx
+            self.move()
+        if self.rect.right > width - 45:
+            self.speedy = -self.speedy
+            self.speedx = -self.speedx
+            self.spdy = self.speedy
+            self.spdx = self.speedx
+            self.move()
+        if self.rect.left < 45:
+            self.speedy = -self.speedy
+            self.speedx = -self.speedx
+            self.spdy = self.speedy
+            self.spdx = self.speedx
+            self.move()
 
         
     def attack(self, target):
