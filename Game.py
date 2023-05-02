@@ -1558,18 +1558,18 @@ while True:
             
     if views.top() == "potionsIn":
             if viewChanged:
-                offsetx = 35
-                offsety = -60
+                offsetx = 30
+                offsety = -50
                 options = [InventoryChoice([900/3, 275], views.top(), "fullHeal"),
                            InventoryChoice([2*900/3, 275], views.top(), "halfHeal"),
                            InventoryChoice([900/4, 450], views.top(), "health"),
                            InventoryChoice([900/2, 450], views.top(), "revive"),
                            InventoryChoice([3*900/4, 450], views.top(), "speed")]
-                amounts = [Text2("", [900/3 + offsetx + 25, 275 + offsety], 24, "Black"),
-                           Text2("", [2*900/3 + offsetx + 25, 275 + offsety], 24, "Black"),
-                           Text2("", [900/4 + offsetx + 25, 450 + offsety], 24, "Black"),
-                           Text2("", [900/2 + offsetx + 25, 450 + offsety], 24, "Black"),
-                           Text2("", [3*900/4 + offsetx + 25, 450 + offsety], 24, "Black")]
+                amounts = [Text2("", [900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
+                           Text2("", [2*900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
+                           Text2("", [900/4 + offsetx + 25, 450 + offsety], 36, "Black"),
+                           Text2("", [900/2 + offsetx + 25, 450 + offsety], 36, "Black"),
+                           Text2("", [3*900/4 + offsetx + 25, 450 + offsety], 36, "Black")]
                 viewChanged = False
                            
             for event in pygame.event.get():
