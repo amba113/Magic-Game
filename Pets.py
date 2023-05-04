@@ -4,10 +4,12 @@ from Spells import*
 class Pet():
     def __init__(self, startPos, kind, vel = 2, speed = [0,0]):
         
+        self.scale = [36*.5, 49*.5]
         self.images = {"blackCat": pygame.image.load("Images/BlackCat.png"),
                        "calicoCat": pygame.image.load("Images/CalicoCat.png"),
                        "owl": pygame.image.load("Images/Owl.png"),
-                       "frog": pygame.image.load("Images/Frog.png")}
+                       "frog": pygame.image.load("Images/Frog.png"),
+                       "raccoon": pygame.transform.scale(pygame.image.load("Images/Raccoon.png"), self.scale)}
         
         self.kind = kind
         

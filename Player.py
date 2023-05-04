@@ -478,6 +478,14 @@ class Player():
                 else:
                     print("You are too poor to afford this")
                     return False
+            elif selection == "raccoon":
+                if self.inventory["coins"] >= 5:
+                    self.inventory["coins"] -= 5
+                    self.inventory["pets"] += ["raccoon"]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
         elif kind.lower() == "spell":
             pass
         elif kind.lower() == "potion":

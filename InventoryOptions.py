@@ -9,7 +9,8 @@ class InventoryChoice():
         self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Black Cat Item.png"), scale),
                           "calicoCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Item.png"), scale),
                           "owl": pygame.transform.scale(pygame.image.load("Images/Owl Item.png"), scale),
-                          "frog": pygame.transform.scale(pygame.image.load("Images/Frog Item.png"), scale)}
+                          "frog": pygame.transform.scale(pygame.image.load("Images/Frog Item.png"), scale),
+                          "raccoon": pygame.transform.scale(pygame.image.load("Images/Raccoon Item.png"), scale)}
         self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Item.png"), scale),
                              "health": pygame.transform.scale(pygame.image.load("Images/Health Item.png"), scale),
                              "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Item.png"), scale),

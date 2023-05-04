@@ -949,8 +949,9 @@ while True:
         if viewChanged:
             options = [StoreChoice([900/3, 275], views.top(), "blackCat"),
                        StoreChoice([2*900/3, 275], views.top(), "calicoCat"),
-                       StoreChoice([900/3, 450], views.top(), "owl"),
-                       StoreChoice([2*900/3, 450], views.top(), "frog")]
+                       StoreChoice([900/4, 450], views.top(), "owl"),
+                       StoreChoice([2*900/4, 450], views.top(), "frog"),
+                       StoreChoice([3*900/4, 450], views.top(), "raccoon")]
             viewChanged = False
             
         for event in pygame.event.get():
@@ -1482,18 +1483,22 @@ while True:
 
     if views.top() == "petsIn":
             if viewChanged:
-                options = [InventoryChoice([900/3, 700/3 + 25], views.top(), "blackCat"),
-                           InventoryChoice([900/3, 2*700/3], views.top(), "calicoCat"),
-                           InventoryChoice([2*900/3, 700/3 + 25], views.top(), "frog"),
-                           InventoryChoice([2*900/3, 2*700/3], views.top(), "owl")]
-                locked = [SettingsButton([900/3, 700/3 + 25], "locked"),
-                          SettingsButton([900/3, 2*700/3], "locked"),
-                          SettingsButton([2*900/3, 700/3 + 25], "locked"),
-                          SettingsButton([2*900/3, 2*700/3], "locked")]
-                equipped = [SettingsButton([900/3, 700/3 + 25], "equipped"),
-                            SettingsButton([900/3, 2*700/3], "equipped"),
-                            SettingsButton([2*900/3, 700/3 + 25], "equipped"),
-                            SettingsButton([2*900/3, 2*700/3], "equipped")]
+                offsetx = 35
+                options = [InventoryChoice([900/3 + offsetx, 700/3 + 25], views.top(), "blackCat"),
+                           InventoryChoice([900/4, 2*700/3], views.top(), "calicoCat"),
+                           InventoryChoice([2*900/3 - offsetx, 700/3 + 25], views.top(), "frog"),
+                           InventoryChoice([2*900/4, 2*700/3], views.top(), "owl"),
+                           InventoryChoice([3*900/4, 2*700/3], views.top(), "raccoon")]
+                locked = [SettingsButton([900/3 + offsetx, 700/3 + 25], "locked"),
+                          SettingsButton([900/4, 2*700/3], "locked"),
+                          SettingsButton([2*900/3 - offsetx, 700/3 + 25], "locked"),
+                          SettingsButton([2*900/4, 2*700/3], "locked"),
+                          SettingsButton([3*900/4, 2*700/3], "locked")]
+                equipped = [SettingsButton([900/3 + offsetx, 700/3 + 25], "equipped"),
+                            SettingsButton([900/4, 2*700/3], "equipped"),
+                            SettingsButton([2*900/3 - offsetx, 700/3 + 25], "equipped"),
+                            SettingsButton([2*900/4, 2*700/3], "equipped"),
+                            SettingsButton([3*900/4, 2*700/3], "equipped")]
 
                 viewChanged = False
                            

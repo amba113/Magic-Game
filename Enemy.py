@@ -219,4 +219,6 @@ class Enemy():
                             elif other.kind == "owl":
                                 self.hp -= 3
                             elif other.kind == "frog":
-                                self.hp -= 10
+                                self.hp -= 7
+                            elif other.kind == "raccoon":
+                                self.hp -= 7
