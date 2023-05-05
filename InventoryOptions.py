@@ -22,7 +22,8 @@ class InventoryChoice():
                               "hat": pygame.transform.scale(pygame.image.load("Images/Hat Text.png"), scale2),
                               "shirt": pygame.transform.scale(pygame.image.load("Images/Shirt Text.png"), scale2),
                               "glasses": pygame.transform.scale(pygame.image.load("Images/Glasses Text.png"), scale2)}
-        self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
+        self.spellImages = {"basic1": pygame.transform.scale(pygame.image.load("Images/Basic 1 Item.png"), scale),
+                            "basic2": pygame.transform.scale(pygame.image.load("Images/Basic 2 Item.png"), scale)}
         
         if kind == "petsIn":
             self.image = self.petImages[option]

@@ -71,7 +71,7 @@ class Enemy():
             if self.rect.left < other.rect.right:
                 if self.rect.bottom > other.rect.top:
                     if self.rect.top < other.rect.bottom:
-                        if other.kind == "basic":
+                        if other.kind == "basic1":
                             self.hp -= 5
                         elif other.kind == "basic2":
                             self.hp -= 10

@@ -45,7 +45,7 @@ player = Player(4, tiles[2])
 items = tiles[3]
 enemies = tiles[4]
 spells = []
-spellType = "basic"
+spellType = "basic1"
 selected = ""
 choice = ""
 popup = []
@@ -104,7 +104,10 @@ r2 = False
 r3 = False
 rA = False
 rD = False
-rP = False            
+rP = False  
+
+test = False
+escape = False
 
 def doSignin(name, pwd):
     direct = "logins.txt"
@@ -163,6 +166,40 @@ while True:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     sys.exit();
+                elif event.key == pygame.K_t:
+                    test = True
+                    path = "Rooms/Sav/Test"
+                    isdir = os.path.isdir(path)
+
+                    if isdir:
+                        print("exists")
+                    else:
+                        os.mkdir(path)
+                        isdir = os.path.isdir(path)
+                        print("made")
+                    path2 = "Inventories/Test"
+                    isdir = os.path.isdir(path2)
+
+                    if isdir:
+                        pass
+                    else:
+                        os.mkdir(path2)
+                        isdir = os.path.isdir(path2)
+                    user = "Test"
+                    tiles = loadMap(user)
+                    walls = tiles[0]
+                    doors = tiles[1]
+                    hides = tiles[5]
+                    player = Player(4, tiles[2])
+                    items = tiles[3]
+                    enemies = tiles[4]
+                    spells = []
+                    if tiles[6] != None:
+                        player.inventory = tiles[6]
+                    if tiles[8] != None:
+                        player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice = tiles[8]
+                    player.hp = tiles[7]
+                    views = Stack("game")
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     if signButton.click(event.pos):
@@ -183,31 +220,24 @@ while True:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    print("Left Click")
                     if inputRect1.collidepoint(event.pos) and r1:
-                        print("Box 1")
                         box1 = True
                         box2 = False
                         box3 = False
                     elif inputRect2.collidepoint(event.pos) and r2:
-                        print("Box 2")
                         box1 = False
                         box2 = True
                         box3 = False
                     elif inputRect3.collidepoint(event.pos) and r3:
-                        print("Box 3")
                         box1 = False
                         box2 = False
                         box3 = True
                     elif agreeRect.collidepoint(event.pos) and rA:
-                        print("Agree")
                         agree = True
                     elif disagreeRect.collidepoint(event.pos) and rD:
-                        print("Disagree")
                         views.pop()
                         viewChanged = True
                     elif playButton.click(event.pos) and rP:
-                        print("Play")
                         user, username, new = doSignin(userText1, userText2)
                         print(user, username)
                         if name:
@@ -492,12 +522,66 @@ while True:
     if views.top() == "game":
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    saveMap(user, items, enemies, player)
-                    sys.exit();
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
                     
@@ -531,12 +615,6 @@ while True:
                 elif event.key == pygame.key.key_code(controls["inventory"]):
                     views.push("inventory")
                     viewChanged = True
-
-                elif event.key == pygame.K_1:
-                    spellType = "basic"
-                elif event.key == pygame.K_2:
-                    if "basic2" in player.inventory["spells"]:
-                        spellType = "basic2"
                 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
@@ -563,7 +641,20 @@ while True:
                         while selected == "" and setOpen == True:
                             for event in pygame.event.get():
                                 if event.type == pygame.QUIT:
-                                    saveMap(user, items, enemies, player)
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
                                     sys.exit();
                                 
                                 elif event.type == pygame.KEYUP:
@@ -593,13 +684,39 @@ while True:
                                             setOpen = False
                                             
                             if selected == "quit":
-                                saveMap(user, items, enemies, player)
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
                                 sys.exit()
                             elif selected == "store":
                                 views.push("store")
                                 viewChanged = True
                             elif selected == "signout":
-                                saveMap(user, items, enemies, player)
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
                                 views = Stack("title")
                                 viewChanged = True
                             elif selected == "controls":
@@ -756,12 +873,66 @@ while True:
         while choice == "":
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    saveMap(user, items, enemies, player)
+                    if not test:
+                        saveMap(user, items, enemies, player)
+                    else:
+                        directs = ["Rooms/Sav/", "Inventories/"]
+                        for d in directs:
+                            direct = d
+                            files = os.listdir(direct)
+                            for f in files:
+                                if f[-4:] == "Test":
+                                    nDirect = direct + f + "/"
+                                    check = os.listdir(nDirect)
+                                    for c in check:
+                                        os.remove(nDirect + c)
+                                    os.rmdir(direct + f)
                     sys.exit();
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        saveMap(user, items, enemies, player)
-                        sys.exit();
+                        popup = Popup("escape", [size[0]/2, size[1]/2])
+                        escape = True
+                        while escape:
+                            for event in pygame.event.get():
+                                if event.type == pygame.QUIT:
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                if event.type == pygame.KEYDOWN:
+                                    if event.key == pygame.K_y:
+                                        escape = False
+                                        if not test:
+                                            saveMap(user, items, enemies, player)
+                                        else:
+                                            directs = ["Rooms/Sav/", "Inventories/"]
+                                            for d in directs:
+                                                direct = d
+                                                files = os.listdir(direct)
+                                                for f in files:
+                                                    if f[-4:] == "Test":
+                                                        nDirect = direct + f + "/"
+                                                        check = os.listdir(nDirect)
+                                                        for c in check:
+                                                            os.remove(nDirect + c)
+                                                        os.rmdir(direct + f)
+                                        sys.exit()
+                                    elif event.key == pygame.K_n:
+                                        escape = False
+                            screen.blit(popup.image, popup.rect)
+                            pygame.display.flip()
+                            clock.tick(60)
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT:
                         player.goKey("sleft")
@@ -830,7 +1001,20 @@ while True:
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -863,6 +1047,51 @@ while True:
                         if option.click(event.pos):
                             index = i
                             tempKey = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
             
             if tempKey == True and event.type == pygame.KEYDOWN:
                 opt = event.unicode
@@ -925,7 +1154,20 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -937,6 +1179,51 @@ while True:
                             options = []
                             views.push(option.kind)
                             viewChanged = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                             
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
@@ -947,16 +1234,30 @@ while True:
 
     if views.top() == "petsSt":
         if viewChanged:
-            options = [StoreChoice([900/3, 275], views.top(), "blackCat"),
-                       StoreChoice([2*900/3, 275], views.top(), "calicoCat"),
-                       StoreChoice([900/4, 450], views.top(), "owl"),
+            offsetx = 35
+            options = [StoreChoice([900/3 + offsetx, 275], views.top(), "calicoCat"),
+                       StoreChoice([2*900/3 - offsetx, 275], views.top(), "owl"),
+                       StoreChoice([900/4, 450], views.top(), "blackCat"),
                        StoreChoice([2*900/4, 450], views.top(), "frog"),
                        StoreChoice([3*900/4, 450], views.top(), "raccoon")]
             viewChanged = False
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -969,6 +1270,51 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "pet")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
         
         money.update(player.inventory["coins"])
         
@@ -987,7 +1333,20 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1000,6 +1359,51 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "spell")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
         
         money.update(player.inventory["coins"])
         
@@ -1022,7 +1426,20 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1035,6 +1452,51 @@ while True:
                     for option in options:
                         if option.click(event.pos):
                             player.purchase(option.kind, "potion")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                  
         money.update(player.inventory["coins"])
                                 
@@ -1060,7 +1522,20 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1075,6 +1550,51 @@ while True:
                             options = []
                             views.push(option.kind)
                             viewChanged = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
           
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
@@ -1088,11 +1608,12 @@ while True:
         if viewChanged:
             choices = []
             index = 0
+            original = [22, 12]
             factor = 15
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Eye Images.png", [176*factor, 12*factor]).load_stripH([0, 0, 22*factor, 12*factor], 8,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Eye Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1106,7 +1627,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1132,6 +1666,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1149,11 +1728,12 @@ while True:
         if viewChanged:
             choices = []
             index = 0
+            original = [14, 7]
             factor = 20
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Mouth Images.png", [112*factor, 7*factor]).load_stripH([0, 0, 14*factor, 7*factor], 8,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Mouth Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1167,7 +1747,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1193,6 +1786,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1212,10 +1850,11 @@ while True:
             index = 0
             factor1 = 6
             factor2 = 4
+            original = [50, 50]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Color Images.png", [200*factor1, 50*factor2]).load_stripH([0, 0, 50*factor1, 50*factor2], 4, (0,0,0))
+            options = SpriteSheetScale("Images/Color Images.png", [original[0]*factor1, original[1]*factor2], original).load_stripH([0, 0, original[0]*factor1, original[1]*factor2], 4, (0,0,0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1229,7 +1868,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1255,6 +1907,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1273,10 +1970,11 @@ while True:
             choices = []
             index = 0
             factor = 10
+            original = [28, 17]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Hat Images.png", [112*factor, 17*factor]).load_stripH([0, 0, 28*factor, 17*factor], 4,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Hat Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1290,7 +1988,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1316,6 +2027,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1334,10 +2090,11 @@ while True:
             choices = []
             index = 0
             factor = 10
+            original = [32, 21]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Shirt Images.png", [64*factor, 21*factor]).load_stripH([0, 0, 32*factor, 21*factor], 2,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Shirt Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 2,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1351,7 +2108,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1377,6 +2147,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1395,10 +2210,11 @@ while True:
             choices = []
             index = 0
             factor = 10
+            original = [28, 17]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Glasses Images.png", [112*factor, 17*factor]).load_stripH([0, 0, 28*factor, 17*factor], 4,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Glasses Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1412,7 +2228,20 @@ while True:
         
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1438,6 +2267,51 @@ while True:
                                 index -= 1
                             elif index <= 0:
                                 index = len(choices) - 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                         
         money.update(player.inventory["coins"])
   
@@ -1462,7 +2336,20 @@ while True:
             
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1474,6 +2361,51 @@ while True:
                             options = []
                             views.push(option.kind)
                             viewChanged = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
 
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
@@ -1482,124 +2414,312 @@ while True:
         pygame.display.flip()
 
     if views.top() == "petsIn":
-            if viewChanged:
-                offsetx = 35
-                options = [InventoryChoice([900/3 + offsetx, 700/3 + 25], views.top(), "blackCat"),
-                           InventoryChoice([900/4, 2*700/3], views.top(), "calicoCat"),
-                           InventoryChoice([2*900/3 - offsetx, 700/3 + 25], views.top(), "frog"),
-                           InventoryChoice([2*900/4, 2*700/3], views.top(), "owl"),
-                           InventoryChoice([3*900/4, 2*700/3], views.top(), "raccoon")]
-                locked = [SettingsButton([900/3 + offsetx, 700/3 + 25], "locked"),
-                          SettingsButton([900/4, 2*700/3], "locked"),
-                          SettingsButton([2*900/3 - offsetx, 700/3 + 25], "locked"),
-                          SettingsButton([2*900/4, 2*700/3], "locked"),
-                          SettingsButton([3*900/4, 2*700/3], "locked")]
-                equipped = [SettingsButton([900/3 + offsetx, 700/3 + 25], "equipped"),
-                            SettingsButton([900/4, 2*700/3], "equipped"),
-                            SettingsButton([2*900/3 - offsetx, 700/3 + 25], "equipped"),
-                            SettingsButton([2*900/4, 2*700/3], "equipped"),
-                            SettingsButton([3*900/4, 2*700/3], "equipped")]
+        if viewChanged:
+            offsetx = 35
+            options = [InventoryChoice([900/3 + offsetx, 2*700/3], views.top(), "frog"),
+                       InventoryChoice([900/4, 700/3 + 25], views.top(), "calicoCat"),
+                       InventoryChoice([2*900/3 - offsetx, 2*700/3], views.top(), "raccoon"),
+                       InventoryChoice([2*900/4, 700/3 + 25], views.top(), "owl"),
+                       InventoryChoice([3*900/4, 700/3 + 25], views.top(), "blackCat")]
+            locked = [SettingsButton([900/3 + offsetx, 2*700/3], "locked"),
+                      SettingsButton([900/4, 700/3 + 25], "locked"),
+                      SettingsButton([2*900/3 - offsetx, 2*700/3], "locked"),
+                      SettingsButton([2*900/4, 700/3 + 25], "locked"),
+                      SettingsButton([3*900/4, 700/3 + 25], "locked")]
+            equipped = [SettingsButton([900/3 + offsetx, 2*700/3], "equipped"),
+                        SettingsButton([900/4, 700/3 + 25], "equipped"),
+                        SettingsButton([2*900/3 - offsetx, 2*700/3], "equipped"),
+                        SettingsButton([2*900/4, 700/3 + 25], "equipped"),
+                        SettingsButton([3*900/4, 700/3 + 25], "equipped")]
 
-                viewChanged = False
-                           
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                if not test:
                     saveMap(user, items, enemies, player)
-                    sys.exit();
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        if closeButton.click(event.pos):
-                            selected = ""
-                            views = Stack("game")
-                        if backButton.click(event.pos):
-                            views.pop()
-                            viewChanged = True
-                        for option in options:
-                            if option.click(event.pos):
-                                if option.kind in player.inventory["pets"]:
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            if option.kind in player.inventory["pets"]:
+                                if petEquip != option.kind:
                                     petEquip = option.kind
                                     pet = Pet([player.rect.center[0] - 1, player.rect.center[1] - 1], petEquip)
-            
-            
-            screen.blit(popup[0].image, popup[0].rect)
-            screen.blit(closeButton.image, closeButton.rect)
-            screen.blit(backButton.image, backButton.rect)
-            for i, option in enumerate(options):
-                screen.blit(option.image, option.rect)
-                if option.kind not in player.inventory["pets"]:
-                    screen.blit(locked[i].image, locked[i].rect)
-                elif option.kind == petEquip:
-                    screen.blit(equipped[i].image, equipped[i].rect)
-            pygame.display.flip()
+                                else:
+                                    petEquip = ""
+                                    pet = ""
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
+        
+        
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for i, option in enumerate(options):
+            screen.blit(option.image, option.rect)
+            if option.kind not in player.inventory["pets"]:
+                screen.blit(locked[i].image, locked[i].rect)
+            elif option.kind == petEquip:
+                screen.blit(equipped[i].image, equipped[i].rect)
+        pygame.display.flip()
 
     if views.top() == "spellsIn":
-            if viewChanged:
-                options = [StoreChoice([900/2, 700/2], "spellsSt", "simple")]
-                viewChanged = False
-                           
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+        if viewChanged:
+            options = [InventoryChoice([900/3, 700/2 + 25], views.top(), "basic1"),
+                       InventoryChoice([2*900/3, 700/2 + 25], views.top(), "basic2")]
+            locked = [SettingsButton([900/3, 700/2 + 25], "locked"),
+                      SettingsButton([2*900/3, 700/2 + 25], "locked")]
+            equipped = [SettingsButton([900/3, 700/2 + 25], "equipped"),
+                        SettingsButton([2*900/3, 700/2 + 25], "equipped")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                if not test:
                     saveMap(user, items, enemies, player)
-                    sys.exit();
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        if closeButton.click(event.pos):
-                            selected = ""
-                            views = Stack("game")
-                        if backButton.click(event.pos):
-                            views.pop()
-                            viewChanged = True
-                        for option in options:
-                            if option.click(event.pos):
-                                pass
-                                #Equip or delete, depending on category
-                                    
-            screen.blit(popup[0].image, popup[0].rect)
-            screen.blit(closeButton.image, closeButton.rect)
-            screen.blit(backButton.image, backButton.rect)
-            for option in options:
-                screen.blit(option.image, option.rect)
-            pygame.display.flip()
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+                    for option in options:
+                        if option.click(event.pos):
+                            if option.kind in player.inventory["spells"]:
+                                spellType = option.kind
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
+                                
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for i, option in enumerate(options):
+            screen.blit(option.image, option.rect)
+            if option.kind not in player.inventory["spells"]:
+                screen.blit(locked[i].image, locked[i].rect)
+            elif option.kind == spellType:
+                screen.blit(equipped[i].image, equipped[i].rect)
+        pygame.display.flip()
             
     if views.top() == "potionsIn":
-            if viewChanged:
-                offsetx = 30
-                offsety = -50
-                options = [InventoryChoice([900/3, 275], views.top(), "fullHeal"),
-                           InventoryChoice([2*900/3, 275], views.top(), "halfHeal"),
-                           InventoryChoice([900/4, 450], views.top(), "health"),
-                           InventoryChoice([900/2, 450], views.top(), "revive"),
-                           InventoryChoice([3*900/4, 450], views.top(), "speed")]
-                amounts = [Text2("", [900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
-                           Text2("", [2*900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
-                           Text2("", [900/4 + offsetx + 25, 450 + offsety], 36, "Black"),
-                           Text2("", [900/2 + offsetx + 25, 450 + offsety], 36, "Black"),
-                           Text2("", [3*900/4 + offsetx + 25, 450 + offsety], 36, "Black")]
-                viewChanged = False
-                           
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+        if viewChanged:
+            offsetx = 30
+            offsety = -50
+            options = [InventoryChoice([900/3, 275], views.top(), "fullHeal"),
+                       InventoryChoice([2*900/3, 275], views.top(), "halfHeal"),
+                       InventoryChoice([900/4, 450], views.top(), "health"),
+                       InventoryChoice([900/2, 450], views.top(), "revive"),
+                       InventoryChoice([3*900/4, 450], views.top(), "speed")]
+            amounts = [Text2("", [900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
+                       Text2("", [2*900/3 + offsetx + 25, 275 + offsety], 36, "Black"),
+                       Text2("", [900/4 + offsetx + 25, 450 + offsety], 36, "Black"),
+                       Text2("", [900/2 + offsetx + 25, 450 + offsety], 36, "Black"),
+                       Text2("", [3*900/4 + offsetx + 25, 450 + offsety], 36, "Black")]
+            viewChanged = False
+                       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                if not test:
                     saveMap(user, items, enemies, player)
-                    sys.exit();
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        if closeButton.click(event.pos):
-                            selected = ""
-                            views = Stack("game")
-                        if backButton.click(event.pos):
-                            views.pop()
-                            viewChanged = True
-            for i, option in enumerate(options):
-                amounts[i].update(player.inventory[option.kind + "Potion"])
-                                    
-            screen.blit(popup[0].image, popup[0].rect)
-            screen.blit(closeButton.image, closeButton.rect)
-            screen.blit(backButton.image, backButton.rect)
-            for option in options:
-                screen.blit(option.image, option.rect)
-            for amount in amounts:
-                screen.blit(amount.image, amount.rect)
-            pygame.display.flip()
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
+                sys.exit();
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if closeButton.click(event.pos):
+                        selected = ""
+                        views = Stack("game")
+                    if backButton.click(event.pos):
+                        views.pop()
+                        viewChanged = True
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
+                        
+        for i, option in enumerate(options):
+            amounts[i].update(player.inventory[option.kind + "Potion"])
+                                
+        screen.blit(popup[0].image, popup[0].rect)
+        screen.blit(closeButton.image, closeButton.rect)
+        screen.blit(backButton.image, backButton.rect)
+        for option in options:
+            screen.blit(option.image, option.rect)
+        for amount in amounts:
+            screen.blit(amount.image, amount.rect)
+        pygame.display.flip()
             
     if views.top() == "clothesIn":
         if viewChanged:
@@ -1641,7 +2761,20 @@ while True:
                        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                saveMap(user, items, enemies, player)
+                if not test:
+                    saveMap(user, items, enemies, player)
+                else:
+                    directs = ["Rooms/Sav/", "Inventories/"]
+                    for d in directs:
+                        direct = d
+                        files = os.listdir(direct)
+                        for f in files:
+                            if f[-4:] == "Test":
+                                nDirect = direct + f + "/"
+                                check = os.listdir(nDirect)
+                                for c in check:
+                                    os.remove(nDirect + c)
+                                os.rmdir(direct + f)
                 sys.exit();
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -1653,7 +2786,6 @@ while True:
                         viewChanged = True
                     for m in minus.keys():
                         if minus[m].click(event.pos):
-                            print(m, " minus clicked")
                             if choices[m][0] > 0:
                                 choices[m][0] -= 1
                             else:
@@ -1661,12 +2793,55 @@ while True:
                             print(choices[m])
                     for a in add.keys():
                         if add[a].click(event.pos):
-                            print(a, " add clicked")
                             if choices[a][0] < len(choices[a][1]) - 1:
                                 choices[a][0] += 1
                             else:
                                 choices[a][0] = 0
-                            print(choices[a])
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    popup = Popup("escape", [size[0]/2, size[1]/2])
+                    escape = True
+                    while escape:
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                if not test:
+                                    saveMap(user, items, enemies, player)
+                                else:
+                                    directs = ["Rooms/Sav/", "Inventories/"]
+                                    for d in directs:
+                                        direct = d
+                                        files = os.listdir(direct)
+                                        for f in files:
+                                            if f[-4:] == "Test":
+                                                nDirect = direct + f + "/"
+                                                check = os.listdir(nDirect)
+                                                for c in check:
+                                                    os.remove(nDirect + c)
+                                                os.rmdir(direct + f)
+                                sys.exit()
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_y:
+                                    escape = False
+                                    if not test:
+                                        saveMap(user, items, enemies, player)
+                                    else:
+                                        directs = ["Rooms/Sav/", "Inventories/"]
+                                        for d in directs:
+                                            direct = d
+                                            files = os.listdir(direct)
+                                            for f in files:
+                                                if f[-4:] == "Test":
+                                                    nDirect = direct + f + "/"
+                                                    check = os.listdir(nDirect)
+                                                    for c in check:
+                                                        os.remove(nDirect + c)
+                                                    os.rmdir(direct + f)
+                                    sys.exit()
+                                elif event.key == pygame.K_n:
+                                    escape = False
+                        screen.blit(popup.image, popup.rect)
+                        pygame.display.flip()
+                        clock.tick(60)
                                         
         player.eyeChoice = choices["eye"][0]
         player.mouthChoice = choices["mouth"][0]

@@ -2,12 +2,12 @@ import pygame, sys, math
 
 class Spell():
     def __init__(self, spell, startPos, target):
-        self.images = {"basic": pygame.image.load("Images/SpellTest.png"), 
+        self.images = {"basic1": pygame.image.load("Images/SpellTest.png"), 
                        "basic2": pygame.image.load("Images/SpellTest2.png")}
         
         self.kind = spell
         
-        if self.kind == "basic":
+        if self.kind == "basic1":
             self.vel = 2
         if self.kind == "basic2":
             self.vel = 4

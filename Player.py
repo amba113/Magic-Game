@@ -17,21 +17,23 @@ class Player():
         self.colors = ["Cyan", "Magenta", "Green", "Peach"]
         self.bodies = ["Bot", "Ball"]
         
-        self.spriteSize = [36*60/90, 60]
+        self.spriteSize = [36, 90]
+        self.newNum = 75
+        self.spriteScale = [self.spriteSize[0] * self.newNum/self.spriteSize[1], self.newNum]
         
-        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png")
-        self.hats = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Hat Spritesheet.png")
-        self.eyes = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Eye Spritesheet.png")
-        self.mouths = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Mouth Spritesheet.png")
-        self.glasses = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Glass Spritesheet.png")
-        self.shirts = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " Shirt Spritesheet.png")
+        self.sprites = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.hats = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Hat Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.eyes = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Eye Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.mouths = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Mouth Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.glasses = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Glass Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.shirts = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Shirt Spritesheet.png", self.spriteScale, self.spriteSize)
         
-        self.images = self.sprites.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-        self.hat = self.hats.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-        self.eye = self.eyes.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-        self.mouth = self.mouths.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-        self.glass = self.glasses.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-        self.shirt = self.shirts.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+        self.images = self.sprites.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+        self.hat = self.hats.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+        self.eye = self.eyes.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+        self.mouth = self.mouths.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+        self.glass = self.glasses.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+        self.shirt = self.shirts.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
         
         for i in self.images:
             i.blit(self.eye[self.eyeChoice], (0,0))
@@ -80,14 +82,14 @@ class Player():
                           "healthPotion": 0,
                           "coins": 0,
                           "pets": [],
-                          "spells": ["basic"],
+                          "spells": ["basic1"],
                           "colors": [0],
                           "eyes": [0],
                           "mouths": [0],
                           "shirts": [0],
                           "hats": [0],
                           "glasses": [0]}
-        
+
         self.counter = 0
         self.stop = 30
         self.dead = False
@@ -114,15 +116,15 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
-        self.sprites = SpriteSheet("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.inventory["colors"][self.colorChoice]] + " Spritesheet.png")
+        self.sprites = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.inventory["colors"][self.colorChoice]] + " Spritesheet.png", self.spriteScale, self.spriteSize)        
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
-            self.images = self.sprites.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.hat = self.hats.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.eye = self.eyes.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.mouth = self.mouths.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.glass = self.glasses.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.shirt = self.shirts.load_stripH([0, self.spriteSize[1]*2, self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.hat = self.hats.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.eye = self.eyes.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.mouth = self.mouths.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.glass = self.glasses.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.shirt = self.shirts.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
             for i in self.images:
                 i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
                 i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
@@ -131,12 +133,12 @@ class Player():
                 i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         elif self.speedx > 0:
             self.speedx = self.maxSpeed
-            self.images = self.sprites.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.hat = self.hats.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.eye = self.eyes.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.mouth = self.mouths.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.glass = self.glasses.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.shirt = self.shirts.load_stripH([0, self.spriteSize[1]*3, self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.hat = self.hats.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.eye = self.eyes.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.mouth = self.mouths.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.glass = self.glasses.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.shirt = self.shirts.load_stripH([0, self.spriteScale[1]*3, self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
             for i in self.images:
                 i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
                 i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
@@ -145,12 +147,12 @@ class Player():
                 i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         if self.speedy < 0:
             self.speedy = -self.maxSpeed
-            self.images = self.sprites.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.hat = self.hats.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.eye = self.eyes.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.mouth = self.mouths.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.glass = self.glasses.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.shirt = self.shirts.load_stripH([0, self.spriteSize[1], self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.hat = self.hats.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.eye = self.eyes.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.mouth = self.mouths.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.glass = self.glasses.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.shirt = self.shirts.load_stripH([0, self.spriteScale[1], self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
             for i in self.images:
                 i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
                 i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
@@ -159,12 +161,12 @@ class Player():
                 i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         elif self.speedy > 0:
             self.speedy = self.maxSpeed
-            self.images = self.sprites.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.hat = self.hats.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.eye = self.eyes.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.mouth = self.mouths.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.glass = self.glasses.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.shirt = self.shirts.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.hat = self.hats.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.eye = self.eyes.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.mouth = self.mouths.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.glass = self.glasses.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.shirt = self.shirts.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
             for i in self.images:
                 i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
                 i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 
@@ -173,12 +175,12 @@ class Player():
                 i.blit(self.shirt[self.inventory["shirts"][self.shirtChoice]], (0,0))
         if self.speedx == 0 and self.speedy == 0:
             self.frame = -1
-            self.images = self.sprites.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 1, (221, 255, 0))
-            self.hat = self.hats.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5, (221, 255, 0))
-            self.eye = self.eyes.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.mouth = self.mouths.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 8,  (221, 255, 0))
-            self.glass = self.glasses.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 5,  (221, 255, 0))
-            self.shirt = self.shirts.load_stripH([0, 0, self.spriteSize[0], self.spriteSize[1]], 3,  (221, 255, 0))
+            self.images = self.sprites.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 1, (221, 255, 0))
+            self.hat = self.hats.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5, (221, 255, 0))
+            self.eye = self.eyes.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.mouth = self.mouths.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
+            self.glass = self.glasses.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
+            self.shirt = self.shirts.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 3,  (221, 255, 0))
             for i in self.images:
                 i.blit(self.eye[self.inventory["eyes"][self.eyeChoice]], (0,0))
                 i.blit(self.mouth[self.inventory["mouths"][self.mouthChoice]], (0,0)) 

@@ -42,10 +42,13 @@ class SpriteSheet:
 
 class SpriteSheetScale:
 
-    def __init__(self, filename, scale):
+    def __init__(self, filename, scale, origin):
         """Load the sheet."""
         try:
-            self.sheet = pygame.transform.scale(pygame.image.load(filename), scale).convert()
+            tempImage = pygame.image.load(filename)
+            tempRect = tempImage.get_rect()
+            tempScale = [scale[0] * (tempRect.width/origin[0]), scale[1] * (tempRect.height/origin[1])]
+            self.sheet = pygame.transform.scale(tempImage, tempScale).convert()
         except pygame.error as e:
             print(f"Unable to load spritesheet image: {filename}")
             raise SystemExit(e)
