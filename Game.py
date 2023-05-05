@@ -33,7 +33,7 @@ position = Text("X,Y: ", [5, 700-20], 24)
 
 money = Text2("Coins: ", [3*900/4, 125], 36, "Yellow")
 deathNote1 = Text2("You have no revive potions...you dead XD", [900/2, 700/2 - 50], 36)
-deathNote2 = Text2("Pres s V to revive", [900/2, 700/2 - 50], 36)
+deathNote2 = Text2("Press V to revive", [900/2, 700/2 - 50], 36)
 deathNote3 = Text2("Press R to roam as a ghost", [900/2, 700/2 + 50], 36)
 settingsOpen = SettingsOpen([25, 25])
 
@@ -584,6 +584,10 @@ while True:
                         clock.tick(60)
                 elif event.key == pygame.K_r and player.dead:
                     player.roam = True
+                    
+                elif event.key == pygame.K_c and test == True:
+                    player.inventory["coins"] += 1
+                    print("Bank: ", player.inventory["coins"])
                     
                 elif event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                     player.goKey("left")
@@ -1613,7 +1617,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Eye Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Eye Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1664,8 +1668,9 @@ while True:
                         if player.purchase(choices[index], "eyes"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -1733,7 +1738,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Mouth Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Mouth Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 8,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1784,8 +1789,8 @@ while True:
                         if player.purchase(choices[index], "mouths"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -1854,7 +1859,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Color Images.png", [original[0]*factor1, original[1]*factor2], original).load_stripH([0, 0, original[0]*factor1, original[1]*factor2], 4, (0,0,0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Color Images.png", [original[0]*factor1, original[1]*factor2], original).load_stripH([0, 0, original[0]*factor1, original[1]*factor2], 4, (0,0,0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -1905,8 +1910,8 @@ while True:
                         if player.purchase(choices[index], "colors"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -1974,7 +1979,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Hat Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Hat Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -2025,8 +2030,8 @@ while True:
                         if player.purchase(choices[index] + 1, "hats"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -2094,7 +2099,7 @@ while True:
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Shirt Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 2,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Shirt Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 2,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -2145,8 +2150,8 @@ while True:
                         if player.purchase(choices[index] + 1, "shirts"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -2210,11 +2215,11 @@ while True:
             choices = []
             index = 0
             factor = 10
-            original = [28, 17]
+            original = [18, 17]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Glasses Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Glasses Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -2265,8 +2270,8 @@ while True:
                         if player.purchase(choices[index] + 1, "glasses"):
                             if index > 0:
                                 index -= 1
-                            elif index <= 0:
-                                index = len(choices) - 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -2853,7 +2858,7 @@ while True:
         player.update(size)
         
         screen.blit(popup[0].image, popup[0].rect)
-        screen.blit(pygame.transform.scale(player.image, [36*4, 90*4]), player.image.get_rect(midtop = [200, 200]))
+        screen.blit(pygame.transform.scale(player.image, [player.spriteSize[0] * 3, player.spriteSize[1] * 3]), player.image.get_rect(midtop = [200, 200]))
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
         for t in text.keys():

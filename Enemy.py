@@ -4,9 +4,9 @@ class Enemy():
     def __init__(self, startPos = [0, 0], kind = "basic", char = "1", speed = [0,0]):
         
         scale = [23*2, 31*2]
-        self.images = {"basic": pygame.image.load("Images/Enemy1.png"),
-                       "strong": pygame.transform.scale(pygame.image.load("Images/Enemy2.png"), scale),
-                       "bee": pygame.image.load("Images/Enemy3.png")}
+        self.images = {"basic": pygame.image.load("Images/Shown/Enemies/Enemy1.png"),
+                       "strong": pygame.transform.scale(pygame.image.load("Images/Shown/Enemies/Enemy2.png"), scale),
+                       "bee": pygame.image.load("Images/Shown/Enemies/Enemy3.png")}
         
         self.kind = kind
         self.char = char

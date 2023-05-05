@@ -18,15 +18,15 @@ class Player():
         self.bodies = ["Bot", "Ball"]
         
         self.spriteSize = [36, 90]
-        self.newNum = 75
+        self.newNum = 90
         self.spriteScale = [self.spriteSize[0] * self.newNum/self.spriteSize[1], self.newNum]
         
-        self.sprites = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png", self.spriteScale, self.spriteSize)
-        self.hats = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Hat Spritesheet.png", self.spriteScale, self.spriteSize)
-        self.eyes = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Eye Spritesheet.png", self.spriteScale, self.spriteSize)
-        self.mouths = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Mouth Spritesheet.png", self.spriteScale, self.spriteSize)
-        self.glasses = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Glass Spritesheet.png", self.spriteScale, self.spriteSize)
-        self.shirts = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " Shirt Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.sprites = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Colors/" + self.bodies[self.bodChoice] + " " + self.colors[self.colorChoice] + " Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.hats = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Hats/" + self.bodies[self.bodChoice] + " Hat Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.eyes = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Eyes/" + self.bodies[self.bodChoice] + " Eye Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.mouths = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Mouths/" + self.bodies[self.bodChoice] + " Mouth Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.glasses = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Glasses/" + self.bodies[self.bodChoice] + " Glass Spritesheet.png", self.spriteScale, self.spriteSize)
+        self.shirts = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Shirts/" + self.bodies[self.bodChoice] + " Shirt Spritesheet.png", self.spriteScale, self.spriteSize)
         
         self.images = self.sprites.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))
         self.hat = self.hats.load_stripH([0, 0, self.spriteScale[0], self.spriteScale[1]], 5,  (221, 255, 0))
@@ -116,7 +116,7 @@ class Player():
         else:
             self.maxSpeed = self.walkSpeed
         
-        self.sprites = SpriteSheetScale("Images/" + self.bodies[self.bodChoice] + " " + self.colors[self.inventory["colors"][self.colorChoice]] + " Spritesheet.png", self.spriteScale, self.spriteSize)        
+        self.sprites = SpriteSheetScale("Images/Spritesheets/Player/" + self.bodies[self.bodChoice] + "/Colors/" + self.bodies[self.bodChoice] + " " + self.colors[self.inventory["colors"][self.colorChoice]] + " Spritesheet.png", self.spriteScale, self.spriteSize)        
         if self.speedx < 0:
             self.speedx = -self.maxSpeed
             self.images = self.sprites.load_stripH([0, self.spriteScale[1]*2, self.spriteScale[0], self.spriteScale[1]], 8,  (221, 255, 0))

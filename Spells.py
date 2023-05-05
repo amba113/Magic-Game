@@ -2,8 +2,8 @@ import pygame, sys, math
 
 class Spell():
     def __init__(self, spell, startPos, target):
-        self.images = {"basic1": pygame.image.load("Images/SpellTest.png"), 
-                       "basic2": pygame.image.load("Images/SpellTest2.png")}
+        self.images = {"basic1": pygame.image.load("Images/Shown/Spells/SpellTest.png"), 
+                       "basic2": pygame.image.load("Images/Shown/Spells/SpellTest2.png")}
         
         self.kind = spell
         

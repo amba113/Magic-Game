@@ -6,23 +6,23 @@ class StoreChoice():
         self.kind = option
         scale = [150, 150]
         scale2 = [550, 73]
-        self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Black Cat Choice.png"), scale),
-                          "calicoCat": pygame.transform.scale(pygame.image.load("Images/Calico Cat Choice.png"), scale),
-                          "owl": pygame.transform.scale(pygame.image.load("Images/Owl Choice.png"), scale),
-                          "frog": pygame.transform.scale(pygame.image.load("Images/Frog Choice.png"), scale),
-                          "raccoon": pygame.transform.scale(pygame.image.load("Images/Raccoon Choice.png"), scale)}
-        self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Speed Choice.png"), scale),
-                             "health": pygame.transform.scale(pygame.image.load("Images/Health Choice.png"), scale),
-                             "fullHeal": pygame.transform.scale(pygame.image.load("Images/Full Heal Choice.png"), scale),
-                             "halfHeal": pygame.transform.scale(pygame.image.load("Images/Half Heal Choice.png"), scale),
-                             "revive": pygame.transform.scale(pygame.image.load("Images/Revive Choice.png"), scale)}
-        self.clothesImages = {"eyeSt": pygame.transform.scale(pygame.image.load("Images/Eyes Option.png"), scale2),
-                              "mouthSt": pygame.transform.scale(pygame.image.load("Images/Mouths Option.png"), scale2),
-                              "colorSt": pygame.transform.scale(pygame.image.load("Images/Colors Option.png"), scale2),
-                              "hatSt": pygame.transform.scale(pygame.image.load("Images/Hats Option.png"), scale2),
-                              "shirtSt": pygame.transform.scale(pygame.image.load("Images/Shirts Option.png"), scale2),
-                              "glassSt": pygame.transform.scale(pygame.image.load("Images/Glasses Option.png"), scale2)}
-        self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Item Choice Template.png"), scale)}
+        self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Black Cat Choice.png"), scale),
+                          "calicoCat": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Calico Cat Choice.png"), scale),
+                          "owl": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Owl Choice.png"), scale),
+                          "frog": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Frog Choice.png"), scale),
+                          "raccoon": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Raccoon Choice.png"), scale)}
+        self.potionImages = {"speed": pygame.transform.scale(pygame.image.load("Images/Store/Potions/Speed Choice.png"), scale),
+                             "health": pygame.transform.scale(pygame.image.load("Images/Store/Potions/Health Choice.png"), scale),
+                             "fullHeal": pygame.transform.scale(pygame.image.load("Images/Store/Potions/Full Heal Choice.png"), scale),
+                             "halfHeal": pygame.transform.scale(pygame.image.load("Images/Store/Potions/Half Heal Choice.png"), scale),
+                             "revive": pygame.transform.scale(pygame.image.load("Images/Store/Potions/Revive Choice.png"), scale)}
+        self.clothesImages = {"eyeSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Eyes Option.png"), scale2),
+                              "mouthSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Mouths Option.png"), scale2),
+                              "colorSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Colors Option.png"), scale2),
+                              "hatSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Hats Option.png"), scale2),
+                              "shirtSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Shirts Option.png"), scale2),
+                              "glassSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Glasses Option.png"), scale2)}
+        self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Store/Spells/Blank.png"), scale)}
         
         if kind == "petsSt":
             self.image = self.petImages[option]

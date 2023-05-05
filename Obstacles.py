@@ -8,19 +8,19 @@ class Obstacle():
         scale2 = [75, 75]
         scale3 = [25, 25]
         scale4 = [75, 100]
-        self.images = {"wall": pygame.transform.scale(pygame.image.load("Images/Wall.png"), scale1),
-                       "tree": pygame.transform.scale(pygame.image.load("Images/Tree.png"), scale2),
-                       "top": pygame.image.load("Images/TestTB.png"),
-                       "bottom": pygame.image.load("Images/TestTB.png"),
-                       "left": pygame.image.load("Images/TestLR.png"),
-                       "right": pygame.image.load("Images/TestLR.png"),
-                       "portal1": pygame.image.load("Images/Portal.png"),
-                       "portal2": pygame.image.load("Images/Portal.png"),
-                       "tutorialEntrance": pygame.image.load("Images/TutDoor.png"),
-                       "tutorialExit": pygame.image.load("Images/TutDoor.png"),
-                       "cactus": pygame.transform.scale(pygame.image.load("Images/Cactus.png"), scale3),
-                       "bush": pygame.transform.scale(pygame.image.load("Images/Bush.png"), scale4),
-                       "bushClear": pygame.transform.scale(pygame.image.load("Images/BushClear.png"), scale4)}
+        self.images = {"wall": pygame.transform.scale(pygame.image.load("Images/Shown/NIntObstacles/Wall.png"), scale1),
+                       "tree": pygame.transform.scale(pygame.image.load("Images/Shown/NIntObstacles/Tree.png"), scale2),
+                       "top": pygame.image.load("Images/Shown/Doors/TestTB.png"),
+                       "bottom": pygame.image.load("Images/Shown/Doors/TestTB.png"),
+                       "left": pygame.image.load("Images/Shown/Doors/TestLR.png"),
+                       "right": pygame.image.load("Images/Shown/Doors/TestLR.png"),
+                       "portal1": pygame.image.load("Images/Shown/Doors/Portal.png"),
+                       "portal2": pygame.image.load("Images/Shown/Doors/Portal.png"),
+                       "tutorialEntrance": pygame.image.load("Images/Shown/Doors/TutDoor.png"),
+                       "tutorialExit": pygame.image.load("Images/Shown/Doors/TutDoor.png"),
+                       "cactus": pygame.transform.scale(pygame.image.load("Images/Shown/IntObstacles/Cactus.png"), scale3),
+                       "bush": pygame.transform.scale(pygame.image.load("Images/Shown/IntObstacles/Bush.png"), scale4),
+                       "bushClear": pygame.transform.scale(pygame.image.load("Images/Shown/IntObstacles/BushClear.png"), scale4)}
         
         self.kind = appearance
         self.image = self.images[self.kind]
