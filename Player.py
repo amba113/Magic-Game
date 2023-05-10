@@ -97,6 +97,9 @@ class Player():
         
         self.hidden = False
         
+        self.coinSound = pygame.mixer.Sound("Sounds/Coin Sound.wav")
+        self.spellSound = pyagame.mixer.Sound("Sounds/Spell Sound.wav")
+        
     def update(self, size):
         if self.sprinting and not self.zoom:
             self.moveType = "sprint"
@@ -255,6 +258,7 @@ class Player():
         self.rect.center = pos
 
     def shoot(self, spell, posM):
+        self.spellSound.play()
         return Spell(spell, self.rect.center, posM)
         
     def goKey(self, direction):
@@ -375,6 +379,7 @@ class Player():
                             elif other.kind == "basic2Spell":
                                 self.inventory["spells"] += ["basic2"]
                             elif other.kind == "singleCoin":
+                                self.coinSound.play()
                                 self.inventory["coins"] += 1
                                 print("Bank balance: ", self.inventory["coins"])
                             else:
