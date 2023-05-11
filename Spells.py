@@ -2,15 +2,36 @@ import pygame, sys, math
 
 class Spell():
     def __init__(self, spell, startPos, target):
-        self.images = {"basic1": pygame.image.load("Images/Shown/Spells/SpellTest.png"), 
-                       "basic2": pygame.image.load("Images/Shown/Spells/SpellTest2.png")}
+        self.images = {"basic": pygame.image.load("Images/Shown/Spells/Spell 1.png"), 
+                       "speed": pygame.image.load("Images/Shown/Spells/Spell 2.png"), 
+                       "power": pygame.image.load("Images/Shown/Spells/Spell 3.png"), 
+                       "spdpower": pygame.image.load("Images/Shown/Spells/Spell 4.png"), 
+                       "speed+": pygame.image.load("Images/Shown/Spells/Spell 5.png"), 
+                       "spdpower+": pygame.image.load("Images/Shown/Spells/Spell 6.png"), 
+                       "power+": pygame.image.load("Images/Shown/Spells/Spell 7.png"), 
+                       "spd+power": pygame.image.load("Images/Shown/Spells/Spell 8.png"),
+                       "spd+power+": pygame.image.load("Images/Shown/Spells/Spell 9.png")}
         
         self.kind = spell
         
-        if self.kind == "basic1":
+        if self.kind == "basic":
             self.vel = 2
-        if self.kind == "basic2":
+        elif self.kind == "speed":
             self.vel = 4
+        elif self.kind == "power":
+            self.vel = 2
+        elif self.kind == "spdpower":
+            self.vel = 4
+        elif self.kind == "speed+":
+            self.vel = 6
+        elif self.kind == "spdpower+":
+            self.vel = 4
+        elif self.kind == "power+":
+            self.vel = 2
+        elif self.kind == "spd+power":
+            self.vel = 6
+        elif self.kind == "spd+power+":
+            self.vel = 6
         
         self.x = target[0] - startPos[0]
         self.y = target[1] - startPos[1]

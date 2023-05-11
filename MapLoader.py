@@ -19,8 +19,20 @@ def saveMap(user, items, enemies, player, door = False):
         y = int((item.rect.centery - offset)/size)
         outList[y][x] = item.char
     for enemy in enemies:
-        x = int((enemy.rect.centerx - offset)/size)
-        y = int((enemy.rect.centery - offset)/size)
+        if (enemy.rect.centerx - offset) < 55:
+            x = int((enemy.rect.centerx + offset)/size)
+        elif (enemy.rect.centerx - offset) > (900-55):
+            x = int((enemy.rect.centerx - 2*offset)/size)
+        else:
+            x = int((enemy.rect.centery - offset)/size)
+        
+        if (enemy.rect.centery - offset) < 55:
+            y = int((enemy.rect.centery + offset)/size)
+        elif (enemy.rect.centery - offset) > (900-55):
+            y = int((enemy.rect.centery - 2*offset)/size)
+        else:
+            y = int((enemy.rect.centery - offset)/size)
+
         outList[y][x] = enemy.char
         
     out = ""

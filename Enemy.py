@@ -71,10 +71,24 @@ class Enemy():
             if self.rect.left < other.rect.right:
                 if self.rect.bottom > other.rect.top:
                     if self.rect.top < other.rect.bottom:
-                        if other.kind == "basic1":
+                        if other.kind == "basic":
                             self.hp -= 5
-                        elif other.kind == "basic2":
+                        elif other.kind == "speed":
+                            self.hp -= 5
+                        elif other.kind == "power":
                             self.hp -= 10
+                        elif other.kind == "spdpower":
+                            self.hp -= 10
+                        elif other.kind == "power+":
+                            self.hp -= 15
+                        elif other.kind == "speed+":
+                            self.hp -= 5
+                        elif other.kind == "spdpower+":
+                            self.hp -= 15
+                        elif other.kind == "spd+power":
+                            self.hp -= 10
+                        elif other.kind == "spd+power+":
+                            self.hp -= 15
                         self.angry = True
                         self.counter = 0
                         return True

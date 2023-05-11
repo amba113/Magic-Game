@@ -45,7 +45,7 @@ player = Player(4, tiles[2])
 items = tiles[3]
 enemies = tiles[4]
 spells = []
-spellType = "basic1"
+spellType = "basic"
 selected = ""
 choice = ""
 popup = []
@@ -1332,9 +1332,25 @@ while True:
 
     if views.top() == "spellsSt":
         if viewChanged:
-            options = [StoreChoice([900/2, 700/2], views.top(), "simple")]
+            choices = []
+            index = 0
+            factor = 10
+            original = [18, 17]
+            sub = SettingsButton([200, 700/2 - 50], "back+")
+            add = SettingsButton([700, 700/2 - 50], "forward+")
+            buy = SettingsButton([900/2, 500], "buy")
+            options = SpriteSheetScale("Images/Spritesheets/Store/Glasses Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
             viewChanged = False
-                       
+            temp = 0
+            while temp < len(options):
+                choices += [temp]
+                temp += 1
+        
+        for i in player.inventory["glasses"]:
+            for c in choices:
+                if (c + 1) == i:
+                    choices.remove(c)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 if not test:
@@ -1360,9 +1376,22 @@ while True:
                     if backButton.click(event.pos):
                         views.pop()
                         viewChanged = True
-                    for option in options:
-                        if option.click(event.pos):
-                            player.purchase(option.kind, "spell")
+                    if add.click(event.pos):
+                        if index < len(choices) - 1:
+                            index += 1
+                        elif index >= len(choices) - 1:
+                            index = 0
+                    if sub.click(event.pos):
+                        if index > 0:
+                            index -= 1
+                        elif index <= 0:
+                            index = len(choices) - 1
+                    if buy.click(event.pos):
+                        if player.purchase(choices[index] + 1, "spell"):
+                            if index > 0:
+                                index -= 1
+                            elif index < 0:
+                                index += 1
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -1408,14 +1437,16 @@ while True:
                         screen.blit(popup.image, popup.rect)
                         pygame.display.flip()
                         clock.tick(60)
-        
+                        
         money.update(player.inventory["coins"])
-        
+  
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        for option in options:
-            screen.blit(option.image, option.rect)
+        screen.blit(options[choices[index]], [900/2 - (28/2*factor), 200])
+        screen.blit(add.image, add.rect)
+        screen.blit(sub.image, sub.rect)
+        screen.blit(buy.image, buy.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
         
@@ -2568,8 +2599,9 @@ while True:
                         viewChanged = True
                     for option in options:
                         if option.click(event.pos):
-                            if option.kind in player.inventory["spells"]:
-                                spellType = option.kind
+                            for i in player.inventory["spells"]
+                                if option.kind == player.spells[i]:
+                                    spellType = option.kind
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])

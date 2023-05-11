@@ -82,7 +82,7 @@ class Player():
                           "healthPotion": 0,
                           "coins": 0,
                           "pets": [],
-                          "spells": ["basic1"],
+                          "spells": [0],
                           "colors": [0],
                           "eyes": [0],
                           "mouths": [0],
@@ -90,6 +90,17 @@ class Player():
                           "hats": [0],
                           "glasses": [0]}
 
+
+        self.spells = ["basic", 
+                       "speed", 
+                       "power", 
+                       "spdpower", 
+                       "speed+", 
+                       "power+", 
+                       "spd+power", 
+                       "spdpower+", 
+                       "spd+power+"]
+                       
         self.counter = 0
         self.stop = 30
         self.dead = False
@@ -98,7 +109,7 @@ class Player():
         self.hidden = False
         
         self.coinSound = pygame.mixer.Sound("Sounds/Coin Sound.wav")
-        self.spellSound = pyagame.mixer.Sound("Sounds/Spell Sound.wav")
+        self.spellSound = pygame.mixer.Sound("Sounds/Spell Sound.wav")
         
     def update(self, size):
         if self.sprinting and not self.zoom:
@@ -377,7 +388,7 @@ class Player():
                             elif other.kind == "healthPotion":
                                 self.inventory["healthPotion"] += 1
                             elif other.kind == "basic2Spell":
-                                self.inventory["spells"] += ["basic2"]
+                                self.inventory["spells"] += ["speed"]
                             elif other.kind == "singleCoin":
                                 self.coinSound.play()
                                 self.inventory["coins"] += 1
@@ -494,7 +505,114 @@ class Player():
                     print("You are too poor to afford this")
                     return False
         elif kind.lower() == "spell":
-            pass
+            if selection == 1:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [1]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 2:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [2]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 3:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [3]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 4:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [4]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 5:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [5]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 6:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [6]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 7:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [7]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 8:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [8]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
+            elif selection == 9:
+                if self.inventory["coins"] >= 1:
+                    for i in self.inventory["spells"]:
+                        if selection == i:
+                            print("You already own this")
+                            return False
+                    self.inventory["coins"] -= 1
+                    self.inventory["spells"] += [9]
+                    return True
+                else:
+                    print("You are too poor to afford this")
+                    return False
         elif kind.lower() == "potion":
             if selection == "speed":
                 if self.inventory["coins"] >= 1:
