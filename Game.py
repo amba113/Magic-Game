@@ -2564,14 +2564,36 @@ while True:
 
     if views.top() == "spellsIn":
         if viewChanged:
-            options = [InventoryChoice([900/3, 700/2 + 25], views.top(), "basic1"),
-                       InventoryChoice([2*900/3, 700/2 + 25], views.top(), "basic2")]
-            locked = [SettingsButton([900/3, 700/2 + 25], "locked"),
-                      SettingsButton([2*900/3, 700/2 + 25], "locked")]
-            equipped = [SettingsButton([900/3, 700/2 + 25], "equipped"),
-                        SettingsButton([2*900/3, 700/2 + 25], "equipped")]
+            choices = []
+            status = []
+            equip = None
+            index = 0
+            original = [10, 10]
+            factor = 250
+            options = SpriteSheetScale("Images/Spritesheets/Store/Spells.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 9,  (221, 255, 0))
+            minus = SettingsButton([900/2 - 100, 700/2 + 25], "back")
+            add = SettingsButton([900/2 + 100, 700/2 + 25], "forward")
+            locked = SettingsButton([900/2, 700/2 + 25], "locked")
+            equipped = SettingsButton([900/2, 700/2 + 25], "equipped")
             viewChanged = False
-                       
+            temp = 0
+            while temp < len(options):
+                choices += [temp]
+                status += [0]
+                temp += 1
+        
+        for i in player.inventory["spells"]:
+            there = False
+            for c in choices:
+                if c == i:
+                    there = True
+            if equip == c:
+                status[c] = 2
+            elif there:
+                status[c] = 0
+            else:
+                status[c] = 1
+                    
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 if not test:
@@ -2597,11 +2619,25 @@ while True:
                     if backButton.click(event.pos):
                         views.pop()
                         viewChanged = True
-                    for option in options:
-                        if option.click(event.pos):
-                            for i in player.inventory["spells"]
-                                if option.kind == player.spells[i]:
-                                    spellType = option.kind
+                    if add.click(event.pos):
+                        if index < len(choices) - 1:
+                            index += 1
+                        elif index >= len(choices) - 1:
+                            index = 0
+                    if sub.click(event.pos):
+                        if index > 0:
+                            index -= 1
+                        elif index <= 0:
+                            index = len(choices) - 1
+                    for o in options:
+                        if o.click(event.pos):
+                            if status[index] == 0:
+                                equip = index
+                            elif status[index] == 2:
+                                equip = None
+                            else:
+                                pass
+                            
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     popup = Popup("escape", [size[0]/2, size[1]/2])
@@ -2651,12 +2687,14 @@ while True:
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        for i, option in enumerate(options):
-            screen.blit(option.image, option.rect)
-            if option.kind not in player.inventory["spells"]:
-                screen.blit(locked[i].image, locked[i].rect)
-            elif option.kind == spellType:
-                screen.blit(equipped[i].image, equipped[i].rect)
+        if status[index] == 1:
+            screen.blit(locked.image, locked.rect)
+        elif staus[index] == 2:
+            screen.blit(equipped.image, equipped.rect)
+        screen.blit(options[choices[index]], [900/2, 700/2])
+        screen.blit(add.image, add.rect)
+        screen.blit(sub.image, sub.rect)
+        screen.blit(money.image, money.rect)
         pygame.display.flip()
             
     if views.top() == "potionsIn":
