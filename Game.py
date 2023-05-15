@@ -1334,21 +1334,21 @@ while True:
         if viewChanged:
             choices = []
             index = 0
-            factor = 10
-            original = [18, 17]
+            factor = 20
+            original = [10, 10]
             sub = SettingsButton([200, 700/2 - 50], "back+")
             add = SettingsButton([700, 700/2 - 50], "forward+")
             buy = SettingsButton([900/2, 500], "buy")
-            options = SpriteSheetScale("Images/Spritesheets/Store/Glasses Images.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 4,  (221, 255, 0))
+            options = SpriteSheetScale("Images/Spritesheets/Store/Spells.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 9,  (221, 255, 0))
             viewChanged = False
             temp = 0
             while temp < len(options):
                 choices += [temp]
                 temp += 1
         
-        for i in player.inventory["glasses"]:
+        for i in player.inventory["spells"]:
             for c in choices:
-                if (c + 1) == i:
+                if c == i:
                     choices.remove(c)
         
         for event in pygame.event.get():
@@ -1388,6 +1388,7 @@ while True:
                             index = len(choices) - 1
                     if buy.click(event.pos):
                         if player.purchase(choices[index] + 1, "spell"):
+                            choices.remove(choices[index])
                             if index > 0:
                                 index -= 1
                             elif index < 0:
@@ -1443,7 +1444,7 @@ while True:
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
-        screen.blit(options[choices[index]], [900/2 - (28/2*factor), 200])
+        screen.blit(options[choices[index]], [900/2 - (10/2*factor), 200])
         screen.blit(add.image, add.rect)
         screen.blit(sub.image, sub.rect)
         screen.blit(buy.image, buy.rect)
@@ -2569,12 +2570,14 @@ while True:
             equip = None
             index = 0
             original = [10, 10]
-            factor = 250
+            factor = 20
+            rect = [900/2 - 10/2*factor, 700/2 + 25 - 10/2*factor]
             options = SpriteSheetScale("Images/Spritesheets/Store/Spells.png", [original[0]*factor, original[1]*factor], original).load_stripH([0, 0, original[0]*factor, original[1]*factor], 9,  (221, 255, 0))
-            minus = SettingsButton([900/2 - 100, 700/2 + 25], "back")
-            add = SettingsButton([900/2 + 100, 700/2 + 25], "forward")
-            locked = SettingsButton([900/2, 700/2 + 25], "locked")
-            equipped = SettingsButton([900/2, 700/2 + 25], "equipped")
+            button = StoreChoice([900/2, 700/2 + 25], "spellsSt", "hidden", factor)
+            minus = SettingsButton([900/2 - 200, 700/2 + 25], "back+")
+            add = SettingsButton([900/2 + 200, 700/2 + 25], "forward+")
+            locked = SettingsButton([900/2, 700/2 + 25], "locked+")
+            equipped = SettingsButton([900/2, 700/2 + 25], "equipped+")
             viewChanged = False
             temp = 0
             while temp < len(options):
@@ -2582,9 +2585,9 @@ while True:
                 status += [0]
                 temp += 1
         
-        for i in player.inventory["spells"]:
+        for c in choices:
             there = False
-            for c in choices:
+            for i in player.inventory["spells"]:
                 if c == i:
                     there = True
             if equip == c:
@@ -2593,6 +2596,7 @@ while True:
                 status[c] = 0
             else:
                 status[c] = 1
+        print("Status: ", status)
                     
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -2624,19 +2628,19 @@ while True:
                             index += 1
                         elif index >= len(choices) - 1:
                             index = 0
-                    if sub.click(event.pos):
+                    if minus.click(event.pos):
                         if index > 0:
                             index -= 1
                         elif index <= 0:
                             index = len(choices) - 1
-                    for o in options:
-                        if o.click(event.pos):
-                            if status[index] == 0:
-                                equip = index
-                            elif status[index] == 2:
-                                equip = None
-                            else:
-                                pass
+                    if button.click(event.pos):
+                        if status[index] == 0:
+                            equip = index
+                            print(equip)
+                        elif status[index] == 2:
+                            equip = None
+                        else:
+                            pass
                             
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -2687,13 +2691,14 @@ while True:
         screen.blit(popup[0].image, popup[0].rect)
         screen.blit(closeButton.image, closeButton.rect)
         screen.blit(backButton.image, backButton.rect)
+        screen.blit(button.image, button.rect)
+        screen.blit(options[choices[index]], rect)
         if status[index] == 1:
             screen.blit(locked.image, locked.rect)
-        elif staus[index] == 2:
+        elif status[index] == 2:
             screen.blit(equipped.image, equipped.rect)
-        screen.blit(options[choices[index]], [900/2, 700/2])
         screen.blit(add.image, add.rect)
-        screen.blit(sub.image, sub.rect)
+        screen.blit(minus.image, minus.rect)
         screen.blit(money.image, money.rect)
         pygame.display.flip()
             

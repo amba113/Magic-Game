@@ -2,10 +2,11 @@ import pygame, sys, math, random
 
 class StoreChoice():
 
-    def __init__(self, pos, kind, option):
+    def __init__(self, pos, kind, option, factor = 1):
         self.kind = option
         scale = [150, 150]
         scale2 = [550, 73]
+        scale3 = [10 * factor, 10 * factor]
         self.petImages = {"blackCat": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Black Cat Choice.png"), scale),
                           "calicoCat": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Calico Cat Choice.png"), scale),
                           "owl": pygame.transform.scale(pygame.image.load("Images/Store/Pets/Owl Choice.png"), scale),
@@ -22,7 +23,7 @@ class StoreChoice():
                               "hatSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Hats Option.png"), scale2),
                               "shirtSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Shirts Option.png"), scale2),
                               "glassSt": pygame.transform.scale(pygame.image.load("Images/Store/Options/Glasses Option.png"), scale2)}
-        self.spellImages = {"simple": pygame.transform.scale(pygame.image.load("Images/Store/Spells/Blank.png"), scale)}
+        self.spellImages = {"hidden": pygame.transform.scale(pygame.image.load("Images/Store/Spells/Hidden.png"), scale3)}
         
         if kind == "petsSt":
             self.image = self.petImages[option]

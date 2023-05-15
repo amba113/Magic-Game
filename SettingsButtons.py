@@ -8,6 +8,7 @@ class SettingsButton():
         self.scale2 = [700/2, 200/2]
         self.scale3 = [100, 100]
         self.scale4 = [100*2.5, 50*2.5]
+        self.scale5 = [200*1.25, 200*1.25]
         
         self.images = {"controls": pygame.image.load("Images/Settings/Options/Control Set Button.png"),
                        "store": pygame.image.load("Images/Settings/Options/Store Button.png"),
@@ -24,6 +25,8 @@ class SettingsButton():
                        "reset": pygame.image.load("Images/Controls/Reset Button.png"),
                        "locked": pygame.image.load("Images/Inventory/Item Locked.png"),
                        "equipped": pygame.image.load("Images/Inventory/Item Equipped.png"),
+                       "locked+": pygame.transform.scale(pygame.image.load("Images/Inventory/Item Locked.png"), self.scale5),
+                       "equipped+": pygame.transform.scale(pygame.image.load("Images/Inventory/Item Equipped.png"), self.scale5),
                        "petsSt": pygame.image.load("Images/Store/Options/Pets Option.png"),
                        "spellsSt": pygame.image.load("Images/Store/Options/Spells Option.png"),
                        "potionsSt": pygame.image.load("Images/Store/Options/Potions Option.png"),
