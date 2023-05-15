@@ -587,7 +587,6 @@ while True:
                     
                 elif event.key == pygame.K_c and test == True:
                     player.inventory["coins"] += 1
-                    print("Bank: ", player.inventory["coins"])
                     
                 elif event.key == pygame.key.key_code(controls["left"]) or event.key == pygame.K_LEFT:
                     player.goKey("left")
@@ -2596,7 +2595,6 @@ while True:
                 status[c] = 0
             else:
                 status[c] = 1
-        print("Status: ", status)
                     
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -2636,7 +2634,6 @@ while True:
                     if button.click(event.pos):
                         if status[index] == 0:
                             equip = index
-                            print(equip)
                         elif status[index] == 2:
                             equip = None
                         else:
@@ -2870,7 +2867,6 @@ while True:
                                 choices[m][0] -= 1
                             else:
                                 choices[m][0] = len(choices[m][1]) - 1
-                            print(choices[m])
                     for a in add.keys():
                         if add[a].click(event.pos):
                             if choices[a][0] < len(choices[a][1]) - 1:
