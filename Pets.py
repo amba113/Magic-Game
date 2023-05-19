@@ -20,7 +20,11 @@ class Pet():
         self.speedy = speed[1]
         
         self.vel = vel
-
+        
+        self.catSound = pygame.mixer.Sound("Sounds/Cat.wav")
+        
+        self.timer = 0
+        
     def update(self, playerPos, status = False, enemyPos = [0,0]):
         if status == True:
             self.defend(enemyPos)
@@ -78,6 +82,10 @@ class Pet():
         self.ypos += self.speedy
         self.pos = [self.xpos, self.ypos]
         self.rect.center = [self.xpos, self.ypos]
+        
+        if self.timer % 5:
+            self.catSound.play()
+        self.timer += 1
         
     def goto(self, pos):
         self.rect.center = pos

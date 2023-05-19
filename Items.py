@@ -9,7 +9,7 @@ class Item():
                        "speedPotion": pygame.image.load("Images/Shown/Potions/SpeedPotion.png"),
                        "revivePotion": pygame.image.load("Images/Shown/Potions/RevivePotion.png"),
                        "healthPotion": pygame.image.load("Images/Shown/Potions/HealthPotion.png"),
-                       "basic2Spell": pygame.image.load("Images/Shown/Spells/SpellTest2.png"),
+                       "Spell2": pygame.image.load("Images/Shown/Spells/Spell 2.png"),
                        "singleCoin": pygame.image.load("Images/Shown/Coins/Coin.png")}
         
         self.kind = kind
