@@ -196,7 +196,7 @@ def loadMap(user, coord = [1, 1], enter = "def"):
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "S":
-                    items += [Item([x*size + offset, y*size + offset], "basic2Spell", 'S')]
+                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
                 if c == "$":
                     items += [Item([x*size + offset, y*size + offset], "singleCoin", '$')]
                 if c == "1":
@@ -221,7 +221,7 @@ def loadMap(user, coord = [1, 1], enter = "def"):
                 if c == "?":
                     items += [Item([x*size + offset, y*size + offset], "healthPotion", '?')]
                 if c == "S":
-                    items += [Item([x*size + offset, y*size + offset], "basic2Spell", 'S')]
+                    items += [Item([x*size + offset, y*size + offset], "Spell2", 'S')]
                 if c == "$":
                     items += [Item([x*size + offset, y*size + offset], "singleCoin", '$')]
                 if c == "1":
