@@ -1,11 +1,14 @@
 import pygame, sys, math, random, inspect
 from Spells import *
 from Sprite import *
+from Prices import *
 
 class Player():
    
     def __init__(self, speed = 4, startPos = [0,0]):
        
+        price = Prices()
+        
         self.colorChoice = 0
         self.hatChoice = 0
         self.eyeChoice = 0
