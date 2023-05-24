@@ -4,7 +4,7 @@ from Player import *
 from Items import *
 from Enemy import *
 
-def saveMap(user, items, enemies, player, door = False):
+def saveMap(user, items, enemies, player, controls, door = False):
     outList = []
     for row in range(14):
         outRow = []
@@ -41,22 +41,26 @@ def saveMap(user, items, enemies, player, door = False):
             out += outList[row][col]
         out += '\n'
         
-    f = open("Inventories/" + user + "/" + user + ".inv", 'wb')
+    f = open("Data/" + user + "/Inventory/" + user + ".inv", 'wb')
     pickle.Pickler(f).dump(player.inventory)
     f.close()
     
-    f = open("Inventories/" + user + "/" + user + ".hp", 'wb')
+    f = open("Data/" + user + "/Inventory/" + user + ".hp", 'wb')
     pickle.Pickler(f).dump(player.hp)
     f.close()
     
-    f = open("Inventories/" + user + "/" + user + ".ap", 'wb')
+    f = open("Data/" + user + "/" + user + ".ctr", 'wb')
+    pickle.Pickler(f).dump(controls)
+    f.close()
+    
+    f = open("Data/" + user + "/Inventory/" + user + ".ap", 'wb')
     pickle.Pickler(f).dump([player.colorChoice, player.eyeChoice, player.mouthChoice, player.glassesChoice, player.hatChoice, player.shirtChoice])
     f.close()
     
     if door:
-        direct = "Rooms/Sav/" + user + "/" + str(player.prevCoord[1]) + str(player.prevCoord[0]) + ".sav"
+        direct = "Data/" + user + "/Rooms/" + str(player.prevCoord[1]) + str(player.prevCoord[0]) + ".sav"
     elif not door:
-        direct = "Rooms/Sav/" + user + "/" + str(player.coord[1]) + str(player.coord[0]) + ".sav"
+        direct = "Data/" + user + "/Rooms/" + str(player.coord[1]) + str(player.coord[0]) + ".sav"
     f = open(direct, 'w')
     f.write(out)
     f.close()
@@ -126,8 +130,8 @@ def loadMap(user, coord = [1, 1], enter = "def"):
             elif c == ")" and (enter == "left" or enter == "portal2"):
                 playerLoc = [x*size + offset, y*size + 2*offset]
     
-    if os.path.isfile("Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"):
-        direct2 = "Rooms/Sav/" + user + "/" + str(coord[1]) + str(coord[0]) + ".sav"
+    if os.path.isfile("Data/" + user + "/Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"):
+        direct2 = "Data/" + user + "/Rooms/" + str(coord[1]) + str(coord[0]) + ".sav"
         g = open(direct2, 'r')
         lines2 = g.readlines()
         g.close()
@@ -231,30 +235,37 @@ def loadMap(user, coord = [1, 1], enter = "def"):
                 if c == "3":
                     enemies += [Enemy([x*size + offset, y*size + offset], "bee", "3")]
     
-    if os.path.isfile("Inventories/" + user + "/" + user + ".inv"):
-        if os.path.getsize("Inventories/" + user + "/" + user + ".inv") > 0:
-            f = open("Inventories/" + user + "/" + user + ".inv", 'rb')
+    if os.path.isfile("Data/" + user + "/Inventory/" + user + ".inv"):
+        if os.path.getsize("Data/" + user + "/Inventory/" + user + ".inv") > 0:
+            f = open("Data/" + user + "/Inventory/" + user + ".inv", 'rb')
             inventory = pickle.Unpickler(f).load()
             f.close()
     else:
         inventory = None
         
-    if os.path.isfile("Inventories/" + user + "/" + user + ".hp"):
-        if os.path.getsize("Inventories/" + user + "/" + user + ".hp") > 0:
-            f = open("Inventories/" + user + "/" + user + ".hp", 'rb')
+    if os.path.isfile("Data/" + user + "/Inventory" + user + ".hp"):
+        if os.path.getsize("Data/" + user + "/Inventory/" + user + ".hp") > 0:
+            f = open("Data/" + user + "/Inventory/" + user + ".hp", 'rb')
             health = pickle.Unpickler(f).load()
             f.close()
     else:
         health = 100
         
-    if os.path.isfile("Inventories/" + user + "/" + user + ".ap"):
-        if os.path.getsize("Inventories/" + user + "/" + user + ".ap") > 0:
-            f = open("Inventories/" + user + "/" + user + ".ap", 'rb')
+    if os.path.isfile("Data/" + user + "/Inventory/" + user + ".ap"):
+        if os.path.getsize("Data/" + user + "/Inventory/" + user + ".ap") > 0:
+            f = open("Data/" + user + "/Inventory/" + user + ".ap", 'rb')
             appear = pickle.Unpickler(f).load()
             f.close()
     else:
         appear = None
-        print("nothing")
+
+    if os.path.isfile("Data/" + user + "/" + user + ".ctr"):
+        if os.path.getsize("Data/" + user + "/" + user + ".ctr") > 0:
+            f = open("Data/" + user + "/" + user + ".ctr", 'rb')
+            controls = pickle.Unpickler(f).load()
+            f.close()
+    else:
+        controls = None
 
     tiles = [walls,
              doors,
@@ -264,7 +275,8 @@ def loadMap(user, coord = [1, 1], enter = "def"):
              hides,
              inventory,
              health,
-             appear]
+             appear,
+             controls]
 
     return tiles
     
