@@ -7,7 +7,7 @@ class Player():
    
     def __init__(self, speed = 4, startPos = [0,0]):
        
-        price = Prices()
+
         
         self.colorChoice = 0
         self.hatChoice = 0
@@ -467,16 +467,16 @@ class Player():
             
     def purchase(self, selection, kind):
         if kind.lower() == "pet":
-            if self.inventory["coins"] >= price[selection]:
-                self.inventory["coins"] -= price[selection]
-                self.inventory[kind] += [selection]
+            if self.inventory["coins"] >= Prices().prices[selection]:
+                self.inventory["coins"] -= Prices().prices[selection]
+                self.inventory[kind + "s"] += [selection]
                 return True
             else:
                 print("You are too poor to afford this")
                 return False
         elif kind.lower() == "potion":
             if self.inventory["coins"] >= 1:
-                self.inventory["coins"] -= price[selection]
+                self.inventory["coins"] -= Prices().prices[selection]
                 self.inventory[selection + "Potion"] += 1
                 return True
             else:
@@ -488,7 +488,7 @@ class Player():
                     if selection == i:
                         print("You already own this")
                         return False
-                self.inventory["coins"] -= price[kind][selection - 1]
+                self.inventory["coins"] -= Prices().prices[kind][selection - 1]
                 self.inventory[kind] += [selection]
                 return True
             else:

@@ -3,7 +3,7 @@ import pygame, sys, math, random, inspect
 class Prices():
    
     def __init__(self):
-        prices = {"blackCat": 3,
+        self.prices = {"blackCat": 3,
                   "calicoCat": 1,
                   "owl": 2,
                   "frog": 5,
